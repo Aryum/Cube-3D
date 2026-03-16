@@ -1,6 +1,6 @@
-NAME := data.a
+NAME := main.a
 
-SRC :=	
+SRC :=	main.c
 
 HDR_DIR := .
 
