@@ -1,6 +1,6 @@
 NAME := minishell
 
-NAME_C := nullshell.c
+MAIN_C := ./src/main.c
 HDR_DIR = .
 
 #Libs
@@ -42,6 +42,7 @@ COLOR_WHITE := \033[0m
 all: $(NAME)
 
 $(NAME): $(ALL_ARC) $(NAME_C)
+	@cc $(FLAGS) -o $@ -I$(HDR_DIR) $(MAIN_C) $(ALL_ARC) -lreadline
 	@cc $(FLAGS) -o $@ -I$(HDR_DIR) $(ALL_ARC) -lreadline
 	@echo "$(COLOUR_GREEN)Made main file$(COLOR_WHITE)"
 
