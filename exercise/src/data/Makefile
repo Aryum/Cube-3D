@@ -1,6 +1,8 @@
 NAME := data.a
 
-SRC :=	singletons.c
+SRC :=	data_free.c			\
+		data_ini.c			\
+		data_singletons.c	\
 
 HDR_DIR := .
 

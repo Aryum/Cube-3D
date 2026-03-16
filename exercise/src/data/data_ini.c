@@ -1,5 +1,6 @@
 #include "data.h"
 
+
 void	setup_keys()
 {
 	data()->key_code[key_w] = 119;
@@ -17,4 +18,13 @@ void	setup_keys()
 void	ini_data()
 {
 	setup_keys();
+	char *map = "\
+111111111111\n \
+100000000001\n \
+100000000001\n \
+100000111111\n \
+100000000001\n \
+100000100001\n \
+111111111111";
+	data()->map = lib_split(map, '\n');
 }

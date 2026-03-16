@@ -1,6 +1,6 @@
-NAME := minishell
+NAME := cub3D
 
-MAIN_C := ./src/main.c
+MAIN_C := src/main.c
 HDR_DIR = .
 
 #Libs
@@ -13,7 +13,7 @@ HLP_ARC :=	$(HLP_DIR)/lib/libft.a		\
 			$(HLP_DIR)/print/prt.a		\
 
 SRC_DIR :=	./src
-SRC_ARC :=	$(SRC_DIR)/main/main.a		\
+SRC_ARC :=	$(SRC_DIR)/data/data.a		\
 			$(SRC_DIR)/render/render.a		\
 
 ALL_ARC := $(SRC_ARC) $(HLP_ARC) $(MLX_ARC)
@@ -23,7 +23,7 @@ MAKEFLAGS += --no-print-directory
 
 FLAGS := -Wall -Wextra -Werror
 
-LINKS := -lreadline
+LINKS := -lX11 -lXext
 
 RM := rm -f
 
@@ -41,9 +41,8 @@ COLOR_WHITE := \033[0m
 
 all: $(NAME)
 
-$(NAME): $(ALL_ARC) $(NAME_C)
-	@cc $(FLAGS) -o $@ -I$(HDR_DIR) $(MAIN_C) $(ALL_ARC) -lreadline
-	@cc $(FLAGS) -o $@ -I$(HDR_DIR) $(ALL_ARC) -lreadline
+$(NAME): $(ALL_ARC) $(MAIN_C)
+	@cc $(FLAGS) -o $@ -I$(HDR_DIR) $(MAIN_C) $(ALL_ARC) $(LINKS)
 	@echo "$(COLOUR_GREEN)Made main file$(COLOR_WHITE)"
 
 $(ALL_ARC): FORCE

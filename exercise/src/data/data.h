@@ -7,11 +7,11 @@
 
 typedef enum e_keys
 {
-	key_w = 119,
-	key_a = 97,
-	key_s = 115,
-	key_d = 100,
-	key_esc = 65307
+	key_w,
+	key_a,
+	key_s,
+	key_d,
+	key_esc
 }	t_keys;
 
 typedef struct s_vector
@@ -37,15 +37,17 @@ typedef struct s_data
 	t_player	player;
 	t_render	render;
 	int			key_code[KEYCOUNT];
-	void		(*key_func[KEYCOUNT])( void );
+	int			(*key_func[KEYCOUNT])( void );
 	char		**map;
 
 }	t_data;
 
+t_data		*data();
+t_player	*player();
+t_render	*render();
+int			key_press(int key);
+int			clean_data();
 
-t_data		*data(void);
-t_player	*player(void);
-t_render	*render(void);
-void	clean_data(void);
+void	ini_data();
 
 #endif
