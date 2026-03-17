@@ -7,7 +7,7 @@ int	clean_data(void)
 	if (render()->mlx != NULL)
 		mlx_destroy_display(render()->mlx);
 	free(render()->mlx);
-	lib_split_clean(data()->map);
+	lib_split_clean(map()->layout);
 	exit(0);
 	return (0);
 }

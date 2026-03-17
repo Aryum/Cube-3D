@@ -17,25 +17,12 @@ t_render	*render()
 	return (&data()->render);
 }
 
-int	key_press(int key)
+t_map	*map()
 {
-	int	i;
+	return (&data()->map);
+}
 
-	i = 0;
-	while (i < KEYCOUNT)
-	{
-		if (data()->key_code[i] == key)
-		{
-			if(data()->key_func[i] != NULL)
-			{
-				printf("Key %d\n", data()->key_code[i]);
-				data()->key_func[i]();
-			}
-			break;
-		}
-		i++;
-	}
-	if (i == KEYCOUNT)
-		printf("Key not mapped\n");
-	return 0;
+t_input	*input()
+{
+	return (&data()->input);
 }

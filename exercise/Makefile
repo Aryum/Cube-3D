@@ -15,6 +15,8 @@ HLP_ARC :=	$(HLP_DIR)/lib/libft.a		\
 SRC_DIR :=	./src
 SRC_ARC :=	$(SRC_DIR)/data/data.a		\
 			$(SRC_DIR)/render/render.a		\
+			$(SRC_DIR)/input/input.a		\
+
 
 ALL_ARC := $(SRC_ARC) $(HLP_ARC) $(MLX_ARC)
 
@@ -23,7 +25,7 @@ MAKEFLAGS += --no-print-directory
 
 FLAGS := -Wall -Wextra -Werror
 
-LINKS := -lX11 -lXext
+LINKS := -lmlx -lXext -lX11
 
 RM := rm -f
 
