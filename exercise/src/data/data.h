@@ -11,7 +11,7 @@ t_map		*map();
 t_input		*input();
 
 //free
-int			clean_data();
+int			exit_clean();
 
 //ini
 void	ini_data();

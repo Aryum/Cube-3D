@@ -1,0 +1,20 @@
+#include "render.h"
+
+
+void	put_pixel(int x, int y, int color)
+{
+	t_frame	*f;
+	char	*dst;
+	int		offset;
+
+	f = &render()->frame_buff[render()->frame_cur];
+	offset = y * f->line_len + x * (f->bits_pixel / 8);
+	dst = f->addr + offset;
+	*(unsigned int *)dst = color;
+}
+
+void	put_image(t_render *rnd)
+{
+	mlx_put_image_to_window(rnd->mlx, rnd->window, rnd->frame_buff[rnd->frame_cur].img, 0 , 0);
+	rnd->frame_cur = !rnd->frame_cur;
+}

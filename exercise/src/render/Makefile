@@ -1,6 +1,8 @@
 NAME := render.a
 
-SRC :=	render_loop.c	\
+SRC :=	render_loop.c		\
+		render_display.c	\
+		render_ini.c		\
 
 HDR_DIR := .
 
