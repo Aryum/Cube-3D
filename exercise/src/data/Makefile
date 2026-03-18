@@ -3,6 +3,7 @@ NAME := data.a
 SRC :=	data_free.c			\
 		data_ini.c			\
 		data_singletons.c	\
+		data_vector.c		\
 
 HDR_DIR := .
 

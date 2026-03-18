@@ -16,21 +16,15 @@ typedef enum e_keys
 	key_esc
 }	t_keys;
 
-typedef struct s_vector_i
-{
-	int x;
-	int y;
-}	t_vector_i;
-
-typedef struct s_vector_f
+typedef struct s_vct
 {
 	float x;
 	float y;
-}	t_vector_f;
+}	t_vct;
 
 typedef struct s_player
 {
-	t_vector_f pos;
+	t_vct pos;
 }	t_player;
 
 

@@ -25,7 +25,7 @@ MAKEFLAGS += --no-print-directory
 
 FLAGS := -Wall -Wextra -Werror
 
-LINKS := -lmlx -lXext -lX11
+LINKS := -lmlx -lXext -lX11 -lm
 
 RM := rm -f
 

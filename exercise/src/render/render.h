@@ -15,4 +15,10 @@ void	put_pixel(int x, int y, int color);
 
 void	render_ini();
 
+//shapes
+
+void	draw_circle(t_vct ctr, int size, int color);
+
+void	draw_line(t_vct start, t_vct end, int color);
+
 #endif

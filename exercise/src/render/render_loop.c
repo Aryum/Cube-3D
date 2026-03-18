@@ -21,8 +21,8 @@ static void	loop_map(t_map	*mp, void (*f)(char **, int, int))
 void draw(char **map, int x, int y)
 {
 	int border;
-	t_vector_i limit;
-	t_vector_i cur;
+	t_vct limit;
+	t_vct cur;
 
 	if (map[y][x] != '1')
 		return ;
@@ -65,7 +65,14 @@ void	updatefps(t_render *rnd)
 	}
 	else
 		rnd->frame_count++;
+
+	char  *a = lib_itoa(rnd->fps);
+	mlx_string_put(rnd->mlx, rnd->window, 25, 25,0xff000000, a);
+	free(a);
 }
+
+
+
 int render_loop(void)
 {
 	t_render *rnd;
@@ -74,8 +81,15 @@ int render_loop(void)
 	loop_map(map(), draw);
 	put_image(rnd);
 	updatefps(rnd);
-	char  *a = lib_itoa(rnd->fps);
-	mlx_string_put(rnd->mlx, rnd->window, 25, 25,0xff000000, a);
-	free(a);
+
+	char *x = lib_itoa(player()->pos.x);
+	char *y = lib_itoa(player()->pos.y);
+
+	mlx_string_put(rnd->mlx, rnd->window, 10, 50,0x00ff00d9, x);
+	mlx_string_put(rnd->mlx, rnd->window, 40, 50,0x00ff00d9 , y);
+	free(x);
+	free(y);
+	draw_circle(player()->pos, 5, 0xff0000);
+	draw_line(player()->pos, ini_vector(player()->pos.x + 50, player()->pos.y + 50),0xfffb00);
 	return 0;
 }

@@ -16,4 +16,8 @@ int			exit_clean();
 //ini
 void	ini_data();
 
+
+//vector
+
+t_vct	ini_vector(float x, float y);
 #endif
