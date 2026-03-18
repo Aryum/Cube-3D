@@ -19,4 +19,6 @@ void	put_image(t_render *rnd)
 	rnd->frame_cur++;
 	if (rnd->frame_cur == FRAMEBUFF)
 		rnd->frame_cur = 0;
+	mlx_destroy_image(rnd->mlx, rnd->frame_buff[rnd->frame_cur].img);
+	ini_frame(rnd, &rnd->frame_buff[rnd->frame_cur]);
 }

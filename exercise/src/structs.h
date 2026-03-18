@@ -5,7 +5,7 @@
 
 #define GRIDSIZE 64
 
-#define FRAMEBUFF 50
+#define FRAMEBUFF 3
 
 #define ROTSPEED 0.5
 
