@@ -26,7 +26,7 @@ int	key_press(int code)
 
 int	key_release(int code)
 {
-	return (key_update(code, true));
+	return (key_update(code, false));
 }
 
 void	key_hold()

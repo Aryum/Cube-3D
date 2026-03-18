@@ -76,12 +76,11 @@ int render_loop(void)
 
 	loop_map(map(), draw);
 	draw_circle(player()->pos, 5, 0xff0000);
-	draw_line(player()->pos, add_vct(player()->pos, scale_vct(player()->rot_vct, 10) ), 0xfffb00);
+	draw_line(player()->pos, add_vct(player()->pos, scale_vct(player()->rot_vct, 50) ), 0xfffb00);
 	
 	put_image(rnd);
 	
-	rot_left();
-	//key_hold();
+	key_hold();
 
 
 	//fps

@@ -18,13 +18,13 @@ void input_rot_x(float delta)
 int	rot_left()
 {
 	if (render()->fps != 0)
-		input_rot_x(ROTSPEED / render()->fps);
+		input_rot_x(-ROTSPEED / render()->fps);
 	return (0);
 }
 
 int	rot_right()
 {
 	if (render()->fps != 0)
-		input_rot_x(-ROTSPEED / render()->fps);
+		input_rot_x(ROTSPEED / render()->fps);
 	return (0);
 }

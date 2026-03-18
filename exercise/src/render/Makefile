@@ -4,6 +4,7 @@ SRC :=	render_loop.c		\
 		render_display.c	\
 		render_ini.c		\
 		render_shapes.c		\
+		render_math.c		\
 		
 HDR_DIR := .
 

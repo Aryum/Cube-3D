@@ -22,4 +22,9 @@ void	draw_circle(t_vct ctr, int size, int color);
 
 void	draw_line(t_vct start, t_vct end, int color);
 
+//math
+float	f_abs(float a);
+
+int clamp(int val, int min, int max);
+
 #endif
