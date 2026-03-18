@@ -33,5 +33,5 @@ void	ini_data()
 	render()->window_x = map()->size_x * GRIDSIZE;
 	render()->window_y = map()->size_y * GRIDSIZE;
 	player()->rot_vct = ini_vct(1,0);
-
+	player()->rot_rad = acos(1);
 }

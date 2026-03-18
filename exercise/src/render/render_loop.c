@@ -76,7 +76,7 @@ int render_loop(void)
 
 	loop_map(map(), draw);
 	draw_circle(player()->pos, 5, 0xff0000);
-	draw_line(player()->pos, add_vct(player()->pos, scale_vct(player()->rot_vct, 10)), 0xfffb00);
+	draw_line(player()->pos, add_vct(player()->pos, scale_vct(player()->rot_vct, 10) ), 0xfffb00);
 	
 	put_image(rnd);
 	
@@ -91,8 +91,8 @@ int render_loop(void)
 	free(fps);
 
 	//cords
-	char *x = lib_itoa(player()->pos.x);
-	char *y = lib_itoa(player()->pos.y);
+	char *x = lib_itoa(ceil(player()->rot_vct.x * 10));
+	char *y = lib_itoa(ceil(player()->rot_vct.y * 10));
 	mlx_string_put(rnd->mlx, rnd->window, 10, 50,0x002200FF, x);
 	free(x);
 	mlx_string_put(rnd->mlx, rnd->window, 40, 50,0x002200FF , y);

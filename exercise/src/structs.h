@@ -7,7 +7,7 @@
 
 #define FRAMEBUFF 50
 
-#define ROTSPEED 0.05
+#define ROTSPEED 0.5
 
 #define PI 3.14159
 
