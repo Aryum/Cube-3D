@@ -6,7 +6,7 @@
 /*   By: ricsanto <ricsanto@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:05:48 by ricsanto          #+#    #+#             */
-/*   Updated: 2026/03/17 18:24:18 by ricsanto         ###   ########.fr       */
+/*   Updated: 2026/03/18 15:31:18 by ricsanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	render_ini()
 	rnd->window_y = GRIDSIZE * map()->size_y;
 
 	rnd->mlx = mlx_init();
+
 	if (rnd->mlx == NULL)
 		lib_error("Failed to ini window"); //exit clean
 	
@@ -48,6 +49,8 @@ void	render_ini()
 		//clean on error
 
 	mlx_hook(rnd->window, KeyPress, KeyPressMask, key_press, NULL);
+	mlx_hook(rnd->window, KeyRelease, KeyReleaseMask, key_release, NULL);
+	
 	mlx_hook(rnd->window, DestroyNotify, NoEventMask, exit_clean, NULL);
 	mlx_loop_hook(render()->mlx, render_loop, NULL);
 	mlx_loop(render()->mlx);

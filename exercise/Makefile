@@ -13,8 +13,8 @@ HLP_ARC :=	$(HLP_DIR)/lib/libft.a		\
 			$(HLP_DIR)/print/prt.a		\
 
 SRC_DIR :=	./src
-SRC_ARC :=	$(SRC_DIR)/data/data.a		\
-			$(SRC_DIR)/render/render.a		\
+SRC_ARC :=	$(SRC_DIR)/render/render.a		\
+			$(SRC_DIR)/data/data.a		\
 			$(SRC_DIR)/input/input.a		\
 
 

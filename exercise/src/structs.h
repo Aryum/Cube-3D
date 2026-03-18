@@ -5,7 +5,11 @@
 
 #define GRIDSIZE 64
 
-#define FRAMEBUFF 2
+#define FRAMEBUFF 50
+
+#define ROTSPEED 0.05
+
+#define PI 3.14159
 
 typedef enum e_keys
 {
@@ -25,6 +29,8 @@ typedef struct s_vct
 typedef struct s_player
 {
 	t_vct pos;
+	float rot_rad;
+	t_vct rot_vct;
 }	t_player;
 
 
@@ -60,8 +66,10 @@ typedef struct s_map
 
 typedef struct s_input
 {
-	int			key_code[KEYCOUNT];
-	int			(*key_func[KEYCOUNT])( void );
+	int		code;
+	bool	status;
+	bool	hold_call;
+	int		(*func)( void );
 }	t_input;
 
 typedef struct s_data
@@ -69,7 +77,7 @@ typedef struct s_data
 	t_player	player;
 	t_render	render;
 	t_map		map;
-	t_input		input;
+	t_input		input[KEYCOUNT];
 }	t_data;
 
 #endif

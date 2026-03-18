@@ -8,10 +8,9 @@ t_data		*data();
 t_player	*player();
 t_render	*render();
 t_map		*map();
-t_input		*input();
 
 //free
-int			exit_clean();
+int		exit_clean();
 
 //ini
 void	ini_data();
@@ -19,5 +18,8 @@ void	ini_data();
 
 //vector
 
-t_vct	ini_vector(float x, float y);
+t_vct	ini_vct(float x, float y);
+t_vct	scale_vct(t_vct a, float factor);
+t_vct	add_vct(t_vct a, t_vct b);
+
 #endif

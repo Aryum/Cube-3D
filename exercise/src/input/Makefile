@@ -1,7 +1,9 @@
 NAME := input.a
 
 SRC :=	input_call.c			\
-
+		input_setup.c			\
+		input_rotate.c			\
+		
 HDR_DIR := .
 
 FLAGS := -Wall -Wextra -Werror

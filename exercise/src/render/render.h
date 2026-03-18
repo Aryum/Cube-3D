@@ -14,6 +14,7 @@ void	put_pixel(int x, int y, int color);
 //ini
 
 void	render_ini();
+void	ini_frame(t_render *r, t_frame *f);
 
 //shapes
 

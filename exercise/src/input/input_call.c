@@ -1,24 +1,45 @@
 #include "input.h"
 
-int	key_press(int key)
+int	key_update(int code, bool status)
 {
 	int	i;
 
 	i = 0;
 	while (i < KEYCOUNT)
 	{
-		if (input()->key_code[i] == key)
+		if (data()->input[i].code == code)
 		{
-			if(input()->key_func[i] != NULL)
-			{
-				printf("Key %d\n", input()->key_code[i]);
-				input()->key_func[i]();
-			}
+			data()->input[i].status = status;
+			if (!data()->input[i].hold_call)
+				data()->input[i].func();
 			break;
 		}
 		i++;
 	}
-	if (i == KEYCOUNT)
-		printf("Key not mapped\n");
-	return 0;
+	return (0);
+}
+
+int	key_press(int code)
+{
+	return (key_update(code, true));
+}
+
+int	key_release(int code)
+{
+	return (key_update(code, true));
+}
+
+void	key_hold()
+{
+	t_input	*cur;
+	int		i;
+
+	i = 0;
+	while (i < KEYCOUNT)
+	{
+		cur = &data()->input[i];
+		if (cur->hold_call && cur->status && cur->func != NULL)
+			cur->func();
+		i++;
+	}
 }

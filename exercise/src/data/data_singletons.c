@@ -22,7 +22,4 @@ t_map	*map()
 	return (&data()->map);
 }
 
-t_input	*input()
-{
-	return (&data()->input);
-}
+

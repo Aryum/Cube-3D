@@ -3,6 +3,16 @@
 
 #include "../cub.h"
 
-int	key_press(int key);
+//call
+int		key_press(int key);
+int		key_release(int key);
+void	key_hold();
+
+//setuo
+void	setup_inputs();
+
+//rotate
+int	rot_left();
+int	rot_right();
 
 #endif

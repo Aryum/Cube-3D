@@ -1,26 +1,10 @@
 #include "data.h"
 
-
-void	setup_key(t_keys type, int code, int (*key_func)( void ))
-{
-	input()->key_code[type] = code;
-	input()->key_func[type] = key_func;
-}
-
-void	setup_inputs()
-{
-	setup_key(key_w, 119, NULL);
-	setup_key(key_a, 97, NULL);
-	setup_key(key_s, 115, NULL);
-	setup_key(key_d, 100, NULL);
-	setup_key(key_esc, 65307, exit_clean);
-}
-
 void	ini_data()
 {
 	setup_inputs();
 
-
+	render()->fps=1;
 	char *layout = "\
 111111111111\n\
 100000000001\n\
@@ -40,14 +24,14 @@ void	ini_data()
 		while (map()->layout[map()->size_y][i] != '\0')
 		{
 			if (map()->layout[map()->size_y][i] == 'P')
-				player()->pos = ini_vector(i * GRIDSIZE + GRIDSIZE / 2, map()->size_y * GRIDSIZE + GRIDSIZE / 2);
+				player()->pos = ini_vct(i * GRIDSIZE + GRIDSIZE / 2, map()->size_y * GRIDSIZE + GRIDSIZE / 2);
 			i++;
 		}
 		map()->size_y++;
-
 	}
 
 	render()->window_x = map()->size_x * GRIDSIZE;
 	render()->window_y = map()->size_y * GRIDSIZE;
+	player()->rot_vct = ini_vct(1,0);
 
 }

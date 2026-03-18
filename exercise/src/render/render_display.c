@@ -1,6 +1,6 @@
 #include "render.h"
 
-
+//update this to a readable thing
 void	put_pixel(int x, int y, int color)
 {
 	t_frame	*f;
@@ -16,5 +16,7 @@ void	put_pixel(int x, int y, int color)
 void	put_image(t_render *rnd)
 {
 	mlx_put_image_to_window(rnd->mlx, rnd->window, rnd->frame_buff[rnd->frame_cur].img, 0 , 0);
-	rnd->frame_cur = !rnd->frame_cur;
+	rnd->frame_cur++;
+	if (rnd->frame_cur == FRAMEBUFF)
+		rnd->frame_cur = 0;
 }
