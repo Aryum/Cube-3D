@@ -63,7 +63,7 @@ void	draw_default(t_vct start, t_vct end, int color)
 }
 void	draw_line(t_vct start, t_vct end, int color)
 {
-	if (f_abs(end.x - start.x) <= 1)
+	if (f_abs(end.x - start.x) < 2)
 		draw_same_x(start, end, color);
 	else
 		draw_default(start, end, color);

@@ -7,9 +7,13 @@
 
 #define FRAMEBUFF 3
 
-#define ROTSPEED 0.5
+#define ROT_SPEED 0.5
 
-#define PI 3.14159
+#define MOV_SPEED 10
+
+# define PI	3.14159
+# define PI_360 6.28318
+# define PI_90 1.57079
 
 typedef enum e_keys
 {
@@ -29,8 +33,13 @@ typedef struct s_vct
 typedef struct s_player
 {
 	t_vct pos;
+
+	bool	key[4];
 	float rot_rad;
 	t_vct rot_vct;
+
+	float mov_rad;
+	t_vct mov_vct;
 }	t_player;
 
 
