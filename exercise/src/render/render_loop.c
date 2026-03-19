@@ -43,23 +43,18 @@ void draw(char **map, int x, int y)
 	}
 }
 
-long get_time(void)
-{
-	struct timeval	tv;
 
-	if (gettimeofday(&tv, NULL) == -1)
-		exit_clean(NULL);
-	return (tv.tv_sec);
-}
 
 void	updatefps(t_render *rnd)
 {
-	time_t cur;
+	time_t	cur;
+	long		a;
 
 	cur = get_time();
-	if (cur > rnd->last_time)
+	a = 250;
+	if (cur - rnd->last_time > a)
 	{
-		rnd->fps = rnd->frame_count / (cur - rnd->last_time);
+		rnd->fps = rnd->frame_count * ( 1000 / a);
 		rnd->frame_count = 0;
 		rnd->last_time = cur;
 	}
@@ -77,11 +72,11 @@ int render_loop(void)
 	loop_map(map(), draw);
 	draw_circle(player()->pos, 5, 0xff0000);
 	draw_line(player()->pos, add_vct(player()->pos, scale_vct(player()->rot_vct, 50) ), 0xfffb00);
+	draw_line(player()->pos, add_vct(player()->pos, scale_vct(player()->mov_vct, 30) ), 0x00ffcc);
 	
 	put_image(rnd);
-	
 	key_hold();
-
+	update_move();
 
 	//fps
 	updatefps(rnd);
@@ -90,8 +85,8 @@ int render_loop(void)
 	free(fps);
 
 	//cords
-	char *x = lib_itoa(ceil(player()->rot_vct.x * 10));
-	char *y = lib_itoa(ceil(player()->rot_vct.y * 10));
+	char *x = lib_itoa(ceil(player()->mov_vct.x * 10));
+	char *y = lib_itoa(ceil(player()->mov_vct.y * 10));
 	mlx_string_put(rnd->mlx, rnd->window, 10, 50,0x002200FF, x);
 	free(x);
 	mlx_string_put(rnd->mlx, rnd->window, 40, 50,0x002200FF , y);

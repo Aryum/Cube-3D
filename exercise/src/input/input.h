@@ -14,5 +14,6 @@ void	setup_inputs();
 //rotate
 int	rot_left();
 int	rot_right();
+int	update_move();
 
 #endif

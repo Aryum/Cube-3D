@@ -25,3 +25,12 @@ t_vct	scale_vct(t_vct a, float factor)
 	ret.y = a.y * factor;
 	return (ret);
 }
+
+t_vct	rad_vector(float rad)
+{
+	t_vct	ret;
+
+	ret.y = sin(rad);
+	ret.x = cos(rad);
+	return (ret);
+}

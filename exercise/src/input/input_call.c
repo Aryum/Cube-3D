@@ -2,6 +2,7 @@
 
 int	key_update(int code, bool status)
 {
+	t_input	*cur;
 	int	i;
 
 	i = 0;
@@ -9,9 +10,10 @@ int	key_update(int code, bool status)
 	{
 		if (data()->input[i].code == code)
 		{
-			data()->input[i].status = status;
-			if (!data()->input[i].hold_call)
+			cur = &data()->input[i];
+			if (cur->func != NULL && !cur->status)
 				data()->input[i].func();
+			cur->status = status;
 			break;
 		}
 		i++;
@@ -21,13 +23,11 @@ int	key_update(int code, bool status)
 
 int	key_press(int code)
 {
-	return (0);
 	return (key_update(code, true));
 }
 
 int	key_release(int code)
 {
-	return (0);
 	return (key_update(code, false));
 }
 

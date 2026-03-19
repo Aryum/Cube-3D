@@ -5,7 +5,7 @@
 
 #define FRAMEBUFF 3
 
-#define ROT_SPEED 0.5
+#define ROT_SPEED 10.0
 
 #define MOV_SPEED 10
 
@@ -39,7 +39,6 @@ typedef struct s_player
 	float rot_rad;
 	t_vct rot_vct;
 
-	float mov_rad;
 	t_vct mov_vct;
 }	t_player;
 

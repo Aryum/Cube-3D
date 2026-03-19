@@ -6,7 +6,7 @@
 /*   By: ricsanto <ricsanto@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:05:48 by ricsanto          #+#    #+#             */
-/*   Updated: 2026/03/18 16:36:04 by ricsanto         ###   ########.fr       */
+/*   Updated: 2026/03/19 16:42:25 by ricsanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,12 @@ void	render_ini()
 	t_render	*rnd;
 
 	rnd = render();
+	rnd->last_time = get_time();
 	rnd->window_x = GRIDSIZE * map()->size_x;
 	rnd->window_y = GRIDSIZE * map()->size_y;
+
+	printf("	window x %d\n", rnd->window_x);
+	printf("	window y %d\n", rnd->window_y);
 
 	rnd->mlx = mlx_init();
 
@@ -50,7 +54,6 @@ void	render_ini()
 
 	mlx_hook(rnd->window, KeyPress, KeyPressMask, key_press, NULL);
 	mlx_hook(rnd->window, KeyRelease, KeyReleaseMask, key_release, NULL);
-	
 	mlx_hook(rnd->window, DestroyNotify, NoEventMask, exit_clean, NULL);
 	mlx_loop_hook(render()->mlx, render_loop, NULL);
 	mlx_loop(render()->mlx);

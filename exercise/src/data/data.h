@@ -21,5 +21,6 @@ void	ini_data();
 t_vct	ini_vct(float x, float y);
 t_vct	scale_vct(t_vct a, float factor);
 t_vct	add_vct(t_vct a, t_vct b);
+t_vct	rad_vector(float rad);
 
 #endif
