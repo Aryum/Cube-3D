@@ -1,8 +1,6 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-#define KEYCOUNT 5
-
 #define GRIDSIZE 64
 
 #define FRAMEBUFF 3
@@ -15,13 +13,17 @@
 # define PI_360 6.28318
 # define PI_90 1.57079
 
+#define KEYCOUNT 7
+
 typedef enum e_keys
 {
 	key_w,
 	key_a,
 	key_s,
 	key_d,
-	key_esc
+	key_esc,
+	key_left,
+	key_right
 }	t_keys;
 
 typedef struct s_vct
@@ -34,7 +36,6 @@ typedef struct s_player
 {
 	t_vct pos;
 
-	bool	key[4];
 	float rot_rad;
 	t_vct rot_vct;
 

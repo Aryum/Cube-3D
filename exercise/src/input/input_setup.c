@@ -12,8 +12,12 @@ static void	setup_key(t_keys type, int code, bool hold, int (*f)( void ))
 void	setup_inputs()
 {
 	setup_key(key_w, 119, true, NULL);
-	setup_key(key_a, 97, true, rot_left);
+	setup_key(key_a, 97, true, NULL);
 	setup_key(key_s, 115, true, NULL);
-	setup_key(key_d, 100, true, rot_right);
+	setup_key(key_d, 100, true, NULL);
+	return;
+	//setup_key(key_left, 65363, true, rot_left);
+	//setup_key(key_right, 65361, true, rot_right);
+
 	setup_key(key_esc, 65307, false, exit_clean);
 }

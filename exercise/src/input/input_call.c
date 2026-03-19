@@ -21,11 +21,13 @@ int	key_update(int code, bool status)
 
 int	key_press(int code)
 {
+	return (0);
 	return (key_update(code, true));
 }
 
 int	key_release(int code)
 {
+	return (0);
 	return (key_update(code, false));
 }
 

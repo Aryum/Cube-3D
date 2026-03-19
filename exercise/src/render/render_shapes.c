@@ -61,6 +61,7 @@ void	draw_default(t_vct start, t_vct end, int color)
 		tar.x++;
 	}
 }
+
 void	draw_line(t_vct start, t_vct end, int color)
 {
 	if (f_abs(end.x - start.x) < 2)

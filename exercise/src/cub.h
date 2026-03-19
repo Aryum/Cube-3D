@@ -2,6 +2,7 @@
 # define CUB_H
 
 # define GAMENAME "Cube"
+
 # include "std.h"
 # include "../mlx/mlx.h"
 # include "../mlx/mlx_int.h"
