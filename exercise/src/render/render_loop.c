@@ -81,13 +81,11 @@ int render_loop(void)
 	//vertical
 	t_vct v = ini_vct(0,1);
 	int y_pos =(int)floor(p->pos.y);
-	draw_line(p->pos, add_vct(p->pos, scale_vct(v, -y_pos  % GRIDSIZE) ), 0xff00ae );
-	draw_line(p->pos, add_vct(p->pos, scale_vct(v, (GRIDSIZE - (y_pos % GRIDSIZE))) ), 0xff00ae);
+	draw_line(p->pos, add_vct(p->pos, scale_vct(v, ((p->rot_vct.y > 0) * GRIDSIZE - (y_pos % GRIDSIZE))) ), 0xff00ae);
 
 	t_vct h = ini_vct(1,0);
 	int x_pos =(int)floor(p->pos.x);
-	draw_line(p->pos, add_vct(p->pos, scale_vct(h, -x_pos  % GRIDSIZE) ), 0xff00ae );
-	draw_line(p->pos, add_vct(p->pos, scale_vct(h, (GRIDSIZE - x_pos  % GRIDSIZE)) ), 0xff00ae );
+	draw_line(p->pos, add_vct(p->pos, scale_vct(h, ( (p->rot_vct.x > 0) * GRIDSIZE - x_pos  % GRIDSIZE)) ), 0xff00ae );
 	put_image(rnd);
 	updatefps(rnd);
 
