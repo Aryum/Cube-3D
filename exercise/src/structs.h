@@ -1,13 +1,13 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-#define GRIDSIZE 64
+#define GRIDSIZE 100
 
 #define FRAMEBUFF 3
 
-#define ROT_SPEED 10.0
+#define ROT_SPEED 5.0
 
-#define MOV_SPEED 10
+#define MOV_SPEED 25.0
 
 # define PI	3.14159
 # define PI_360 6.28318

@@ -36,7 +36,7 @@ void	update_move(t_player *p)
 			rad -= PI_90 * mod;
 		if (input[key_d].status)
 			rad += PI_90 * mod;
-		p->pos = add_vct(p->pos, scale_vct(p->mov_vct, 5.0 / render()->fps));
+		p->pos = add_vct(p->pos, scale_vct(p->mov_vct, MOV_SPEED / render()->fps));
 	}
 	p->mov_vct = rad_vector(rad);
 }

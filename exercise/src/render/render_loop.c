@@ -77,7 +77,17 @@ int render_loop(void)
 	draw_circle(p->pos, 5, 0xff0000);
 	draw_line(p->pos, add_vct(p->pos, scale_vct(p->rot_vct, 50) ), 0xfffb00);
 	draw_line(p->pos, add_vct(p->pos, scale_vct(p->mov_vct, 30) ), 0x00ffcc);
-	
+
+	//vertical
+	t_vct v = ini_vct(0,1);
+	int y_pos =(int)floor(p->pos.y);
+	draw_line(p->pos, add_vct(p->pos, scale_vct(v, -y_pos  % GRIDSIZE) ), 0xff00ae );
+	draw_line(p->pos, add_vct(p->pos, scale_vct(v, (GRIDSIZE - (y_pos % GRIDSIZE))) ), 0xff00ae);
+
+	t_vct h = ini_vct(1,0);
+	int x_pos =(int)floor(p->pos.x);
+	draw_line(p->pos, add_vct(p->pos, scale_vct(h, -x_pos  % GRIDSIZE) ), 0xff00ae );
+	draw_line(p->pos, add_vct(p->pos, scale_vct(h, (GRIDSIZE - x_pos  % GRIDSIZE)) ), 0xff00ae );
 	put_image(rnd);
 	updatefps(rnd);
 
