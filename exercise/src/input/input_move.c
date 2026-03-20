@@ -1,26 +1,43 @@
 #include "input.h"
 
-int	update_move()
+bool	has_input(void)
 {
-	t_player	*p;
+	if (key_read(key_w))
+		return (true);
+	if (key_read(key_s))
+		return (true);
+	if (key_read(key_a))
+		return (true);
+	if (key_read(key_d))
+		return (true);
+	return (false);
+}
+
+void	update_move(t_player *p)
+{
+	t_input		*input;
 	float		rad;
 	float		mod;
 
-	p = player();
+	input = data()->input;
+	p->is_moving = has_input();
 	rad = p->rot_rad;
-	mod = 1;
-	if (data()->input[key_w].status)
-		mod = 0.5;
-	if (data()->input[key_s].status)
+	if (p->is_moving)
 	{
-		rad = p->rot_rad + PI;
-		mod = -0.5;
+		mod = 1;
+		if (input[key_w].status)
+			mod = 0.5;
+		if (input[key_s].status)
+		{
+			rad = p->rot_rad + PI;
+			mod = -0.5;
+		}
+		if (input[key_a].status)
+			rad -= PI_90 * mod;
+		if (input[key_d].status)
+			rad += PI_90 * mod;
+		p->pos = add_vct(p->pos, scale_vct(p->mov_vct, 5.0 / render()->fps));
 	}
-	if (data()->input[key_a].status)
-		rad -= PI_90 * mod;
-	if (data()->input[key_d].status)
-		rad += PI_90 * mod;
 	p->mov_vct = rad_vector(rad);
-	return (0);
 }
 

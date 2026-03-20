@@ -31,17 +31,15 @@ int	key_release(int code)
 	return (key_update(code, false));
 }
 
-void	key_hold()
+bool	key_read(t_keys key)
 {
-	t_input	*cur;
-	int		i;
+	t_input	*input;
+	int		neg;
 
-	i = 0;
-	while (i < KEYCOUNT)
-	{
-		cur = &data()->input[i];
-		if (cur->hold_call && cur->status && cur->func != NULL)
-			cur->func();
-		i++;
-	}
+	input = data()->input;
+	neg = input[key].neg_key;
+	if (input[key].status)
+		return (neg == -1 || !input[neg].status);
+	return (false);
 }
+

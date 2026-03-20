@@ -36,9 +36,10 @@ typedef struct s_player
 {
 	t_vct pos;
 
-	float rot_rad;
-	t_vct rot_vct;
+	float	rot_rad;
+	t_vct	rot_vct;
 
+	bool	is_moving;
 	t_vct mov_vct;
 }	t_player;
 
@@ -76,8 +77,8 @@ typedef struct s_map
 typedef struct s_input
 {
 	int		code;
+	int		neg_key;
 	bool	status;
-	bool	hold_call;
 	int		(*func)( void );
 }	t_input;
 

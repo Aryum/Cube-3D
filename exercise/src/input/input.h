@@ -6,14 +6,13 @@
 //call
 int		key_press(int key);
 int		key_release(int key);
-void	key_hold();
+bool	key_read(t_keys key);
 
 //setuo
 void	setup_inputs();
 
 //rotate
-int	rot_left();
-int	rot_right();
-int	update_move();
+void	update_move(t_player *p);
+void	update_rot(t_player *p);
 
 #endif

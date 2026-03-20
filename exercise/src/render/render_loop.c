@@ -54,7 +54,7 @@ void	updatefps(t_render *rnd)
 	a = 250;
 	if (cur - rnd->last_time > a)
 	{
-		rnd->fps = rnd->frame_count * ( 1000 / a);
+		rnd->fps = (rnd->frame_count) * ( 1000 / a);
 		rnd->frame_count = 0;
 		rnd->last_time = cur;
 	}
@@ -67,26 +67,37 @@ void	updatefps(t_render *rnd)
 int render_loop(void)
 {
 	t_render *rnd;
+	t_player	*p;
+
 	rnd = render();
+	p = player();
+
 
 	loop_map(map(), draw);
-	draw_circle(player()->pos, 5, 0xff0000);
-	draw_line(player()->pos, add_vct(player()->pos, scale_vct(player()->rot_vct, 50) ), 0xfffb00);
-	draw_line(player()->pos, add_vct(player()->pos, scale_vct(player()->mov_vct, 30) ), 0x00ffcc);
+	draw_circle(p->pos, 5, 0xff0000);
+	draw_line(p->pos, add_vct(p->pos, scale_vct(p->rot_vct, 50) ), 0xfffb00);
+	draw_line(p->pos, add_vct(p->pos, scale_vct(p->mov_vct, 30) ), 0x00ffcc);
 	
 	put_image(rnd);
-	key_hold();
-	update_move();
-
-	//fps
 	updatefps(rnd);
+
+	// ===================== MOVE FROM HERE ===================== 
+	if (rnd->fps == 1)
+		return 0;
+	update_rot(p);
+	update_move(p);
+
+
+	// ===================== MOVE FROM HERE ===================== c
+	
+	//fps
 	char *fps = lib_itoa(render()->fps);
 	mlx_string_put(rnd->mlx, rnd->window, 25, 25,0x00ff0000, fps);
 	free(fps);
 
 	//cords
-	char *x = lib_itoa(ceil(player()->mov_vct.x * 10));
-	char *y = lib_itoa(ceil(player()->mov_vct.y * 10));
+	char *x = lib_itoa(ceil(player()->pos.x));
+	char *y = lib_itoa(ceil(player()->pos.y));
 	mlx_string_put(rnd->mlx, rnd->window, 10, 50,0x002200FF, x);
 	free(x);
 	mlx_string_put(rnd->mlx, rnd->window, 40, 50,0x002200FF , y);
