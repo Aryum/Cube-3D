@@ -22,6 +22,11 @@ float	f_abs(float a)
 	return (a);
 }
 
+float	square(float a)
+{
+	return (a * a);
+}
+
 long get_time(void)
 {
 	struct timeval	tv;

@@ -1,7 +1,7 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
-#define GRIDSIZE 100
+#define GRIDSIZE 64
 
 #define FRAMEBUFF 3
 

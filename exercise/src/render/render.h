@@ -28,5 +28,6 @@ float	f_abs(float a);
 float clamp(float val, float min, float max);
 bool reached_clamp(float *val, float min, float max);
 long get_time(void);
+float	square(float a);
 
 #endif
