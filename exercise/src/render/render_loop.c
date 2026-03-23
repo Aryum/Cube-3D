@@ -67,8 +67,8 @@ t_vct	pos_to_grid(t_vct pos)
 {
 	t_vct	ret;
 
-	ret.x = (int)pos.x / GRIDSIZE;
-	ret.y = (int)pos.y / GRIDSIZE;
+	ret.x = clamp((int)pos.x / GRIDSIZE, 0, map()->size_x);
+	ret.y = clamp((int)pos.y / GRIDSIZE, 0, map()->size_y);
 	return (ret);
 }
 
@@ -130,8 +130,68 @@ void	draw_quad(t_quad quad, int color)
 	draw_line(quad.pos[3], quad.pos[2], color);
 }
 
-t_vct	quad_col(t_quad quad, t_vct pos, float rad)
+t_vct	quad_col(t_vct pos, t_vct rad)
 {
+	t_vct tar;
+	t_quad quad;
+	float m;
+	float b;
+
+	quad = ini_quad(pos_to_grid(pos));
+	if (rad.x == 0)
+	{
+		if (rad.y > 0)
+			return ( ini_vct(pos.x, quad.pos[0].y));
+		else
+			return ( ini_vct(pos.x, quad.pos[3].y));
+	}
+	if (rad.x > 0)
+		tar.x = quad.pos[3].x;
+	else
+		tar.x = quad.pos[0].x;
+
+	if (rad.y > 0)
+		tar.y = quad.pos[3].y;
+	else
+		tar.y = quad.pos[0].y;
+	m = rad.y / rad.x;
+	b = pos.y - pos.x * m;
+
+	//loop where it increases target
+	while (1)
+	{
+		if (f_abs((tar.x - pos.x) / rad.x) < f_abs((tar.y - pos.y) / rad.y))
+		{
+			t_vct grid_pos = pos_to_grid(pos);
+			grid_pos = add_vct(grid_pos, ini_vct(rad.x / f_abs(rad.x), 0));
+			if (map()->layout[(int)grid_pos.y][(int)grid_pos.x] == '1')
+			{
+				for (int i = -1; i < 1; i++)
+					draw_line(ini_vct(tar.x + i, 0), ini_vct(tar.x + i, render()->window_y), 0x00ff0000);
+				return (ini_vct(tar.x, tar.x * m + b));
+			}
+			pos = ini_vct(tar.x, tar.x * m + b);
+			tar.x += (rad.x / f_abs(rad.x)) * GRIDSIZE;
+			if (reached_clamp(&tar.x, 0, render()->window_x))
+				break;
+		}
+		else
+		{
+			t_vct grid_pos = pos_to_grid(pos);
+			grid_pos = add_vct(grid_pos, ini_vct(0, rad.y / f_abs(rad.y)));
+			if (map()->layout[(int)grid_pos.y][(int)grid_pos.x] == '1')
+			{
+				for (int i = -1; i < 1; i++)
+					draw_line(ini_vct(0, tar.y + i), ini_vct(render()->window_x, tar.y+i), 0x00ff0000);
+				return (ini_vct((tar.y - b) / m, tar.y));
+			}
+			pos = ini_vct((tar.y - b) / m, tar.y);
+			tar.y += (rad.y / f_abs(rad.y)) * GRIDSIZE;
+			if (reached_clamp(&tar.y, 0, render()->window_y))
+				break;
+		}
+	}
+	return (ini_vct(-1,-1));
 	
 }
 
@@ -172,18 +232,24 @@ int render_loop(void)
 	draw_circle(p->pos, 5, 0xff0000);
 	
 
+	//move and facing vct
+	//draw_line(p->pos, add_vct(p->pos, scale_vct(p->rot_vct, 50) ), 0xfffb00);
+	//draw_line(p->pos, add_vct(p->pos, scale_vct(p->mov_vct, 30) ), 0x00ffcc);
 
-	draw_line(p->pos, add_vct(p->pos, scale_vct(p->rot_vct, 50) ), 0xfffb00);
-	draw_line(p->pos, add_vct(p->pos, scale_vct(p->mov_vct, 30) ), 0x00ffcc);
+	//quad based raycast
+	t_vct quadcol = quad_col(p->pos, p->rot_vct);
+	if (quadcol.x != -1)
+		draw_line(p->pos, quadcol, 0x00ff0000);
 
-
+	// raycast working but slow
+	/*
 	for (float i = -1; i <= 1; i+=0.005)
 	{
 		t_vct cast = raycast(p->pos, p->rot_rad + i * PI_90 / 2);
 		if (0)
 			draw_line(p->pos, cast, 0x00ff0000);
 	}
-	draw_quad(ini_quad(pos_to_grid(p->pos)),0x00ff0000);
+	*/
 	//vertical
 	//t_vct v = ini_vct(0,1);
 	//t_vct dist = grid_distance(p->pos, p->rot_vct);
@@ -210,8 +276,8 @@ int render_loop(void)
 
 	//cords
 	//t_vct grid = pos_to_grid(player()->pos);
-	char *x = lib_itoa(p->pos.x);
-	char *y = lib_itoa(p->pos.y);
+	char *x = lib_itoa((int) (p->rot_vct.x * 10.0) );
+	char *y = lib_itoa((int) (p->rot_vct.y * 10.0));
 	mlx_string_put(rnd->mlx, rnd->window, 10, 50,0x002200FF, x);
 	free(x);
 	mlx_string_put(rnd->mlx, rnd->window, 40, 50,0x002200FF , y);
