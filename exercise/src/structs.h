@@ -67,6 +67,13 @@ typedef struct s_render
 
 }	t_render;
 
+
+typedef struct s_quad
+{
+	t_vct pos[4];
+}	t_quad;
+
+
 typedef struct s_map
 {
 	char	**layout;
