@@ -7,6 +7,10 @@ void	put_pixel(int x, int y, int color)
 	char	*dst;
 	int		offset;
 
+	if (x < 0 || x > render()->window_x)
+		return ;
+	if (y < 0 || y > render()->window_y)
+		return ;
 	f = &render()->frame_buff[render()->frame_cur];
 	offset = y * f->line_len + x * (f->bits_pixel / 8);
 	dst = f->addr + offset;

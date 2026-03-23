@@ -24,22 +24,23 @@ void draw(char **map, int x, int y)
 	t_vct limit;
 	t_vct cur;
 
-	if (map[y][x] != '1')
-		return ;
 	border = 1;
-	cur.x = x * GRIDSIZE + border;
-	cur.y = y * GRIDSIZE + border;
-	limit.x = cur.x + GRIDSIZE - border * 2;
-	limit.y = cur.y + GRIDSIZE - border * 2;
-	while (cur.y < limit.y)
+	if (map[y][x] == '1')
 	{
 		cur.x = x * GRIDSIZE + border;
-		while (cur.x < limit.x)
+		cur.y = y * GRIDSIZE + border;
+		limit.x = cur.x + GRIDSIZE - border;
+		limit.y = cur.y + GRIDSIZE - border;
+		while (cur.y < limit.y)
 		{
-			put_pixel(cur.x, cur.y, 0xffffff);
-			cur.x++;
+			cur.x = x * GRIDSIZE + border;
+			while (cur.x < limit.x)
+			{
+				put_pixel(cur.x, cur.y, 0xffffff);
+				cur.x++;
+			}
+			cur.y++;
 		}
-		cur.y++;
 	}
 }
 
@@ -66,8 +67,8 @@ t_vct	pos_to_grid(t_vct pos)
 {
 	t_vct	ret;
 
-	ret.x = pos.x / GRIDSIZE;
-	ret.y = pos.y / GRIDSIZE;
+	ret.x = (int)pos.x / GRIDSIZE;
+	ret.y = (int)pos.y / GRIDSIZE;
 	return (ret);
 }
 
@@ -75,100 +76,39 @@ t_vct	grid_to_pos(t_vct pos)
 {
 	t_vct	ret;
 
-	ret.x = pos.x * GRIDSIZE - GRIDSIZE / 2;
-	ret.y = pos.y * GRIDSIZE - GRIDSIZE / 2;
+	ret.x = pos.x * GRIDSIZE + GRIDSIZE / 2;
+	ret.y = pos.y * GRIDSIZE + GRIDSIZE / 2;
 	return (ret);
 }
+
 void increase(float *i)
 {
-	(*i)++;
+	(*i)+=GRIDSIZE;
 }
 void decrease(float *i)
 {
-	(*i)--;
+	(*i)-=GRIDSIZE;
 }
-
-
 
 t_vct	getfunc(t_vct start, float rad)
 {
-	float	s;
-	float	c;
+	t_vct vct;
+	float scale;
 
-	s = sin(rad);
-	c = cos(rad);
-	start  = pos_to_grid(start);
-	if (s == 1)
-	{
-		while (start.y >= 0)
-		{
-			if (map()->layout[(int)start.y][(int)start.x] == '1')
-				return ini_vct(start.x, start.y);
-			start.y--;
-		}
-		return ini_vct(-1, -1);
-	}
-	if (s == -1)
-	{
-		while (start.y < map()->size_y )
-		{
-			if (map()->layout[(int)start.y][(int)start.x] == '1')
-				return ini_vct(start.x, start.y);
-			start.y++;
-		}
-		return ini_vct(-1, -1);
-	}
-	if (c == 1)
-	{
-		while (start.x < map()->size_x)
-		{
-			if (map()->layout[(int)start.y][(int)start.x] == '1')
-				return ini_vct(start.x, start.y);
-			start.x++;
-		}
-		return ini_vct(-1, -1);
-	}
-	if (c == -1)
-	{
-		while ((int)start.x >= 0)
-		{
-			if (map()->layout[(int)start.y][(int)start.x] == '1')
-				return ini_vct(start.x, start.y);
-			start.x++;
-		}
-		return ini_vct(-1, -1);
-	}
-
-	float m = tan(rad);
-	float b = start.y - start.x * m;
-	void (*f_x)(float *);
-	void (*f_y)(float *);
-
-	if (cos(rad) > 0)
-		f_x = increase;
-	else
-		f_x = decrease;
-
-	if (sin(rad) > 0)
-		f_y = increase;
-	else
-		f_y = decrease;
+	vct = rad_vector(rad);
 
 	while (1)
 	{
-		int x = clamp((start.y - b) / m, 0, map()->size_x);
-		int y = clamp(start.x * m + b, 0, map()->size_y);
-		
-		if (x <= 0 || x >= map()->size_x)
+		start = add_vct(start, vct);
+		if (reached_clamp(&start.x, 0, render()->window_x))
 			break;
-		if (y <= 0 || y >= map()->size_y)
+		if (reached_clamp(&start.y, 0, render()->window_y))
 			break;
-		if (map()->layout[y][x] == '1')
-			return ini_vct(start.x, start.y);
-		f_x(&start.x);
-		f_y(&start.y);
+		t_vct tmp = pos_to_grid(start);
+		if (map()->layout[(int) tmp.y][(int) tmp.x] == '1')
+			return (start);
 	}
-	return ini_vct(-1, -1);
+	return (ini_vct(-1, -1));
 }
 
 
@@ -186,24 +126,27 @@ int render_loop(void)
 	draw_circle(p->pos, 5, 0xff0000);
 	
 	//vertical
-	/*
 	t_vct v = ini_vct(0,1);
 	int y_pos =(int)floor(p->pos.y);
 	draw_line(p->pos, add_vct(p->pos, scale_vct(v, ((p->rot_vct.y > 0) * GRIDSIZE - y_pos % GRIDSIZE)) ), 0xff00ae);
+	t_vct h = ini_vct(1,0);
 	int x_pos =(int)floor(p->pos.x);
 	draw_line(p->pos, add_vct(p->pos, scale_vct(h, ( (p->rot_vct.x > 0) * GRIDSIZE - x_pos  % GRIDSIZE)) ), 0xff00ae );
-	*/
-	put_image(rnd);
-	updatefps(rnd);
+	
 
 	draw_line(p->pos, add_vct(p->pos, scale_vct(p->rot_vct, 50) ), 0xfffb00);
 	draw_line(p->pos, add_vct(p->pos, scale_vct(p->mov_vct, 30) ), 0x00ffcc);
 
-	t_vct cast = getfunc(p->pos, p->rot_rad);
-	if (cast.x != -1 && cast.y != -1)
-		draw_line(p->pos, grid_to_pos(cast), 0x002200FF);
+	for (float i = p->rot_rad - PI_90 / 2; i < p->rot_rad + PI_90 / 2; i+=0.01)
+	{
+		t_vct cast = getfunc(p->pos, i);
+		if (cast.x != -1 && cast.y != -1)
+			draw_line(p->pos, cast, 0x002200FF);
+	}
+	
 
-
+	put_image(rnd);
+	updatefps(rnd);
 	// ===================== MOVE FROM HERE ===================== 
 	if (rnd->fps == 1)
 		return 0;
@@ -218,10 +161,11 @@ int render_loop(void)
 	mlx_string_put(rnd->mlx, rnd->window, 25, 25,0x00ff0000, fps);
 	free(fps);
 
+
 	//cords
-	t_vct grid = pos_to_grid(player()->pos);
-	char *x = lib_itoa(grid.x);
-	char *y = lib_itoa(grid.y);
+	//t_vct grid = pos_to_grid(player()->pos);
+	char *x = lib_itoa(p->pos.x);
+	char *y = lib_itoa(p->pos.y);
 	mlx_string_put(rnd->mlx, rnd->window, 10, 50,0x002200FF, x);
 	free(x);
 	mlx_string_put(rnd->mlx, rnd->window, 40, 50,0x002200FF , y);
