@@ -8,6 +8,10 @@
 # include "../mlx/mlx_int.h"
 # include "../helpers/helpers.h"
 # include "structs.h"
+
+# include "var_hlp/var_hlp.h"
+# include "ray/ray.h"
+# include "draw/draw.h"
 # include "data/data.h"
 # include "input/input.h"
 # include "render/render.h"

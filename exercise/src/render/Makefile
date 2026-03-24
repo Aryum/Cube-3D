@@ -3,8 +3,6 @@ NAME := render.a
 SRC :=	render_loop.c		\
 		render_display.c	\
 		render_ini.c		\
-		render_shapes.c		\
-		render_hlp.c		\
 		
 HDR_DIR := .
 

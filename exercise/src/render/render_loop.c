@@ -44,8 +44,6 @@ void draw(char **map, int x, int y)
 	}
 }
 
-
-
 void	updatefps(t_render *rnd)
 {
 	time_t	cur;
@@ -53,6 +51,7 @@ void	updatefps(t_render *rnd)
 
 	cur = get_time();
 	a = 500;
+	rnd->total_frames++;
 	if (cur - rnd->last_time > a)
 	{
 		rnd->fps = (rnd->frame_count) * ( 1000 / a);
@@ -63,151 +62,10 @@ void	updatefps(t_render *rnd)
 		rnd->frame_count++;
 }
 
-t_vct	pos_to_grid(t_vct pos)
-{
-	t_vct	ret;
-
-	ret.x = clamp(((int)floor(pos.x)) / GRIDSIZE, 0, map()->size_x);
-	ret.y = clamp(((int)floor(pos.y)) / GRIDSIZE, 0, map()->size_y);
-	return (ret);
-}
-
-t_vct	grid_to_pos(t_vct pos)
-{
-	t_vct	ret;
-
-	ret.x = pos.x * GRIDSIZE + GRIDSIZE / 2;
-	ret.y = pos.y * GRIDSIZE + GRIDSIZE / 2;
-	return (ret);
-}
-
-
-t_vct	grid_distance(t_vct pos, t_vct rot)
-{
-	t_vct ret;
-
-	ret.x = (rot.x > 0) * GRIDSIZE - (int)floor(pos.x) % GRIDSIZE ;
-	ret.y = (rot.y > 0) * GRIDSIZE - (int)floor(pos.y) % GRIDSIZE ;
-	return (ret);
-}
-
 t_vct v_abs(t_vct vct)
 {
-	return ini_vct(f_abs(vct.x), f_abs(vct.y));
+	return ini_vct_pos(f_abs(vct.x), f_abs(vct.y));
 }
-
-float raysize(t_vct rad, t_vct dist)
-{
-	float ret;
-
-	rad = v_abs(rad);
-	dist = v_abs(dist);
-
-	if (dist.x / rad.x < dist.y / rad.y)
-		ret = dist.x / rad.x;
-	else
-		ret = dist.y / rad.y;
-	return ret;
-}
-
-
-t_quad	ini_quad(t_vct grid)
-{
-	t_quad ret;
-
-	ret.pos[0] = scale_vct(grid, GRIDSIZE);
-	ret.pos[1] = add_vct(ret.pos[0], ini_vct(GRIDSIZE,0));
-	ret.pos[2] = add_vct(ret.pos[0], ini_vct(0,GRIDSIZE));
-	ret.pos[3] = add_vct(ret.pos[0], ini_vct(GRIDSIZE,GRIDSIZE));
-	return (ret);
-}
-
-void	draw_quad(t_quad quad, int color)
-{
-	draw_line(quad.pos[0], quad.pos[1], color);
-	draw_line(quad.pos[0], quad.pos[2], color);
-	draw_line(quad.pos[3], quad.pos[1], color);
-	draw_line(quad.pos[3], quad.pos[2], color);
-}
-
-t_vct	quad_col(t_vct pos, t_vct rad)
-{
-	t_vct tar;
-	t_quad quad;
-	float m;
-	float b;
-
-	quad = ini_quad(pos_to_grid(pos));
-	if (rad.x == 0)
-	{
-		if (rad.y > 0)
-			return ( ini_vct(pos.x, quad.pos[0].y));
-		else
-			return ( ini_vct(pos.x, quad.pos[3].y));
-	}
-	if (rad.x > 0)
-		tar.x = quad.pos[3].x;
-	else
-		tar.x = quad.pos[0].x;
-
-	if (rad.y > 0)
-		tar.y = quad.pos[3].y;
-	else
-		tar.y = quad.pos[0].y;
-	m = rad.y / rad.x;
-	b = pos.y - pos.x * m;
-	t_vct grid_pos = pos_to_grid(pos);
-	//loop where it increases target
-	while (1)
-	{
-		if (f_abs((tar.x - pos.x) / rad.x) < f_abs((tar.y - pos.y) / rad.y))
-		{
-			grid_pos = add_vct(grid_pos, ini_vct(floor(rad.x / f_abs(rad.x)), 0));
-			//draw_quad(ini_quad( grid_pos), 0x002200FF);
-			if (map()->layout[(int)grid_pos.y][(int)grid_pos.x] == '1')
-				return (ini_vct(tar.x, tar.x * m + b));
-			tar.x += (rad.x / f_abs(rad.x)) * GRIDSIZE;
-			if (reached_clamp(&tar.x, 0, render()->window_x))
-				break;
-		}
-		else
-		{
-			grid_pos = add_vct(grid_pos, ini_vct(0, floor(rad.y / f_abs(rad.y)) ));
-			//draw_quad(ini_quad( grid_pos), 0x002200FF);
-			if (map()->layout[(int)grid_pos.y][(int)grid_pos.x] == '1')
-				return (ini_vct((tar.y - b) / m, tar.y));
-			tar.y += (rad.y / f_abs(rad.y)) * GRIDSIZE;
-			if (reached_clamp(&tar.y, 0, render()->window_y))
-				break;
-		}
-	}
-	return (ini_vct(-1,-1));
-	
-}
-
-t_vct	raycast(t_vct start, float rad)
-{
-	t_vct rot_vct;
-
-	rot_vct = rad_vector(rad);
-	t_vct dist = grid_distance(start, rot_vct);
-	float size = raysize(rot_vct, dist);
-	start = add_vct(start, scale_vct(rot_vct, size));
-	while (1)
-	{
-		if (reached_clamp(&start.x, 0, render()->window_x))
-			break;
-		if (reached_clamp(&start.y, 0, render()->window_y))
-			break;
-		t_vct tmp = pos_to_grid(start);
-		if (map()->layout[(int) tmp.y][(int) tmp.x] == '1')
-			return (start);
-		start = add_vct(start, scale_vct(rot_vct, GRIDSIZE / 10));
-	}
-	return (ini_vct(-1, -1));
-}
-
-
 
 int render_loop(void)
 {
@@ -227,21 +85,22 @@ int render_loop(void)
 	//draw_line(p->pos, add_vct(p->pos, scale_vct(p->mov_vct, 30) ), 0x00ffcc);
 
 	//quad based raycast
-	
-	/*
-	for (float i = -1; i <= 1; i+=0.005)
+	for (float i = -1; i <= 1; i+=0.01)
 	{
-		t_vct quadcol = quad_col(p->pos, rad_vector(p->rot_rad + i * PI_90 / 2));
+		t_vct quadcol = raycast(p->pos, ini_vct_rad(p->rot_rad + i * PI_90 / 2));
 		if (quadcol.x != -1)
 			draw_line(p->pos, quadcol, 0x00ff0000);
 	}
-	*/
+
+
+
+
 	// raycast working but slow
 	/*
 	for (float i = -1; i <= 1; i+=0.005)
 	{
 		t_vct cast = raycast(p->pos, p->rot_rad + i * PI_90 / 2);
-		if (cast.x != -1)
+		if (0)
 			draw_line(p->pos, cast, 0x00ff0000);
 	}
 	*/

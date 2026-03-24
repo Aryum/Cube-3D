@@ -1,4 +1,4 @@
-#include "render.h"
+#include "var_hlp.h"
 
 float clamp(float val, float min, float max)
 {
@@ -25,13 +25,4 @@ float	f_abs(float a)
 float	square(float a)
 {
 	return (a * a);
-}
-
-long get_time(void)
-{
-	struct timeval	tv;
-
-	if (gettimeofday(&tv, NULL) == -1)
-		exit_clean(NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }

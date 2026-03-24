@@ -1,12 +1,4 @@
-#include "data.h"
-
-t_vct	ini_vct(float x, float y)
-{
-	t_vct	ret;
-	ret.x = x;
-	ret.y = y;
-	return (ret);
-}
+#include "var_hlp.h"
 
 t_vct	add_vct(t_vct a, t_vct b)
 {
@@ -23,14 +15,5 @@ t_vct	scale_vct(t_vct a, float factor)
 
 	ret.x = a.x * factor;
 	ret.y = a.y * factor;
-	return (ret);
-}
-
-t_vct	rad_vector(float rad)
-{
-	t_vct	ret;
-
-	ret.y = sin(rad);
-	ret.x = cos(rad);
 	return (ret);
 }

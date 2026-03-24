@@ -1,8 +1,7 @@
-NAME := data.a
+NAME := ray.a
 
-SRC :=	data_free.c			\
-		data_ini.c			\
-		data_singletons.c	\
+SRC :=	ray_cast.c			\
+		ray_hlp.c			\
 
 HDR_DIR := .
 

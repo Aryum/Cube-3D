@@ -16,6 +16,7 @@ int	exit_clean(void)
 		mlx_destroy_display(render()->mlx);
 	free(render()->mlx);
 	lib_split_clean(map()->layout);
+	printf("Average framerate %ld\n", render()->total_frames / (get_time() /1000 - render()->start_time / 1000));
 	exit(0);
 	return (0);
 }

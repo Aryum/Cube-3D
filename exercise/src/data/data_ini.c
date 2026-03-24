@@ -15,7 +15,6 @@ void	ini_data()
 111111111111";
 
 
-	printf("%s\n", layout);
 	map()->layout = lib_split(layout, '\n');
 	map()->size_x = lib_strlen(map()->layout[0]);
 	while (map()->layout[map()->size_y] != NULL)
@@ -24,14 +23,16 @@ void	ini_data()
 		while (map()->layout[map()->size_y][i] != '\0')
 		{
 			if (map()->layout[map()->size_y][i] == 'P')
-				player()->pos = ini_vct(i * GRIDSIZE + GRIDSIZE / 2, map()->size_y * GRIDSIZE + GRIDSIZE / 2);
+				player()->pos = ini_vct_pos(i * GRIDSIZE + GRIDSIZE / 2, map()->size_y * GRIDSIZE + GRIDSIZE / 2);
 			i++;
 		}
 		map()->size_y++;
 	}
 
+	render()->frame_count = 0;
+	render()->start_time = get_time();
 	render()->window_x = map()->size_x * GRIDSIZE;
 	render()->window_y = map()->size_y * GRIDSIZE;
-	player()->rot_vct = ini_vct(1,0);
+	player()->rot_vct = ini_vct_pos(1,0);
 	player()->rot_rad = 0;
 }

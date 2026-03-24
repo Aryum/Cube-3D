@@ -38,6 +38,6 @@ void	update_move(t_player *p)
 			rad += PI_90 * mod;
 		p->pos = add_vct(p->pos, scale_vct(p->mov_vct, MOV_SPEED / render()->fps));
 	}
-	p->mov_vct = rad_vector(rad);
+	p->mov_vct = ini_vct_rad(rad);
 }
 

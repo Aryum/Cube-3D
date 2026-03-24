@@ -14,11 +14,15 @@ HLP_ARC :=	$(HLP_DIR)/lib/libft.a		\
 
 SRC_DIR :=	./src
 SRC_ARC :=	$(SRC_DIR)/render/render.a		\
-			$(SRC_DIR)/data/data.a		\
+			$(SRC_DIR)/draw/draw.a			\
+			$(SRC_DIR)/ray/ray.a			\
+			$(SRC_DIR)/data/data.a			\
 			$(SRC_DIR)/input/input.a		\
+			$(SRC_DIR)/var_hlp/var_hlp.a	\
+			
 
 
-ALL_ARC := $(SRC_ARC) $(HLP_ARC) $(MLX_ARC)
+ALL_ARC := $(SRC_ARC) $(HLP_ARC)
 
 #Vars
 MAKEFLAGS += --no-print-directory
@@ -43,13 +47,21 @@ COLOR_WHITE := \033[0m
 
 all: $(NAME)
 
-$(NAME): $(ALL_ARC) $(MAIN_C)
+$(NAME): $(MLX_ARC) $(ALL_ARC)  $(MAIN_C)
 	@cc $(FLAGS) -o $@ -I$(HDR_DIR) $(MAIN_C) $(ALL_ARC) $(LINKS)
 	@echo "$(COLOUR_GREEN)Made main file$(COLOR_WHITE)"
 
 $(ALL_ARC): FORCE
 	@echo "$(COLOUR_BLUE)Updating archives of $@$(COLOR_WHITE)"
 	-@cd $(dir $@ ) && (!(make -q) && make) || echo "$(COLOUR_YELLOW)	Already updated$(COLOR_WHITE)"
+
+$(MLX_ARC): $(MLX_DIR)
+	@echo "$(COLOUR_BLUE)Updating archives of $@$(COLOR_WHITE)"
+	@cd $(dir $@) && make
+	@touch $@
+
+$(MLX_DIR):
+	git clone https://github.com/42paris/minilibx-linux.git $(MLX_DIR)
 
 clean:
 	@echo "$(COLOUR_YELLOW)Cleaning archives$(COLOR_WHITE)"
@@ -62,6 +74,8 @@ fclean:
 	@$(RM) $(NAME)
 	@$(foreach dir,$(dir $(SRC_ARC)), cd $(dir) && make fclean && echo$(NEWLINE)$(NEWLINE))
 	@$(foreach dir,$(dir $(HLP_ARC)), cd $(dir) && make fclean && echo$(NEWLINE)$(NEWLINE))
+	@echo "$(COLOUR_RED)	Cleaning Mini Libx$(COLOUR_WHITE)"
+	@$(RM) -r $(MLX_DIR)
 
 re: fclean all
 

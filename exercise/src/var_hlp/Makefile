@@ -1,8 +1,10 @@
-NAME := data.a
+NAME := var_hlp.a
 
-SRC :=	data_free.c			\
-		data_ini.c			\
-		data_singletons.c	\
+SRC :=	math_hlp.c			\
+		quad_ini.c			\
+		time.c				\
+		vector_ini.c		\
+		vector_op.c			\
 
 HDR_DIR := .
 

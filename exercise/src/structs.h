@@ -60,6 +60,8 @@ typedef struct s_render
 	void	*window;
 	void	*mlx;
 	time_t	last_time;
+	time_t	start_time;
+	long	total_frames;
 	long	frame_count;
 	long	fps;
 	int		window_x;

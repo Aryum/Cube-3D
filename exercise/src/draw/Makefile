@@ -1,8 +1,7 @@
-NAME := data.a
+NAME := draw.a
 
-SRC :=	data_free.c			\
-		data_ini.c			\
-		data_singletons.c	\
+SRC :=	draw_lines.c			\
+		draw_shapes.c			\
 
 HDR_DIR := .
 
