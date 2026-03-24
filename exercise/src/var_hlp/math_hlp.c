@@ -22,7 +22,7 @@ float	f_abs(float a)
 	return (a);
 }
 
-float	square(float a)
+float	pow_2(float a)
 {
 	return (a * a);
 }

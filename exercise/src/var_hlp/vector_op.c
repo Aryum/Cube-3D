@@ -17,3 +17,8 @@ t_vct	scale_vct(t_vct a, float factor)
 	ret.y = a.y * factor;
 	return (ret);
 }
+
+float	dist_vct(t_vct a, t_vct b)
+{
+	return (sqrt(pow_2(a.x - b.x) + pow_2(a.y - b.y)));
+}

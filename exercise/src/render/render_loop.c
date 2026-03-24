@@ -76,8 +76,8 @@ int render_loop(void)
 	p = player();
 
 
-	loop_map(map(), draw);
-	draw_circle(p->pos, 5, 0xff0000);
+	//loop_map(map(), draw);
+	//draw_circle(p->pos, 5, 0xff0000);
 	
 
 	//move and facing vct
@@ -89,7 +89,14 @@ int render_loop(void)
 	{
 		t_vct quadcol = raycast(p->pos, ini_vct_rad(p->rot_rad + i * PI_90 / 2));
 		if (quadcol.x != -1)
-			draw_line(p->pos, quadcol, 0x00ff0000);
+		{
+			float dist = dist_vct(p->pos, quadcol);
+			float x = GRIDSIZE * rnd->window_y /dist;
+			if (x > rnd->window_y )
+				x = GRIDSIZE;
+			draw_line()
+			
+		}
 	}
 
 
