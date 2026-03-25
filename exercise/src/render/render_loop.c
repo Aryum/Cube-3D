@@ -75,9 +75,12 @@ int render_loop(void)
 	rnd = render();
 	p = player();
 
-
-	//loop_map(map(), draw);
-	//draw_circle(p->pos, 5, 0xff0000);
+	//minimap
+	if (0)
+	{
+		loop_map(map(), draw);
+		draw_circle(p->pos, 5, 0xff0000);
+	}
 	
 
 	//move and facing vct
@@ -85,21 +88,27 @@ int render_loop(void)
 	//draw_line(p->pos, add_vct(p->pos, scale_vct(p->mov_vct, 30) ), 0x00ffcc);
 
 	//quad based raycast
-	for (float i = -1; i <= 1; i+=0.01)
+
+
+	float div = rnd->window_x;
+	float fov = PI_90;
+
+	float delta = fov / div;
+	int a = 0;
+	for (float i = -fov / 2 ; i <= fov / 2; i+=delta)
 	{
 		t_vct quadcol = raycast(p->pos, ini_vct_rad(p->rot_rad + i * PI_90 / 2));
 		if (quadcol.x != -1)
 		{
 			float dist = dist_vct(p->pos, quadcol);
-			float x = GRIDSIZE * rnd->window_y /dist;
-			if (x > rnd->window_y )
-				x = GRIDSIZE;
-			draw_line()
-			
+			float size = clamp(render()->window_y * GRIDSIZE / dist, 0, render()->window_y) ;
+			t_vct center = ini_vct_pos(a * rnd->window_x /div , rnd->window_y / 2);
+			t_vct sq_size = ini_vct_pos(rnd->window_x /div , size);
+			draw_square(center, sq_size, 0x00ff0000);
 		}
+			//draw_line(p->pos, quadcol, 0x00ff0000);
+		a++;
 	}
-
-
 
 
 	// raycast working but slow

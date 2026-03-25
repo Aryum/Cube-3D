@@ -14,6 +14,7 @@ float clamp(float val, float min, float max);
 bool reached_clamp(float *val, float min, float max);
 float	f_abs(float a);
 float	pow_2(float a);
+void	update_rad(float *rad, float delta);
 
 //	Vector
 
