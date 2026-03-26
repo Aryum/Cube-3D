@@ -15,6 +15,7 @@ bool	reached_clamp(float *val, float min, float max);
 float	f_abs(float a);
 float	pow_2(float a);
 float	add_rad(float rad, float delta);
+float	sign(float a);
 
 //	Vector
 
@@ -27,9 +28,5 @@ float	dist_vct(t_vct a, t_vct b);
 //	Time
 long	get_time(void);
 
-//ray
-t_rayhit	ini_hit(t_vct pos, t_dir dir);
-
-t_ray	ini_ray(t_vct start, t_vct rot, bool (*hit_cond)(t_vct));
 
 #endif

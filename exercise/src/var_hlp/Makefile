@@ -5,7 +5,6 @@ SRC :=	math_hlp.c			\
 		time.c				\
 		vector_ini.c		\
 		vector_op.c			\
-		ray_ini.c
 
 HDR_DIR := .
 

@@ -36,3 +36,10 @@ float	pow_2(float a)
 {
 	return (a * a);
 }
+
+float sign(float a)
+{
+	if (a < 0)
+		return (-1);
+	return (1);
+}

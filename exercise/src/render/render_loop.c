@@ -97,16 +97,23 @@ int render_loop(void)
 	int a = 0;
 	for (float i = -fov / 2 ; i <= fov / 2; i+=delta)
 	{
-		t_ray ray =  ini_ray(p->pos, ini_vct_rad(p->rot_rad + i * PI_90 / 2), hit_wall);
-		t_vct quadcol = raycast(ray);
-		if (quadcol.x != -1)
+		float rad = add_rad(p->rot_rad, i * PI_90 / 2);
+		t_ray ray =  ini_ray(p->pos, ini_vct_rad(rad), hit_wall);
+		t_rayhit hit = raycast(ray);
+		if (hit.sucess)
 		{
 			//float angle = add_rad(p->rot_rad, i);
-			float dist = dist_vct(p->pos, quadcol) * cos(i);
+			float dist = dist_vct(p->pos, hit.pos) * cos(p->rot_rad - rad);
 			float size = clamp(render()->window_y * GRIDSIZE / dist, 0, render()->window_y) ;
 			t_vct center = ini_vct_pos(a * rnd->window_x /div , rnd->window_y / 2);
 			t_vct sq_size = ini_vct_pos(rnd->window_x /div , size);
-			draw_square(center, sq_size, 0x00ff0000);
+			float color[4];
+			color[dir_east] = 0x00ff0000;
+			color[dir_west] = 0x000000ff;
+			color[dir_north] = 0x00ff00ff;
+			color[dir_south] = 0x0000ff00;
+			draw_square(center, sq_size, color[hit.dir]);
+
 		}
 			//draw_line(p->pos, quadcol, 0x00ff0000);
 		a++;

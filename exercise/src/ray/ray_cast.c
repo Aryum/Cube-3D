@@ -2,34 +2,14 @@
 
 static bool	check_grid(t_ray *ray, t_axis axis)
 {
-	t_vct	mod;
-	float	sign;
-	float	rot;
-	float	*tar;
-
-	if (axis == axis_x)
-	{
-		rot = ray->rot.x;
-		tar = &ray->tar.x;
-		mod = ini_vct_pos(1, 0);
-	}
-	else
-	{
-		rot = ray->rot.y; 
-		tar = &ray->tar.y;
-		mod = ini_vct_pos(0, 1);
-	}
-	if (rot > 0)
-		sign = 1;
-	else
-		sign = -1;
-	ray->cur_grid = add_vct(ray->cur_grid, scale_vct(mod, sign));
+	ray->cur_grid = add_vct(ray->cur_grid, ray->axis_dir[axis]);
 	if (ray->hit_cond(ray->cur_grid))
 		return (true);
-	return (*tar += sign * GRIDSIZE, false);
+	ray->tar = add_vct(ray->tar, scale_vct(ray->axis_dir[axis], GRIDSIZE));
+	return (false);
 }
 
-static t_vct	check_default(t_ray *r)
+static t_rayhit	check_default(t_ray *r)
 {
 	float	m;
 	float	b;
@@ -40,35 +20,35 @@ static t_vct	check_default(t_ray *r)
 	{
 		if (check_next_x(*r))
 		{
-			if (check_grid(r, axis_x))
-				return (ini_vct_pos(r->tar.x, r->tar.x * m + b));
+			if (check_grid(r, X))
+				return (ini_hit(r, X, m, b));
 			if (reached_clamp(&r->tar.x, 0, render()->window_x))
 				break ;
 		}
 		else
 		{
-			if (check_grid(r, axis_y))
-				return (ini_vct_pos((r->tar.y - b) / m, r->tar.y));
+			if (check_grid(r, Y))
+				return (ini_hit(r, Y, m, b));
 			if (reached_clamp(&r->tar.y, 0, render()->window_y))
 				break ;
 		}
 	}
-	return (ini_vct_pos(-1, -1));
+	return (ini_miss());
 }
 
-static t_vct	check_v(t_ray *r)
+static t_rayhit	check_v(t_ray *r)
 {
 	while (1)
 	{
-		if (check_grid(r, axis_y))
-			return (ini_vct_pos(r->pos.x, r->tar.y));
+		if (check_grid(r, Y))
+			return (ini_hit(r, Y, 0, 0));
 		if (reached_clamp(&r->tar.y, 0, render()->window_y))
 			break ;
 	}
-	return (ini_vct_pos(-1,-1));
+	return (ini_miss());
 }
 
-t_vct	raycast(t_ray ray)
+t_rayhit	raycast(t_ray ray)
 {
 	if (ray.rot.x != 0)
 		return (check_default(&ray));

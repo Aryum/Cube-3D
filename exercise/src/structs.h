@@ -36,8 +36,8 @@ typedef enum e_dir
 
 typedef enum e_axis
 {
-	axis_x,
-	axis_y
+	X,
+	Y
 }	t_axis;
 
 typedef struct s_vct
@@ -50,6 +50,7 @@ typedef struct s_ray
 {
 	t_vct	pos;
 	t_vct	rot;
+	t_vct	axis_dir[2];
 	t_vct	cur_grid;
 	t_vct	tar;
 	bool	(*hit_cond)(t_vct);
@@ -59,6 +60,8 @@ typedef struct s_rayhit
 {
 	t_vct	pos;
 	t_dir	dir;
+	t_axis	axis;
+	bool	sucess;
 }	t_rayhit;
 
 typedef struct s_player
