@@ -97,10 +97,12 @@ int render_loop(void)
 	int a = 0;
 	for (float i = -fov / 2 ; i <= fov / 2; i+=delta)
 	{
-		t_vct quadcol = raycast(p->pos, ini_vct_rad(p->rot_rad + i * PI_90 / 2));
+		t_ray ray =  ini_ray(p->pos, ini_vct_rad(p->rot_rad + i * PI_90 / 2), hit_wall);
+		t_vct quadcol = raycast(ray);
 		if (quadcol.x != -1)
 		{
-			float dist = dist_vct(p->pos, quadcol);
+			//float angle = add_rad(p->rot_rad, i);
+			float dist = dist_vct(p->pos, quadcol) * cos(i);
 			float size = clamp(render()->window_y * GRIDSIZE / dist, 0, render()->window_y) ;
 			t_vct center = ini_vct_pos(a * rnd->window_x /div , rnd->window_y / 2);
 			t_vct sq_size = ini_vct_pos(rnd->window_x /div , size);

@@ -2,7 +2,7 @@
 
 static void	input_rot_x(t_player *p, float delta)
 {
-	p->rot_rad += delta;
+	p->rot_rad = add_rad(p->rot_rad, delta);
 	if (p->rot_rad > PI_360)
 		p->rot_rad -= PI_360;
 	else if (p->rot_rad < 0)

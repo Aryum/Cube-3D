@@ -3,7 +3,7 @@
 
 #define GRIDSIZE 64
 
-#define FRAMEBUFF 3
+#define FRAMEBUFF 50
 
 #define ROT_SPEED 5.0
 
@@ -26,11 +26,40 @@ typedef enum e_keys
 	key_right
 }	t_keys;
 
+typedef enum e_dir
+{
+	dir_north,
+	dir_south,
+	dir_east,
+	dir_west
+}	t_dir;
+
+typedef enum e_axis
+{
+	axis_x,
+	axis_y
+}	t_axis;
+
 typedef struct s_vct
 {
 	float x;
 	float y;
 }	t_vct;
+
+typedef struct s_ray
+{
+	t_vct	pos;
+	t_vct	rot;
+	t_vct	cur_grid;
+	t_vct	tar;
+	bool	(*hit_cond)(t_vct);
+}	t_ray;
+
+typedef struct s_rayhit
+{
+	t_vct	pos;
+	t_dir	dir;
+}	t_rayhit;
 
 typedef struct s_player
 {

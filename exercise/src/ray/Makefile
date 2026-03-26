@@ -2,6 +2,7 @@ NAME := ray.a
 
 SRC :=	ray_cast.c			\
 		ray_hlp.c			\
+		ray_hits.c			\
 
 HDR_DIR := .
 

@@ -1,71 +1,77 @@
 #include "ray.h"
 
-static bool	check_grid(t_vct *grid_pos, float *tar, t_vct mod, float rad)
+static bool	check_grid(t_ray *ray, t_axis axis)
 {
+	t_vct	mod;
 	float	sign;
+	float	rot;
+	float	*tar;
 
-	if (rad > 0)
+	if (axis == axis_x)
+	{
+		rot = ray->rot.x;
+		tar = &ray->tar.x;
+		mod = ini_vct_pos(1, 0);
+	}
+	else
+	{
+		rot = ray->rot.y; 
+		tar = &ray->tar.y;
+		mod = ini_vct_pos(0, 1);
+	}
+	if (rot > 0)
 		sign = 1;
 	else
 		sign = -1;
-	*grid_pos = add_vct(*grid_pos, scale_vct(mod, sign));
-	if (map()->layout[(int)(*grid_pos).y][(int)(*grid_pos).x] == '1')
+	ray->cur_grid = add_vct(ray->cur_grid, scale_vct(mod, sign));
+	if (ray->hit_cond(ray->cur_grid))
 		return (true);
-	*tar += sign * GRIDSIZE;
-	return (false);
+	return (*tar += sign * GRIDSIZE, false);
 }
 
-static t_vct	check_default(t_vct pos, t_vct rad, t_vct tar, t_vct grid)
+static t_vct	check_default(t_ray *r)
 {
 	float	m;
 	float	b;
 
-	m = rad.y / rad.x;
-	b = pos.y - pos.x * m;
+	m = r->rot.y / r->rot.x;
+	b = r->pos.y - r->pos.x * m;
 	while (1)
 	{
-		if (f_abs((tar.x - pos.x) / rad.x) < f_abs((tar.y - pos.y) / rad.y))
+		if (check_next_x(*r))
 		{
-			if (check_grid(&grid, &tar.x, ini_vct_pos(1, 0), rad.x))
-				return (ini_vct_pos(tar.x, tar.x * m + b));
-			if (reached_clamp(&tar.x, 0, render()->window_x))
+			if (check_grid(r, axis_x))
+				return (ini_vct_pos(r->tar.x, r->tar.x * m + b));
+			if (reached_clamp(&r->tar.x, 0, render()->window_x))
 				break ;
 		}
 		else
 		{
-			if (check_grid(&grid, &tar.y, ini_vct_pos(0, 1), rad.y))
-				return (ini_vct_pos((tar.y - b) / m, tar.y));
-			if (reached_clamp(&tar.y, 0, render()->window_y))
+			if (check_grid(r, axis_y))
+				return (ini_vct_pos((r->tar.y - b) / m, r->tar.y));
+			if (reached_clamp(&r->tar.y, 0, render()->window_y))
 				break ;
 		}
 	}
 	return (ini_vct_pos(-1, -1));
 }
 
-static t_vct	check_v(t_vct pos, t_vct rad, t_vct tar, t_vct grid)
+static t_vct	check_v(t_ray *r)
 {
 	while (1)
 	{
-		if (check_grid(&grid, &tar.y, ini_vct_pos(0, 1), rad.y))
-			return (ini_vct_pos(pos.x, tar.y));
-		if (reached_clamp(&tar.y, 0, render()->window_y))
+		if (check_grid(r, axis_y))
+			return (ini_vct_pos(r->pos.x, r->tar.y));
+		if (reached_clamp(&r->tar.y, 0, render()->window_y))
 			break ;
 	}
 	return (ini_vct_pos(-1,-1));
 }
 
-t_vct	raycast(t_vct pos, t_vct rad)
+t_vct	raycast(t_ray ray)
 {
-	t_vct	tar;
-	t_vct	grid_pos;
-	t_quad	quad;
-
-	grid_pos = pos_to_grid(pos);
-	quad = ini_quad(grid_pos);
-	tar.x = quad.pos[(rad.x > 0) * 3].x;
-	tar.y = quad.pos[(rad.y > 0) * 3].y;
-	if (rad.x != 0)
-		return (check_default(pos, rad, tar, grid_pos));
+	if (ray.rot.x != 0)
+		return (check_default(&ray));
 	else
-		return (check_v(pos, rad, tar, grid_pos));
+		return (check_v(&ray));
 }
