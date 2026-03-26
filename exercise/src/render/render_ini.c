@@ -6,7 +6,7 @@
 /*   By: ricsanto <ricsanto@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:05:48 by ricsanto          #+#    #+#             */
-/*   Updated: 2026/03/26 16:44:46 by ricsanto         ###   ########.fr       */
+/*   Updated: 2026/03/26 17:46:39 by ricsanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,6 @@ void	render_ini()
 	rnd->window_x = 1280;
 	rnd->window_y = 800;
 
-	printf("	window x %d\n", rnd->window_x);
-	printf("	window y %d\n", rnd->window_y);
-
 	rnd->mlx = mlx_init();
 
 	if (rnd->mlx == NULL)
@@ -54,7 +51,7 @@ void	render_ini()
 		//clean on error
 	ini_buffer(rnd);
 		//clean on error
-
+	
 	mlx_hook(rnd->window, KeyPress, KeyPressMask, key_press, NULL);
 	mlx_hook(rnd->window, KeyRelease, KeyReleaseMask, key_release, NULL);
 	mlx_hook(rnd->window, DestroyNotify, NoEventMask, exit_clean, NULL);

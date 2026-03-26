@@ -90,7 +90,7 @@ int render_loop(void)
 	//quad based raycast
 
 
-	float div = (float)rnd->window_x / 5;
+	float div = (float)rnd->window_x;
 	float fov = PI_90;
 
 	float delta = fov / div;
@@ -135,7 +135,6 @@ int render_loop(void)
 	//draw_line(p->pos, add_vct(p->pos, scale_vct(v, dist.y) ), 0xff00ae);
 	//t_vct h = ini_vct(1,0);
 	//draw_line(p->pos, add_vct(p->pos, scale_vct(h, dist.x) ), 0xff00ae );
-	draw_line(ini_vct_pos(0, rnd->window_y / 2), ini_vct_pos(rnd->window_x, rnd->window_y / 2), 0xffffff);
 	put_image(rnd);
 	updatefps(rnd);
 	// ===================== MOVE FROM HERE ===================== 

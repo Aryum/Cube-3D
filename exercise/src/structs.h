@@ -98,7 +98,6 @@ typedef struct s_render
 	long	fps;
 	int		window_x;
 	int		window_y;
-
 }	t_render;
 
 
