@@ -29,10 +29,7 @@ void	ini_data()
 		map()->size_y++;
 	}
 
-	render()->frame_count = 0;
-	render()->start_time = get_time();
-	render()->window_x = map()->size_x * GRIDSIZE;
-	render()->window_y = map()->size_y * GRIDSIZE;
+	
 	player()->rot_vct = ini_vct_pos(1,0);
 	player()->rot_rad = 0;
 }

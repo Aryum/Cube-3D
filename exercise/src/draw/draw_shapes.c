@@ -35,11 +35,19 @@ void	draw_square(t_vct center, t_vct size, float color)
 {
 	t_vct	i;
 
-	i = ini_vct_pos(center.x - size.x / 2 , center.y - size.y / 2);
-	while (i.y < center.y +  size.y / 2)
+	/*
+	if (size.x == 1)
 	{
-		i.x = center.x - size.x / 2;
-		while (i.x < center.x + size.x / 2)
+		i = ini_vct_pos(0, size.y / 2.0);
+		draw_line(add_vct(center, i), add_vct(center, scale_vct(i, -1) ), color);
+		return ;
+	}
+	*/
+	i = ini_vct_pos(center.x - size.x / 2.0 , center.y - size.y / 2.0);
+	while (i.y < center.y +  size.y / 2.0)
+	{
+		i.x = center.x - size.x / 2.0;
+		while (i.x < center.x + size.x / 2.0)
 		{
 			put_pixel(i.x, i.y, color);
 			i.x++;

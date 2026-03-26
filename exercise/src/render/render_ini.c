@@ -6,7 +6,7 @@
 /*   By: ricsanto <ricsanto@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:05:48 by ricsanto          #+#    #+#             */
-/*   Updated: 2026/03/19 16:42:25 by ricsanto         ###   ########.fr       */
+/*   Updated: 2026/03/26 16:44:46 by ricsanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,11 @@ void	render_ini()
 
 	rnd = render();
 	rnd->last_time = get_time();
-	rnd->window_x = GRIDSIZE * map()->size_x;
-	rnd->window_y = GRIDSIZE * map()->size_y;
+	
+	rnd->frame_count = 0;
+	rnd->start_time = get_time();
+	rnd->window_x = 1280;
+	rnd->window_y = 800;
 
 	printf("	window x %d\n", rnd->window_x);
 	printf("	window y %d\n", rnd->window_y);
