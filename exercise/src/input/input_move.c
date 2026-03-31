@@ -13,6 +13,18 @@ bool	has_input(void)
 	return (false);
 }
 
+static void	update_pos(t_player *p)
+{
+	float	speed;
+	t_vct	pos;
+
+	speed = MOV_SPEED / render()->fps;
+	pos = add_vct(p->pos, scale_vct(p->mov_vct, speed));
+	pos.x = clamp(pos.x, 0, map()->scale.x);
+	pos.y = clamp(pos.y, 0, map()->scale.y);
+	p->pos = pos;
+}
+
 void	update_move(t_player *p)
 {
 	t_input		*input;
@@ -36,7 +48,7 @@ void	update_move(t_player *p)
 			rad -= PI_90 * mod;
 		if (input[key_d].status)
 			rad += PI_90 * mod;
-		p->pos = add_vct(p->pos, scale_vct(p->mov_vct, MOV_SPEED / render()->fps));
+		update_pos(p);
 	}
 	p->mov_vct = ini_vct_rad(rad);
 }

@@ -13,8 +13,8 @@ t_vct	pos_to_grid(t_vct pos)
 {
 	t_vct	ret;
 
-	ret.x = clamp(((int)floor(pos.x)) / GRIDSIZE, 0, map()->size_x);
-	ret.y = clamp(((int)floor(pos.y)) / GRIDSIZE, 0, map()->size_y);
+	ret.x = clamp(((int)floor(pos.x)) / GRIDSIZE, 0, map()->len_x);
+	ret.y = clamp(((int)floor(pos.y)) / GRIDSIZE, 0, map()->len_y);
 	return (ret);
 }
 

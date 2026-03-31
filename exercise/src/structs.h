@@ -109,9 +109,11 @@ typedef struct s_quad
 
 typedef struct s_map
 {
+	t_vct	scale;
 	char	**layout;
-	int		size_x;
-	int		size_y;
+	int		len_x;
+	int		len_y;
+
 }	t_map;
 
 typedef struct s_input

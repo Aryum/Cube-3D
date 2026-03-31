@@ -6,10 +6,10 @@ static void	loop_map(t_map	*mp, void (*f)(char **, int, int))
 	int		y;
 
 	y = 0;
-	while (y < mp->size_y)
+	while (y < mp->len_y)
 	{
 		x = 0;
-		while (x < mp->size_x)
+		while (x < mp->len_x)
 		{
 			f(mp->layout, x, y);
 			x++;
