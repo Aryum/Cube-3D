@@ -90,12 +90,17 @@ int render_loop(void)
 		t_vct	h = ini_vct_pos(cos(p->rot_rad) * MOV_SPEED,0);
 		draw_line(p->pos, add_vct(p->pos, v), 0x000000ff);
 		draw_line(p->pos, add_vct(p->pos, h ), 0x0000ffff);
-		draw_quad(ini_quad(pos_to_grid(add_vct(p->pos, v))), 0x000000ff);
-		draw_quad(ini_quad(pos_to_grid(add_vct(p->pos, h))), 0x0000ffff);
+		t_quad p_quad = ini_quad(pos_to_grid(p->pos));
+		t_quad v_quad = ini_quad(pos_to_grid(add_vct(p->pos, v)));
+		t_quad h_quad = ini_quad(pos_to_grid(add_vct(p->pos, h)));
+		if ( v_quad.grid.x != p_quad.grid.x || v_quad.grid.y != p_quad.grid.y)
+			draw_quad(ini_quad(pos_to_grid(add_vct(p->pos, v))), 0x000000ff);
+		if ( h_quad.grid.x != p_quad.grid.x || h_quad.grid.y != p_quad.grid.y)
+			draw_quad(ini_quad(pos_to_grid(add_vct(p->pos, h))), 0x0000ffff);
 
-		if (hit_wall(add_vct(p->pos, v)))
-			
-		if (hit_wall(add_vct(p->pos, h)))
+		//if (hit_wall(add_vct(p->pos, v)))
+//
+		//if (hit_wall(add_vct(p->pos, h)))
 		//t_ray ray =  ini_ray(p->pos, ini_vct_rad(rad), hit_wall);
 
 	}

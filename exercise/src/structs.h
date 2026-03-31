@@ -105,6 +105,8 @@ typedef struct s_render
 typedef struct s_quad
 {
 	t_vct pos[4];
+	t_vct grid;
+
 }	t_quad;
 
 
