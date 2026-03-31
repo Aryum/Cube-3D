@@ -20,9 +20,9 @@ static void	loop_map(t_map	*mp, void (*f)(char **, int, int))
 
 void draw(char **map, int x, int y)
 {
-	int border;
-	t_vct limit;
-	t_vct cur;
+	t_vct	limit;
+	t_vct	cur;
+	int		border;
 
 	border = 1;
 	if (map[y][x] == '1')
@@ -76,20 +76,33 @@ int render_loop(void)
 	p = player();
 
 	//minimap
-	if (0)
-	{
-		loop_map(map(), draw);
-		draw_circle(p->pos, 5, 0xff0000);
-	}
+	loop_map(map(), draw);
+	draw_circle(p->pos, 5, 0xff0000);
 	
 
 	//move and facing vct
-	//draw_line(p->pos, add_vct(p->pos, scale_vct(p->rot_vct, 50) ), 0xfffb00);
-	//draw_line(p->pos, add_vct(p->pos, scale_vct(p->mov_vct, 30) ), 0x00ffcc);
+	draw_line(p->pos, add_vct(p->pos, scale_vct(p->rot_vct, MOV_SPEED) ), 0xfffb00);
+	draw_line(p->pos, add_vct(p->pos, scale_vct(p->mov_vct, MOV_SPEED) ), 0x00ffcc);
+
+	if (1)
+	{
+		t_vct	v = ini_vct_pos(0, sin(p->rot_rad) * MOV_SPEED);
+		t_vct	h = ini_vct_pos(cos(p->rot_rad) * MOV_SPEED,0);
+		draw_line(p->pos, add_vct(p->pos, v), 0x000000ff);
+		draw_line(p->pos, add_vct(p->pos, h ), 0x0000ffff);
+		draw_quad(ini_quad(pos_to_grid(add_vct(p->pos, v))), 0x000000ff);
+		draw_quad(ini_quad(pos_to_grid(add_vct(p->pos, h))), 0x0000ffff);
+
+		if (hit_wall(add_vct(p->pos, v)))
+			
+		if (hit_wall(add_vct(p->pos, h)))
+		//t_ray ray =  ini_ray(p->pos, ini_vct_rad(rad), hit_wall);
+
+	}
 
 	//quad based raycast
 
-
+	/*
 	float div = (float)rnd->window_x / 50;
 	float fov = PI_90;
 
@@ -118,17 +131,8 @@ int render_loop(void)
 			//draw_line(p->pos, quadcol, 0x00ff0000);
 		a++;
 	}
-
-
-	// raycast working but slow
-	/*
-	for (float i = -1; i <= 1; i+=0.005)
-	{
-		t_vct cast = raycast(p->pos, p->rot_rad + i * PI_90 / 2);
-		if (0)
-			draw_line(p->pos, cast, 0x00ff0000);
-	}
 	*/
+
 	//vertical
 	//t_vct v = ini_vct(0,1);
 	//t_vct dist = grid_distance(p->pos, p->rot_vct);
