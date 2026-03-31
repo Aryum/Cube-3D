@@ -22,8 +22,8 @@ void	update_rot(t_player *p)
 	if(key_read(key_left))
 		input_rot_x(p, delta);
 	if (key_read(key_down))
-		input_rot_y(p, delta);
-	if (key_read(key_up))
 		input_rot_y(p, -delta);
+	if (key_read(key_up))
+		input_rot_y(p, delta);
 
 }

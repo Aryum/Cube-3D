@@ -90,7 +90,7 @@ int render_loop(void)
 	//quad based raycast
 
 
-	float div = (float)rnd->window_x / 2;
+	float div = (float)rnd->window_x / 50;
 	float fov = PI_90;
 
 	float delta = fov / div;
