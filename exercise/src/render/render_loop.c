@@ -107,7 +107,7 @@ int render_loop(void)
 			float size = clamp(render()->window_y * GRIDSIZE / dist, 0, render()->window_y) ;
 			t_vct center = ini_vct_pos(a * rnd->window_x /div , rnd->window_y / 2);
 			t_vct sq_size = ini_vct_pos(rnd->window_x / div , size);
-			float color[4];
+			int color[4];
 			color[dir_east] = 0x00ff0000;
 			color[dir_west] = 0x000000ff;
 			color[dir_north] = 0x00ff00ff;

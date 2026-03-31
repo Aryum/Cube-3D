@@ -12,10 +12,12 @@ void	put_pixel(int x, int y, int color)
 	if (y < 0 || y > render()->window_y)
 		return ;
 	f = &render()->frame_buff[render()->frame_cur];
-	offset = y * f->line_len + x * (f->bits_pixel / 8);
+	offset = y * f->line_len + x * f->bits_pixel;
 	dst = f->addr + offset;
 	*(unsigned int *)dst = color;
 }
+
+
 
 void	put_image(t_render *rnd)
 {

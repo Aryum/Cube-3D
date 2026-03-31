@@ -6,7 +6,7 @@
 /*   By: ricsanto <ricsanto@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:05:48 by ricsanto          #+#    #+#             */
-/*   Updated: 2026/03/26 17:46:39 by ricsanto         ###   ########.fr       */
+/*   Updated: 2026/03/31 10:55:12 by ricsanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ini_frame(t_render *r, t_frame *f) // can have error
 {
 	f->img = mlx_new_image(r->mlx, r->window_x, r->window_y);
 	f->addr = mlx_get_data_addr(f->img, &f->bits_pixel, &f->line_len, &f->end);
+	f->bits_pixel = f->bits_pixel / 8;
 }
 
 void	ini_buffer(t_render	*rnd) //can have error

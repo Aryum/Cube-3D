@@ -31,27 +31,51 @@ void	draw_quad(t_quad quad, int color)
 	draw_line(quad.pos[3], quad.pos[2], color);
 }
 
-void	draw_square(t_vct center, t_vct size, float color)
+static void set_limit(t_vct *i, t_vct *end, t_vct center, t_vct size)
+{
+	*i = ini_vct_pos(center.x - size.x / 2.0 , center.y - size.y / 2.0);
+	*end = ini_vct_pos(center.x + size.x / 2.0, center.y + size.y / 2.0);
+}
+
+static void set_pixel(t_frame *f, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = f->addr + y + x;
+	*(unsigned int *)dst = color;
+}
+void	draw_square(t_vct center, t_vct size, int color)
 {
 	t_vct	i;
+	t_vct	end;
+	t_frame *f;
+	float	x_start;
+	int		y_offset;
 
-	/*
-	if (size.x == 1)
+	set_limit(&i, &end, center, size);
+	f = &render()->frame_buff[render()->frame_cur];
+	x_start = center.x - size.x / 2.0;
+	while (i.y < end.y)
 	{
-		i = ini_vct_pos(0, size.y / 2.0);
-		draw_line(add_vct(center, i), add_vct(center, scale_vct(i, -1) ), color);
-		return ;
-	}
-	*/
-	i = ini_vct_pos(center.x - size.x / 2.0 , center.y - size.y / 2.0);
-	while (i.y < center.y +  size.y / 2.0)
-	{
-		i.x = center.x - size.x / 2.0;
-		while (i.x < center.x + size.x / 2.0)
+		i.x = x_start;
+		y_offset  = (int)i.y * f->line_len;
+		if (i.y < 0 || i.y > render()->window_y)
+			return ;
+		while (i.x < end.x)
 		{
-			put_pixel(i.x, i.y, color);
+			if (i.x < 0 || i.x > render()->window_x)
+				return ;
+			set_pixel(f, (int)i.x * f->bits_pixel, y_offset, color);
 			i.x++;
 		}
 		i.y++;
 	}
 }
+
+/*
+
+f = &render()->frame_buff[render()->frame_cur];
+	offset = y * f->line_len + x * (f->bits_pixel / 8);
+	dst = f->addr + offset;
+	*(unsigned int *)dst = color;
+*/
