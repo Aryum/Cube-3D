@@ -13,7 +13,7 @@
 # define PI_360 6.28318
 # define PI_90 1.57079
 
-#define KEYCOUNT 7
+#define KEYCOUNT 10
 
 typedef enum e_keys
 {
@@ -23,7 +23,9 @@ typedef enum e_keys
 	key_d,
 	key_esc,
 	key_left,
-	key_right
+	key_right,
+	key_up,
+	key_down
 }	t_keys;
 
 typedef enum e_dir
@@ -66,11 +68,10 @@ typedef struct s_rayhit
 
 typedef struct s_player
 {
-	t_vct pos;
-
-	float	rot_rad;
+	t_vct	pos;
 	t_vct	rot_vct;
-
+	float	rot_rad;
+	float	tilt;
 	bool	is_moving;
 	t_vct mov_vct;
 }	t_player;

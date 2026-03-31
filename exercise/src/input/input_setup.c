@@ -26,9 +26,13 @@ void	setup_inputs()
 	setup_key(dt, key_d, 100, NULL);
 	setup_key(dt, key_left, 65363, NULL);
 	setup_key(dt, key_right, 65361, NULL);
+	setup_key(dt, key_up, 65362, NULL);
+	setup_key(dt, key_down, 65364, NULL);
+	setup_key(dt, key_right, 65361, NULL);
 	setup_key(dt, key_esc, 65307, exit_clean);
 
 	set_neg(dt, key_w, key_s);
 	set_neg(dt, key_a, key_d);
 	set_neg(dt, key_right, key_left);
+	set_neg(dt, key_up, key_down);
 }

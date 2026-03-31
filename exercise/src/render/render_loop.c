@@ -90,12 +90,12 @@ int render_loop(void)
 	//quad based raycast
 
 
-	float div = (float)rnd->window_x;
+	float div = (float)rnd->window_x / 2;
 	float fov = PI_90;
 
 	float delta = fov / div;
 	int a = 0;
-	for (float i = -fov / 2 ; i <= fov / 2; i+=delta)
+	for (float i = -fov / 2 ; i < fov / 2; i+=delta)
 	{
 		float rad = add_rad(p->rot_rad, i * PI_90 / 2);
 		t_ray ray =  ini_ray(p->pos, ini_vct_rad(rad), hit_wall);
@@ -103,9 +103,10 @@ int render_loop(void)
 		if (hit.sucess)
 		{
 			//float angle = add_rad(p->rot_rad, i);
-			float dist = dist_vct(p->pos, hit.pos) * cos(p->rot_rad - rad);
-			float size = clamp(render()->window_y * GRIDSIZE / dist, 0, render()->window_y) ;
+			float dist = dist_vct(p->pos, hit.pos) * cos(add_rad(p->rot_rad, -rad));
+			float size = render()->window_y * GRIDSIZE / dist;
 			t_vct center = ini_vct_pos(a * rnd->window_x /div , rnd->window_y / 2);
+			center.y += sin(p->tilt) * (float)(rnd->window_y / 2);
 			t_vct sq_size = ini_vct_pos(rnd->window_x / div , size);
 			int color[4];
 			color[dir_east] = 0x00ff0000;
@@ -113,7 +114,6 @@ int render_loop(void)
 			color[dir_north] = 0x00ff00ff;
 			color[dir_south] = 0x0000ff00;
 			draw_square(center, sq_size, color[hit.dir]);
-
 		}
 			//draw_line(p->pos, quadcol, 0x00ff0000);
 		a++;
@@ -162,7 +162,7 @@ int render_loop(void)
 	free(y);
 
 	//rot
-	char *rot = lib_itoa((player()->rot_rad * 360) / (2 * PI));
+	char *rot = lib_itoa((p->tilt * 360) / (2 * PI));
 	char *rot_tmp = lib_strjoin("rot: ", rot);
 	free(rot);
 	mlx_string_put(rnd->mlx, rnd->window, 10, 75,0x00ff00d9 , rot_tmp);

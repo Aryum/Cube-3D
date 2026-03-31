@@ -14,7 +14,7 @@ int	key_update(int code, bool status)
 			if (cur->func != NULL && !cur->status)
 				data()->input[i].func();
 			cur->status = status;
-			break;
+			return (0);
 		}
 		i++;
 	}
