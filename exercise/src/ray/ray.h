@@ -9,7 +9,7 @@ t_ray		ini_ray(t_vct start, t_vct rot, bool (*hit_cond)(t_vct));
 t_rayhit	ini_miss(void);
 
 //hlp
-t_vct	grid_distance(t_vct pos, t_vct rot);
+t_vct	grid_distance(t_vct pos);
 t_vct	pos_to_grid(t_vct pos);
 t_vct	grid_to_pos(t_vct pos);
 bool	check_next_x(t_ray r);

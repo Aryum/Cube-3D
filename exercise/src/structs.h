@@ -73,6 +73,8 @@ typedef struct s_rayhit
 typedef struct s_player
 {
 	t_vct	pos;
+	t_vct	grid;
+	t_vct	grid_dist;
 	t_vct	rot_vct;
 	float	rot_rad;
 	float	tilt;

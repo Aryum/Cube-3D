@@ -31,6 +31,7 @@ static void	update_pos(t_player *p, float rad)
 {
 	t_vct	pos;
 	t_vct	mov;
+	t_vct	grid;
 	float	speed;
 
 	p->mov_vct = ini_vct_rad(rad);
@@ -42,6 +43,14 @@ static void	update_pos(t_player *p, float rad)
 	pos.x = clamp(pos.x, 0, map()->scale.x);
 	pos.y = clamp(pos.y, 0, map()->scale.y);
 	p->pos = pos;
+	p->grid_dist = grid_distance(pos);
+	grid = pos_to_grid(pos);
+	if (grid.x != p->grid.x || grid.y != p->grid.y)
+	{
+		map()->layout[(int)p->grid.y][(int)p->grid.x] = '0';
+		map()->layout[(int)grid.y][(int)grid.x] = 'P';
+		p->grid = grid;
+	}
 }
 
 void	update_move(t_player *p)

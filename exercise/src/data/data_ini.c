@@ -26,7 +26,10 @@ void	ini_data()
 		while (m->layout[m->len_y][i] != '\0')
 		{
 			if (m->layout[m->len_y][i] == 'P')
+			{
 				player()->pos = ini_vct_pos(i * GRIDSIZE + GRIDSIZE / 2, map()->len_y * GRIDSIZE + GRIDSIZE / 2);
+				player()->grid = ini_vct_pos(i,m->len_y);
+			}
 			i++;
 		}
 		m->len_y++;

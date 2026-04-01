@@ -1,11 +1,11 @@
 #include "ray.h"
 
-t_vct	grid_distance(t_vct pos, t_vct rot)
+t_vct	grid_distance(t_vct pos)
 {
 	t_vct ret;
 
-	ret.x = (rot.x > 0) * GRIDSIZE - (int)floor(pos.x) % GRIDSIZE ;
-	ret.y = (rot.y > 0) * GRIDSIZE - (int)floor(pos.y) % GRIDSIZE ;
+	ret.x = GRIDSIZE - (int)floor(pos.x) % GRIDSIZE;
+	ret.y = GRIDSIZE - (int)floor(pos.y) % GRIDSIZE;
 	return (ret);
 }
 

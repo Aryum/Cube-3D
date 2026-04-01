@@ -67,6 +67,55 @@ t_vct v_abs(t_vct vct)
 	return ini_vct_pos(f_abs(vct.x), f_abs(vct.y));
 }
 
+
+
+char get_map_char(t_vct grid_pos)
+{
+	int x;
+	int y;
+
+	x = (int)floor(grid_pos.x);
+	y = (int)floor(grid_pos.y);
+	if (grid_pos.x < 0 || grid_pos.x >= map()->len_x)
+		return 'v';
+	if (grid_pos.y < 0 || grid_pos.y >= map()->len_y)
+		return 'v';
+	return (map()->layout[y][x]);
+}
+
+void draw_minisquare(t_vct limit[2], t_vct center, t_vct a_vct, int x, int y)
+{
+	t_vct cur = add_vct(player()->grid, ini_vct_pos(x,y));
+	char c = get_map_char(cur);
+	int	color = 0x4C6C0D;
+	t_vct draw_pos = ini_vct_pos(a_vct.x * x, a_vct.y * y);
+	if (c == '1')
+		color = 0x0D4D6C;
+	if (c == 'v')
+		color = 0x6C0D4C;
+	t_vct adjust = grid_distance(player()->pos);
+	adjust.x = a_vct.x * adjust.x / GRIDSIZE - a_vct.x / 2;
+	adjust.y = a_vct.y * adjust.y / GRIDSIZE - a_vct.y / 2;
+	draw_pos = add_vct(draw_pos, adjust);
+	center = add_vct(center, draw_pos);
+	t_vct scale;
+	scale = scale_vct(a_vct, 0.8);
+	int i;
+	//add diff vectors depending on waht side you are on and what overflowed
+	if (abs(x) == 4)
+	{
+		i = x > 0;
+		if ()
+		scale.x = draw_pos.x - limit[i].x - ;
+		return ;
+	}
+	if (abs(y) == 4)
+	{
+	}
+
+	draw_square(center, scale , color);
+}
+
 int render_loop(void)
 {
 	t_render *rnd;
@@ -76,7 +125,7 @@ int render_loop(void)
 	p = player();
 
 	//minimap
-	if (1)
+	if (0)
 	{
 		loop_map(map(), draw);
 		draw_circle(p->pos, 5, 0xff0000);
@@ -100,16 +149,14 @@ int render_loop(void)
 	}
 	else
 	{
-
 		//quad based raycast
 		float div = (float)rnd->window_x;
 		float fov = PI_90;
-
 		float delta = fov / div;
 		int a = 0;
 		for (float i = -fov / 2 ; i < fov / 2; i+=delta)
 		{
-			float rad = add_rad(p->rot_rad, i * PI_90 / 2);
+			float rad = add_rad(p->rot_rad, i * fov / 2);
 			t_ray ray =  ini_ray(p->pos, ini_vct_rad(rad), hit_wall);
 			t_rayhit hit = raycast(ray);
 			if (hit.sucess)
@@ -129,6 +176,44 @@ int render_loop(void)
 			}
 			a++;
 		}
+		//minimap
+		
+		t_vct	corner = ini_vct_pos(rnd->window_x, rnd->window_y);
+		t_vct	size = ini_vct_pos(200, 200);
+		t_vct	a_vct = scale_vct(size, 1/8.0);
+		size = add_vct(size, a_vct);
+		t_vct	center = add_vct(corner, scale_vct(size, -0.5));
+		center = add_vct(center, scale_vct(size, -1));//scale_vct(a_vct,-0.5));
+		t_vct limit[2];
+
+		limit[0] = add_vct(center,scale_vct(size, -0.5));
+		limit[1] = add_vct(center,scale_vct(size, 0.5));
+
+		draw_square(center, size, 0xffffff);
+
+	
+
+		draw_line(ini_vct_pos(limit[1].x, rnd->window_y), ini_vct_pos(limit[1].x, 0), 0xff0000);
+		draw_line(ini_vct_pos(rnd->window_x, limit[1].y), ini_vct_pos(0, limit[1].y), 0xff0000);
+
+		for (int y = -4; y <= 4; y++)
+		{
+			for (int x = -4; x <= 4; x++)
+			{
+				draw_minisquare(limit, center, a_vct, x, y);
+			}
+		}
+		draw_circle(center, 4,  0xFA05EE);
+		draw_line(center, add_vct(center, scale_vct(size, -0.5)), 0xffffff);
+
+		//t_vct	corner = ini_vct_pos(rnd->window_x, rnd->window_y);
+		//t_vct	size = ini_vct_pos(250, 250);
+		//t_vct	center = add_vct(corner, scale_vct(size, -0.5));
+		//draw_square(center, size, 0xffffff);
+		//t_vct	left = ini_vct_rad(add_rad(p->rot_rad, -fov / 2));
+		//t_vct	right = ini_vct_rad(add_rad(p->rot_rad, fov / 2));
+		//draw_line(center, add_vct(center, scale_vct(left, MOV_SPEED) ), 0x000000);
+		//draw_line(center, add_vct(center, scale_vct(right, MOV_SPEED) ), 0xfffb00);
 	}
 	
 
@@ -156,9 +241,9 @@ int render_loop(void)
 
 
 	//cords
-	//t_vct grid = pos_to_grid(player()->pos);
-	char *x = lib_itoa((int) (p->rot_vct.x * 10.0) );
-	char *y = lib_itoa((int) (p->rot_vct.y * 10.0));
+	t_vct grid = grid_distance(player()->pos);
+	char *x = lib_itoa((int) (grid.x) );
+	char *y = lib_itoa((int) (grid.y));
 	mlx_string_put(rnd->mlx, rnd->window, 10, 50,0x002200FF, x);
 	free(x);
 	mlx_string_put(rnd->mlx, rnd->window, 40, 50,0x002200FF , y);
