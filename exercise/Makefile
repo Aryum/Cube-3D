@@ -15,9 +15,9 @@ HLP_ARC :=	$(HLP_DIR)/lib/libft.a		\
 SRC_DIR :=	./src
 SRC_ARC :=	$(SRC_DIR)/render/render.a		\
 			$(SRC_DIR)/draw/draw.a			\
-			$(SRC_DIR)/ray/ray.a			\
 			$(SRC_DIR)/data/data.a			\
 			$(SRC_DIR)/input/input.a		\
+			$(SRC_DIR)/ray/ray.a			\
 			$(SRC_DIR)/var_hlp/var_hlp.a	\
 			
 
@@ -77,7 +77,7 @@ fclean:
 	@echo "$(COLOUR_RED)	Cleaning Mini Libx$(COLOUR_WHITE)"
 	@$(RM) -r $(MLX_DIR)
 
-re: fclean all
+re: clean all
 
 
 .PHONY: all clean fclean re FORCE

@@ -3,11 +3,15 @@
 
 #define GRIDSIZE 64
 
+#define PLAYERSIZE 10
+
 #define FRAMEBUFF 50
 
 #define ROT_SPEED 5.0
 
 #define MOV_SPEED 25.0
+
+#define BONUS 1
 
 # define PI	3.14159
 # define PI_360 6.28318

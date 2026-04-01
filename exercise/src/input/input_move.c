@@ -13,13 +13,32 @@ bool	has_input(void)
 	return (false);
 }
 
-static void	update_pos(t_player *p)
+static void wall_adjust(t_player *p, t_vct *mov)
 {
-	float	speed;
-	t_vct	pos;
+	t_vct	v;
+	t_vct	h;
 
+	v = ini_vct_pos(0, sign(mov->y) * PLAYERSIZE);
+	h = ini_vct_pos(sign(mov->x) * PLAYERSIZE, 0);
+	if (hit_wall(pos_to_grid(add_vct(p->pos, v))))
+		mov->y = 0;
+	if (hit_wall(pos_to_grid(add_vct(p->pos, h))))
+		mov->x = 0;
+}
+
+
+static void	update_pos(t_player *p, float rad)
+{
+	t_vct	pos;
+	t_vct	mov;
+	float	speed;
+
+	p->mov_vct = ini_vct_rad(rad);
 	speed = MOV_SPEED / render()->fps;
-	pos = add_vct(p->pos, scale_vct(p->mov_vct, speed));
+	mov = scale_vct(p->mov_vct, speed);
+	if (BONUS)
+		wall_adjust(p, &mov);
+	pos = add_vct(p->pos, mov);
 	pos.x = clamp(pos.x, 0, map()->scale.x);
 	pos.y = clamp(pos.y, 0, map()->scale.y);
 	p->pos = pos;
@@ -48,8 +67,7 @@ void	update_move(t_player *p)
 			rad -= PI_90 * mod;
 		if (input[key_d].status)
 			rad += PI_90 * mod;
-		update_pos(p);
+		update_pos(p, rad);
 	}
-	p->mov_vct = ini_vct_rad(rad);
 }
 

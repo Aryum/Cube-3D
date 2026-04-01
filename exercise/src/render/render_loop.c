@@ -76,67 +76,61 @@ int render_loop(void)
 	p = player();
 
 	//minimap
-	loop_map(map(), draw);
-	draw_circle(p->pos, 5, 0xff0000);
-	
-
-	//move and facing vct
-	draw_line(p->pos, add_vct(p->pos, scale_vct(p->rot_vct, MOV_SPEED) ), 0xfffb00);
-	draw_line(p->pos, add_vct(p->pos, scale_vct(p->mov_vct, MOV_SPEED) ), 0x00ffcc);
-
 	if (1)
 	{
-		t_vct	v = ini_vct_pos(0, sin(p->rot_rad) * MOV_SPEED);
-		t_vct	h = ini_vct_pos(cos(p->rot_rad) * MOV_SPEED,0);
+		loop_map(map(), draw);
+		draw_circle(p->pos, 5, 0xff0000);
+		
+
+		//move and facing vct
+		draw_line(p->pos, add_vct(p->pos, scale_vct(p->rot_vct, MOV_SPEED) ), 0xfffb00);
+		draw_line(p->pos, add_vct(p->pos, scale_vct(p->mov_vct, MOV_SPEED) ), 0x00ffcc);
+		t_vct	v = ini_vct_pos(0, p->mov_vct.y * MOV_SPEED);
+		t_vct	h = ini_vct_pos(p->mov_vct.x * MOV_SPEED,0);
 		draw_line(p->pos, add_vct(p->pos, v), 0x000000ff);
 		draw_line(p->pos, add_vct(p->pos, h ), 0x0000ffff);
 		t_quad p_quad = ini_quad(pos_to_grid(p->pos));
 		t_quad v_quad = ini_quad(pos_to_grid(add_vct(p->pos, v)));
 		t_quad h_quad = ini_quad(pos_to_grid(add_vct(p->pos, h)));
-		if ( v_quad.grid.x != p_quad.grid.x || v_quad.grid.y != p_quad.grid.y)
-			draw_quad(ini_quad(pos_to_grid(add_vct(p->pos, v))), 0x000000ff);
-		if ( h_quad.grid.x != p_quad.grid.x || h_quad.grid.y != p_quad.grid.y)
-			draw_quad(ini_quad(pos_to_grid(add_vct(p->pos, h))), 0x0000ffff);
-
-		//if (hit_wall(add_vct(p->pos, v)))
-//
-		//if (hit_wall(add_vct(p->pos, h)))
-		//t_ray ray =  ini_ray(p->pos, ini_vct_rad(rad), hit_wall);
-
+		draw_quad(p_quad, 0x00ff00ff);
+		if (v_quad.grid.y != p_quad.grid.y)
+			draw_quad(v_quad, 0x000000ff);
+		if ( h_quad.grid.x != p_quad.grid.x )
+			draw_quad(h_quad, 0x0000ffff);
 	}
-
-	//quad based raycast
-
-	/*
-	float div = (float)rnd->window_x / 50;
-	float fov = PI_90;
-
-	float delta = fov / div;
-	int a = 0;
-	for (float i = -fov / 2 ; i < fov / 2; i+=delta)
+	else
 	{
-		float rad = add_rad(p->rot_rad, i * PI_90 / 2);
-		t_ray ray =  ini_ray(p->pos, ini_vct_rad(rad), hit_wall);
-		t_rayhit hit = raycast(ray);
-		if (hit.sucess)
+
+		//quad based raycast
+		float div = (float)rnd->window_x;
+		float fov = PI_90;
+
+		float delta = fov / div;
+		int a = 0;
+		for (float i = -fov / 2 ; i < fov / 2; i+=delta)
 		{
-			//float angle = add_rad(p->rot_rad, i);
-			float dist = dist_vct(p->pos, hit.pos) * cos(add_rad(p->rot_rad, -rad));
-			float size = render()->window_y * GRIDSIZE / dist;
-			t_vct center = ini_vct_pos(a * rnd->window_x /div , rnd->window_y / 2);
-			center.y += sin(p->tilt) * (float)(rnd->window_y / 2);
-			t_vct sq_size = ini_vct_pos(rnd->window_x / div , size);
-			int color[4];
-			color[dir_east] = 0x00ff0000;
-			color[dir_west] = 0x000000ff;
-			color[dir_north] = 0x00ff00ff;
-			color[dir_south] = 0x0000ff00;
-			draw_square(center, sq_size, color[hit.dir]);
+			float rad = add_rad(p->rot_rad, i * PI_90 / 2);
+			t_ray ray =  ini_ray(p->pos, ini_vct_rad(rad), hit_wall);
+			t_rayhit hit = raycast(ray);
+			if (hit.sucess)
+			{
+				//float angle = add_rad(p->rot_rad, i);
+				float dist = dist_vct(p->pos, hit.pos) * cos(add_rad(p->rot_rad, -rad));
+				float size = render()->window_y * GRIDSIZE / dist;
+				t_vct center = ini_vct_pos(a * rnd->window_x /div , rnd->window_y / 2);
+				center.y += sin(p->tilt) * (float)(rnd->window_y / 2);
+				t_vct sq_size = ini_vct_pos(rnd->window_x / div , size);
+				int color[4];
+				color[dir_east] = 0x00ff0000;
+				color[dir_west] = 0x000000ff;
+				color[dir_north] = 0x00ff00ff;
+				color[dir_south] = 0x0000ff00;
+				draw_square(center, sq_size, color[hit.dir]);
+			}
+			a++;
 		}
-			//draw_line(p->pos, quadcol, 0x00ff0000);
-		a++;
 	}
-	*/
+	
 
 	//vertical
 	//t_vct v = ini_vct(0,1);
