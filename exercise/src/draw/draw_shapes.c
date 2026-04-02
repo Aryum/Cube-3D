@@ -10,10 +10,10 @@ void	draw_circle(t_vct ctr, int size, int color)
 	x = clamp(ctr.x - size, 0, render()->window_x);
 	x_end = clamp(ctr.x + size, 0, render()->window_x);
 	y_end = clamp(ctr.y + size, 0, render()->window_y);
-	while (x < x_end)
+	while (x <= x_end)
 	{
 		y = clamp(ctr.y - size, 0, render()->window_y);
-		while (y < y_end)
+		while (y <= y_end)
 		{
 			if (pow(ctr.x-x, 2) + pow(ctr.y-y, 2) < pow(size, 2))
 				put_pixel(x, y, color);

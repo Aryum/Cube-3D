@@ -92,20 +92,31 @@ typedef struct s_frame
 	int		end;
 }	t_frame;
 
+typedef	struct s_minimap
+{
+	t_vct	limit[2];
+	t_vct	corner;
+	t_vct	size ;
+	t_vct	grid_size ;
+	t_vct	center ;
+}	t_minimap;
+
 typedef struct s_render
 {
-	t_frame	frame_buff[FRAMEBUFF];
-	int		frame_cur;
-	void	*window;
-	void	*mlx;
-	time_t	last_time;
-	time_t	start_time;
-	long	total_frames;
-	long	frame_count;
-	long	fps;
-	int		window_x;
-	int		window_y;
+	t_frame		frame_buff[FRAMEBUFF];
+	t_minimap	minimap;
+	void		*window;
+	void		*mlx;
+	time_t		last_time;
+	time_t		start_time;
+	long		total_frames;
+	long		frame_count;
+	long		fps;
+	int			window_x;
+	int			window_y;
+	int			frame_cur;
 }	t_render;
+
 
 
 typedef struct s_quad

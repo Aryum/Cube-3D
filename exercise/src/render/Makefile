@@ -3,7 +3,8 @@ NAME := render.a
 SRC :=	render_loop.c		\
 		render_display.c	\
 		render_ini.c		\
-		
+		render_minimap.c	\
+
 HDR_DIR := .
 
 FLAGS := -Wall -Wextra -Werror

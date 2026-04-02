@@ -6,7 +6,7 @@
 /*   By: ricsanto <ricsanto@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:05:48 by ricsanto          #+#    #+#             */
-/*   Updated: 2026/03/31 10:55:12 by ricsanto         ###   ########.fr       */
+/*   Updated: 2026/04/02 14:39:58 by ricsanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,19 @@ void	ini_buffer(t_render	*rnd) //can have error
 	}
 }
 
+t_minimap ini_minimap(t_render *rnd)
+{
+	t_minimap	ret;
+
+	ret.corner = ini_vct_pos(rnd->window_x, rnd->window_y);
+	ret.size = ini_vct_pos(200, 200);
+	ret.grid_size = scale_vct(ret.size, 1/8.0);
+	ret.size = add_vct(ret.size, ret.grid_size);
+	ret.center = add_vct(ret.corner, scale_vct(ret.size, -0.6));
+	ret.limit[0] = add_vct(ret.center,scale_vct(ret.size, -0.5));
+	ret.limit[1] = add_vct(ret.center,scale_vct(ret.size, 0.5));
+	return ret;
+}
 void	render_ini()
 {
 	t_render	*rnd;
@@ -42,7 +55,7 @@ void	render_ini()
 	rnd->start_time = get_time();
 	rnd->window_x = 1280;
 	rnd->window_y = 800;
-
+	rnd->minimap = ini_minimap(rnd); 
 	rnd->mlx = mlx_init();
 
 	if (rnd->mlx == NULL)

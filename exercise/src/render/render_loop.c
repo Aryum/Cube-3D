@@ -69,63 +69,7 @@ t_vct v_abs(t_vct vct)
 
 
 
-char get_map_char(t_vct grid_pos)
-{
-	int x;
-	int y;
 
-	x = (int)floor(grid_pos.x);
-	y = (int)floor(grid_pos.y);
-	if (grid_pos.x < 0 || grid_pos.x >= map()->len_x)
-		return 'v';
-	if (grid_pos.y < 0 || grid_pos.y >= map()->len_y)
-		return 'v';
-	return (map()->layout[y][x]);
-}
-
-void draw_minisquare(t_vct limit[2], t_vct center, t_vct a_vct, int x, int y)
-{
-	t_vct cur = add_vct(player()->grid, ini_vct_pos(x,y));
-	char c = get_map_char(cur);
-	int	color = 0x4C6C0D;
-	t_vct draw_pos = ini_vct_pos(a_vct.x * x, a_vct.y * y);
-	if (c == '1')
-		color = 0x0D4D6C;
-	if (c == 'v')
-		color = 0x6C0D4C;
-	t_vct adjust = grid_distance(player()->pos);
-	adjust.x = a_vct.x * adjust.x / GRIDSIZE - a_vct.x / 2;
-	adjust.y = a_vct.y * adjust.y / GRIDSIZE - a_vct.y / 2;
-	draw_pos = add_vct(draw_pos, adjust);
-	center = add_vct(center, draw_pos);
-	t_vct scale;
-	scale = a_vct;
-	if (limit[0].x > center.x - scale.x / 2)
-	{
-		scale.x = (center.x + scale.x / 2) - limit[0].x;
-		center.x = limit[0].x + scale.x / 2;
-	}
-	if (limit[1].x < center.x + scale.x / 2)
-	{
-		scale.x = limit[1].x -(center.x - scale.x / 2);
-		center.x = limit[1].x - scale.x / 2;
-	}
-
-
-
-	if (limit[0].y > center.y - scale.y / 2)
-	{
-		scale.y = (center.y + scale.y / 2) - limit[0].y;
-		center.y = limit[0].y + scale.y / 2;
-	}
-	if (limit[1].y < center.y + scale.y / 2)
-	{
-		scale.y = limit[1].y -(center.y - scale.y / 2);
-		center.y = limit[1].y - scale.y / 2;
-	}
-
-	draw_square(center, scale , color);
-}
 
 int render_loop(void)
 {
@@ -187,36 +131,15 @@ int render_loop(void)
 			}
 			a++;
 		}
-		//minimap
 		
-		t_vct	corner = ini_vct_pos(rnd->window_x, rnd->window_y);
-		t_vct	size = ini_vct_pos(200, 200);
-		t_vct	a_vct = scale_vct(size, 1/8.0);
-		size = add_vct(size, a_vct);
-		t_vct	center = add_vct(corner, scale_vct(size, -0.5));
-		center = add_vct(center, scale_vct(size, -1));//scale_vct(a_vct,-0.5));
-		t_vct limit[2];
-
-		limit[0] = add_vct(center,scale_vct(size, -0.5));
-		limit[1] = add_vct(center,scale_vct(size, 0.5));
-
-		draw_square(center, size, 0xffffff);
-
-	
-
-		int lim_idx = 0;
-		draw_line(ini_vct_pos(limit[lim_idx].x, rnd->window_y), ini_vct_pos(limit[lim_idx].x, 0), 0xff0000);
-		draw_line(ini_vct_pos(rnd->window_x, limit[lim_idx].y), ini_vct_pos(0, limit[lim_idx].y), 0xff0000);
-
 		for (int y = -5; y <= 5; y++)
 		{
 			for (int x = -5; x <= 5; x++)
 			{
-				draw_minisquare(limit, center, a_vct, x, y);
+				draw_minisquare(rnd->minimap, x, y);
 			}
 		}
-		draw_circle(center, 4,  0xFA05EE);
-		draw_line(center, add_vct(center, scale_vct(size, -0.5)), 0xffffff);
+		draw_circle(rnd->minimap.center, 10,  0xFA05EE);
 
 		//t_vct	corner = ini_vct_pos(rnd->window_x, rnd->window_y);
 		//t_vct	size = ini_vct_pos(250, 250);
