@@ -99,18 +99,29 @@ void draw_minisquare(t_vct limit[2], t_vct center, t_vct a_vct, int x, int y)
 	draw_pos = add_vct(draw_pos, adjust);
 	center = add_vct(center, draw_pos);
 	t_vct scale;
-	scale = scale_vct(a_vct, 0.8);
-	int i;
-	//add diff vectors depending on waht side you are on and what overflowed
-	if (abs(x) == 4)
+	scale = a_vct;
+	if (limit[0].x > center.x - scale.x / 2)
 	{
-		i = x > 0;
-		if ()
-		scale.x = draw_pos.x - limit[i].x - ;
-		return ;
+		scale.x = (center.x + scale.x / 2) - limit[0].x;
+		center.x = limit[0].x + scale.x / 2;
 	}
-	if (abs(y) == 4)
+	if (limit[1].x < center.x + scale.x / 2)
 	{
+		scale.x = limit[1].x -(center.x - scale.x / 2);
+		center.x = limit[1].x - scale.x / 2;
+	}
+
+
+
+	if (limit[0].y > center.y - scale.y / 2)
+	{
+		scale.y = (center.y + scale.y / 2) - limit[0].y;
+		center.y = limit[0].y + scale.y / 2;
+	}
+	if (limit[1].y < center.y + scale.y / 2)
+	{
+		scale.y = limit[1].y -(center.y - scale.y / 2);
+		center.y = limit[1].y - scale.y / 2;
 	}
 
 	draw_square(center, scale , color);
@@ -193,12 +204,13 @@ int render_loop(void)
 
 	
 
-		draw_line(ini_vct_pos(limit[1].x, rnd->window_y), ini_vct_pos(limit[1].x, 0), 0xff0000);
-		draw_line(ini_vct_pos(rnd->window_x, limit[1].y), ini_vct_pos(0, limit[1].y), 0xff0000);
+		int lim_idx = 0;
+		draw_line(ini_vct_pos(limit[lim_idx].x, rnd->window_y), ini_vct_pos(limit[lim_idx].x, 0), 0xff0000);
+		draw_line(ini_vct_pos(rnd->window_x, limit[lim_idx].y), ini_vct_pos(0, limit[lim_idx].y), 0xff0000);
 
-		for (int y = -4; y <= 4; y++)
+		for (int y = -5; y <= 5; y++)
 		{
-			for (int x = -4; x <= 4; x++)
+			for (int x = -5; x <= 5; x++)
 			{
 				draw_minisquare(limit, center, a_vct, x, y);
 			}
