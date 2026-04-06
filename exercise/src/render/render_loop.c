@@ -1,48 +1,4 @@
-#include "render.h"
-
-static void	loop_map(t_map	*mp, void (*f)(char **, int, int))
-{
-	int		x;
-	int		y;
-
-	y = 0;
-	while (y < mp->len_y)
-	{
-		x = 0;
-		while (x < mp->len_x)
-		{
-			f(mp->layout, x, y);
-			x++;
-		}
-		y++;
-	}
-}
-
-void draw(char **map, int x, int y)
-{
-	t_vct	limit;
-	t_vct	cur;
-	int		border;
-
-	border = 1;
-	if (map[y][x] == '1')
-	{
-		cur.x = x * GRIDSIZE + border;
-		cur.y = y * GRIDSIZE + border;
-		limit.x = cur.x + GRIDSIZE - border;
-		limit.y = cur.y + GRIDSIZE - border;
-		while (cur.y < limit.y)
-		{
-			cur.x = x * GRIDSIZE + border;
-			while (cur.x < limit.x)
-			{
-				put_pixel(cur.x, cur.y, 0xffffff);
-				cur.x++;
-			}
-			cur.y++;
-		}
-	}
-}
+#include "hlp.h"
 
 void	updatefps(t_render *rnd)
 {
@@ -62,13 +18,26 @@ void	updatefps(t_render *rnd)
 		rnd->frame_count++;
 }
 
-t_vct v_abs(t_vct vct)
+
+void draw_debug(t_player	*p)
 {
-	return ini_vct_pos(f_abs(vct.x), f_abs(vct.y));
+	draw_dbg_map();
+	draw_circle(p->pos, 5, 0xff0000);
+	draw_line(p->pos, add_vct(p->pos, scale_vct(p->rot_vct, MOV_SPEED) ), 0xfffb00);
+	draw_line(p->pos, add_vct(p->pos, scale_vct(p->mov_vct, MOV_SPEED) ), 0x00ffcc);
+	t_vct	v = ini_vct_pos(0, p->mov_vct.y * MOV_SPEED);
+	t_vct	h = ini_vct_pos(p->mov_vct.x * MOV_SPEED,0);
+	draw_line(p->pos, add_vct(p->pos, v), 0x000000ff);
+	draw_line(p->pos, add_vct(p->pos, h ), 0x0000ffff);
+	t_quad p_quad = ini_quad(pos_to_grid(p->pos));
+	t_quad v_quad = ini_quad(pos_to_grid(add_vct(p->pos, v)));
+	t_quad h_quad = ini_quad(pos_to_grid(add_vct(p->pos, h)));
+	draw_quad(p_quad, 0x00ff00ff);
+	if (v_quad.grid.y != p_quad.grid.y)
+		draw_quad(v_quad, 0x000000ff);
+	if ( h_quad.grid.x != p_quad.grid.x )
+		draw_quad(h_quad, 0x0000ffff);
 }
-
-
-
 
 
 int render_loop(void)
@@ -81,27 +50,7 @@ int render_loop(void)
 
 	//minimap
 	if (0)
-	{
-		loop_map(map(), draw);
-		draw_circle(p->pos, 5, 0xff0000);
-		
-
-		//move and facing vct
-		draw_line(p->pos, add_vct(p->pos, scale_vct(p->rot_vct, MOV_SPEED) ), 0xfffb00);
-		draw_line(p->pos, add_vct(p->pos, scale_vct(p->mov_vct, MOV_SPEED) ), 0x00ffcc);
-		t_vct	v = ini_vct_pos(0, p->mov_vct.y * MOV_SPEED);
-		t_vct	h = ini_vct_pos(p->mov_vct.x * MOV_SPEED,0);
-		draw_line(p->pos, add_vct(p->pos, v), 0x000000ff);
-		draw_line(p->pos, add_vct(p->pos, h ), 0x0000ffff);
-		t_quad p_quad = ini_quad(pos_to_grid(p->pos));
-		t_quad v_quad = ini_quad(pos_to_grid(add_vct(p->pos, v)));
-		t_quad h_quad = ini_quad(pos_to_grid(add_vct(p->pos, h)));
-		draw_quad(p_quad, 0x00ff00ff);
-		if (v_quad.grid.y != p_quad.grid.y)
-			draw_quad(v_quad, 0x000000ff);
-		if ( h_quad.grid.x != p_quad.grid.x )
-			draw_quad(h_quad, 0x0000ffff);
-	}
+		draw_debug(p);
 	else
 	{
 		//quad based raycast
@@ -111,7 +60,7 @@ int render_loop(void)
 		int a = 0;
 		for (float i = -fov / 2 ; i < fov / 2; i+=delta)
 		{
-			float rad = add_rad(p->rot_rad, i * fov / 2);
+			float rad = add_rad(p->rot_rad, i);
 			t_ray ray =  ini_ray(p->pos, ini_vct_rad(rad), hit_wall);
 			t_rayhit hit = raycast(ray);
 			if (hit.sucess)
@@ -131,16 +80,8 @@ int render_loop(void)
 			}
 			a++;
 		}
-		
-		for (int y = -5; y <= 5; y++)
-		{
-			for (int x = -5; x <= 5; x++)
-			{
-				draw_minisquare(rnd->minimap, x, y);
-			}
-		}
-		draw_circle(rnd->minimap.center, 10,  0xFA05EE);
-
+		if (BONUS)
+			render_minimap(rnd);
 		//t_vct	corner = ini_vct_pos(rnd->window_x, rnd->window_y);
 		//t_vct	size = ini_vct_pos(250, 250);
 		//t_vct	center = add_vct(corner, scale_vct(size, -0.5));

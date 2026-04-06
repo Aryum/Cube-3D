@@ -1,6 +1,7 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
+
 #define GRIDSIZE 64
 
 #define PLAYERSIZE 10
@@ -17,7 +18,10 @@
 # define PI_360 6.28318
 # define PI_90 1.57079
 
+#define FOV PI_90
+
 #define KEYCOUNT 10
+
 
 typedef enum e_keys
 {
@@ -105,6 +109,7 @@ typedef struct s_render
 {
 	t_frame		frame_buff[FRAMEBUFF];
 	t_minimap	minimap;
+	float		fov_delta;
 	void		*window;
 	void		*mlx;
 	time_t		last_time;
@@ -115,9 +120,8 @@ typedef struct s_render
 	int			window_x;
 	int			window_y;
 	int			frame_cur;
+	int			ray_count;
 }	t_render;
-
-
 
 typedef struct s_quad
 {

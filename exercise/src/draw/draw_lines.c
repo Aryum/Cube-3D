@@ -1,4 +1,4 @@
-#include "draw.h"
+#include "hlp.h"
 
 static void	draw_same_x(t_vct start, t_vct end, int color)
 {
@@ -10,7 +10,7 @@ static void	draw_same_x(t_vct start, t_vct end, int color)
 		tar = ini_vct_pos(end.y, start.y);
 	while (tar.x < tar.y)
 	{
-		put_pixel(start.x, tar.x, color);
+		set_pixel_pos(start.x, tar.x, color);
 		tar.x++;
 	}
 }
@@ -48,7 +48,7 @@ static void	draw_default(t_vct start, t_vct end, int color)
 	while (tar.x < tar.y)
 	{
 		cur = ini_vct_pos(tar.x, get_y(m, tar.x, b));
-		put_pixel(cur.x, cur.y, color);
+		set_pixel_pos(cur.x, cur.y, color);
 		tar.x++;
 		if (tar.x < tar.y)
 			draw_same_x(cur, ini_vct_pos(cur.x, get_y(m, tar.x, b)), color);

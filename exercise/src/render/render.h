@@ -8,9 +8,6 @@ int	render_loop(void);
 //display
 void	put_image(t_render *rnd);
 
-void	put_pixel(int x, int y, int color);
-
-
 //ini
 
 void	render_ini();
@@ -29,6 +26,6 @@ float clamp(float val, float min, float max);
 bool reached_clamp(float *val, float min, float max);
 long get_time(void);
 float	pow_2(float a);
-void draw_minisquare(t_minimap m, int x, int y);
+void draw_map_tile(t_minimap m, int x, int y);
 
 #endif

@@ -1,23 +1,6 @@
 #include "render.h"
 
 //update this to a readable thing
-void	put_pixel(int x, int y, int color)
-{
-	t_frame	*f;
-	char	*dst;
-	int		offset;
-
-	if (x < 0 || x > render()->window_x)
-		return ;
-	if (y < 0 || y > render()->window_y)
-		return ;
-	f = &render()->frame_buff[render()->frame_cur];
-	offset = y * f->line_len + x * f->bits_pixel;
-	dst = f->addr + offset;
-	*(unsigned int *)dst = color;
-}
-
-
 
 void	put_image(t_render *rnd)
 {

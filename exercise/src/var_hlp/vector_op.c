@@ -18,6 +18,11 @@ t_vct	scale_vct(t_vct a, float factor)
 	return (ret);
 }
 
+t_vct	abs_vct(t_vct vct)
+{
+	return ini_vct_pos(f_abs(vct.x), f_abs(vct.y));
+}
+
 float	dist_vct(t_vct a, t_vct b)
 {
 	return (sqrt(pow_2(a.x - b.x) + pow_2(a.y - b.y)));

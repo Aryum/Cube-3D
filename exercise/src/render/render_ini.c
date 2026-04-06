@@ -6,7 +6,7 @@
 /*   By: ricsanto <ricsanto@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 16:05:48 by ricsanto          #+#    #+#             */
-/*   Updated: 2026/04/02 14:39:58 by ricsanto         ###   ########.fr       */
+/*   Updated: 2026/04/06 14:45:05 by ricsanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void	render_ini()
 	rnd->window_y = 800;
 	rnd->minimap = ini_minimap(rnd); 
 	rnd->mlx = mlx_init();
-
+	rnd->ray_count = rnd->window_x;
+	rnd->fov_delta = FOV / (float)rnd->ray_count;
 	if (rnd->mlx == NULL)
 		lib_error("Failed to ini window"); //exit clean
 	
