@@ -21,7 +21,6 @@ void	draw_square(t_vct center, t_vct size, int color)
 	set_limit(&i, &end, center, size);
 	f = &render()->frame_buff[render()->frame_cur];
 	x_start = i.x;
-	
 	while (i.y < end.y)
 	{
 		i.x = x_start;

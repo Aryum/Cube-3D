@@ -19,7 +19,7 @@ void	updatefps(t_render *rnd)
 }
 
 
-void draw_debug(t_player	*p)
+void render_debug(t_player	*p)
 {
 	draw_dbg_map();
 	draw_circle(p->pos, 5, 0xff0000);
@@ -50,8 +50,13 @@ int render_loop(void)
 
 	//minimap
 	if (0)
-		draw_debug(p);
+		render_debug(p);
 	else
+		render_cub();
+
+	if (BONUS)
+		render_minimap(rnd);
+	if (0)
 	{
 		//quad based raycast
 		float div = (float)rnd->window_x;
@@ -60,7 +65,7 @@ int render_loop(void)
 		int a = 0;
 		for (float i = -fov / 2 ; i < fov / 2; i+=delta)
 		{
-			float rad = add_rad(p->rot_rad, i);
+			float rad = add_rad(p->rot_rad, i );
 			t_ray ray =  ini_ray(p->pos, ini_vct_rad(rad), hit_wall);
 			t_rayhit hit = raycast(ray);
 			if (hit.sucess)
@@ -80,8 +85,7 @@ int render_loop(void)
 			}
 			a++;
 		}
-		if (BONUS)
-			render_minimap(rnd);
+		
 		//t_vct	corner = ini_vct_pos(rnd->window_x, rnd->window_y);
 		//t_vct	size = ini_vct_pos(250, 250);
 		//t_vct	center = add_vct(corner, scale_vct(size, -0.5));

@@ -28,7 +28,7 @@ void	draw_circle(t_vct ctr, int size, int color)
 		while (i.x <= end.x)
 		{
 			if (pow_2(ctr.x-i.x) + pow_2(ctr.y-i.y) < pow_2(size))
-				set_pixel_add(f, (int)i.x, y_offset, color);
+				set_pixel_add(f, i.x, y_offset, color);
 			i.x++;
 		}
 		i.y++;

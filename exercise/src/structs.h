@@ -110,6 +110,8 @@ typedef struct s_render
 	t_frame		frame_buff[FRAMEBUFF];
 	t_minimap	minimap;
 	float		fov_delta;
+	float		fov_tar;
+	float		resolution;
 	void		*window;
 	void		*mlx;
 	time_t		last_time;
@@ -120,7 +122,6 @@ typedef struct s_render
 	int			window_x;
 	int			window_y;
 	int			frame_cur;
-	int			ray_count;
 }	t_render;
 
 typedef struct s_quad
