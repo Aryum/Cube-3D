@@ -1,13 +1,13 @@
-#include "hlp.h"
+#include "draw.h"
 
 static void set_limit(t_vct *i, t_vct *end, t_vct center, int size)
 {
 	*i = ini_vct_pos(center.x - size, center.y - size);
 	*end = ini_vct_pos(center.x + size, center.y + size);
-	i->x = clamp(i->x, 0, render()->window_x);
-	i->y = clamp(i->y, 0, render()->window_y);
-	end->x = clamp(end->x, 0, render()->window_x);
-	end->y = clamp(end->y, 0, render()->window_y);
+	i->x = clamp(i->x, 0, WINDOW_X);
+	i->y = clamp(i->y, 0, WINDOW_Y);
+	end->x = clamp(end->x, 0, WINDOW_X);
+	end->y = clamp(end->y, 0, WINDOW_Y);
 }
 
 void	draw_circle(t_vct ctr, int size, int color)

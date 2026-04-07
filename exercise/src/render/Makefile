@@ -1,11 +1,14 @@
 NAME := render.a
 
 SRC :=	render_loop.c			\
-		render_display.c		\
 		render_ini.c			\
 		render_cub.c			\
 		render_minimap.c		\
 		render_minimap_hlp.c	\
+		render_debug_map.c		\
+		render_debug_str.c		\
+		render_setup_settings.c	\
+		render_setup_mlx.c		\
 
 HDR_DIR := .
 

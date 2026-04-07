@@ -1,4 +1,4 @@
-#include "render.h"
+#include "hlp.h"
 
 void	render_minimap(t_render *rnd)
 {

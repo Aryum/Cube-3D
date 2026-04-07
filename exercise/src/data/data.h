@@ -11,6 +11,7 @@ t_map		*map();
 
 //free
 int		exit_clean();
+void	exit_error(char *msg);
 
 //ini
 void	ini_data();

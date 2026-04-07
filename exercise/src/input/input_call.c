@@ -1,6 +1,6 @@
 #include "input.h"
 
-int	key_update(int code, bool status)
+static int	key_update(int code, bool status)
 {
 	t_input	*cur;
 	int	i;

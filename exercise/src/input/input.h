@@ -12,7 +12,7 @@ bool	key_read(t_keys key);
 void	setup_inputs();
 
 //rotate
-void	update_move(t_player *p);
-void	update_rot(t_player *p);
+void	update_move(void);
+void	update_rot(void);
 
 #endif

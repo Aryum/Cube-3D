@@ -1,4 +1,4 @@
-#include "hlp.h"
+#include "draw.h"
 
 void	set_pixel_add(t_frame *f, int x, int y, int color)
 {

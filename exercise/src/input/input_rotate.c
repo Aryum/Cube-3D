@@ -12,10 +12,12 @@ static void	input_rot_y(t_player *p, float delta)
 	p->tilt += delta;
 	p->tilt = clamp(p->tilt, -PI_90, PI_90);
 }
-void	update_rot(t_player *p)
+void	update_rot(void)
 {
-	float	delta;
+	t_player	*p;
+	float		delta;
 
+	p = player();
 	delta = ROT_SPEED / render()->fps;
 	if(key_read(key_right))
 		input_rot_x(p, -delta);

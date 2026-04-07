@@ -1,4 +1,4 @@
-#include "hlp.h"
+#include "draw.h"
 
 static void	draw_same_x(t_vct start, t_vct end, int color)
 {

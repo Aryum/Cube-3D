@@ -1,6 +1,6 @@
 #include "input.h"
 
-bool	has_input(void)
+static bool	has_input(void)
 {
 	if (key_read(key_w))
 		return (true);
@@ -25,7 +25,6 @@ static void wall_adjust(t_player *p, t_vct *mov)
 	if (hit_wall(pos_to_grid(add_vct(p->pos, h))))
 		mov->x = 0;
 }
-
 
 static void	update_pos(t_player *p, float rad)
 {
@@ -53,12 +52,14 @@ static void	update_pos(t_player *p, float rad)
 	}
 }
 
-void	update_move(t_player *p)
+void	update_move(void)
 {
+	t_player	*p;
 	t_input		*input;
 	float		rad;
 	float		mod;
 
+	p = player();
 	input = data()->input;
 	p->is_moving = has_input();
 	rad = p->rot_rad;

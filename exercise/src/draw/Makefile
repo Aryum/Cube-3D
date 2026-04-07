@@ -3,7 +3,6 @@ NAME := draw.a
 SRC :=	draw_lines.c			\
 		draw_square.c			\
 		draw_circle.c			\
-		draw_dbg_map.c			\
 		draw_pixel.c			\
 		
 HDR_DIR := .

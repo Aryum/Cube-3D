@@ -2,17 +2,17 @@
 
 static void draw(t_rayhit hit, float rad,int i)
 {
-	float	dist; 
+	int		color[4];
+	float	dist;
 	float	size_y;
 	t_vct	center;
 	t_vct	sq_size;
 
 	dist = dist_vct(player()->pos, hit.pos) * cos(player()->rot_rad - rad);
-	size_y = render()->window_y * GRIDSIZE / dist;
-	center = ini_vct_pos(i * render()->resolution, render()->window_y / 2);
-	center.y += sin(player()->tilt) * (float)(render()->window_y / 2);
+	size_y = WINDOW_Y * GRIDSIZE / dist;
+	center = ini_vct_pos(i * render()->resolution, WINDOW_Y / 2);
+	center.y += sin(player()->tilt) * (float)(WINDOW_Y / 2);
 	sq_size = ini_vct_pos(render()->resolution, size_y);
-	int color[4];
 	color[dir_east] = 0x00ff0000;
 	color[dir_west] = 0x000000ff;
 	color[dir_north] = 0x00ff00ff;

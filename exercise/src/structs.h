@@ -12,6 +12,10 @@
 
 #define MOV_SPEED 25.0
 
+#define WINDOW_X 1280
+#define WINDOW_Y 720
+
+
 #define BONUS 1
 
 # define PI	3.14159
@@ -119,8 +123,6 @@ typedef struct s_render
 	long		total_frames;
 	long		frame_count;
 	long		fps;
-	int			window_x;
-	int			window_y;
 	int			frame_cur;
 }	t_render;
 

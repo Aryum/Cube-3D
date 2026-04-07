@@ -2,30 +2,34 @@
 
 int	exit_clean(void)
 {
+	t_render	*r;
 	int i;
 
 	i = 0;
-	if (render()->window != NULL)
-		mlx_destroy_window(render()->mlx, render()->window);
+	r = render();
+	if (r->window != NULL)
+		mlx_destroy_window(r->mlx, r->window);
 	while (i < FRAMEBUFF)
 	{
-		mlx_destroy_image(render()->mlx, render()->frame_buff[i].img);
+		if (r->frame_buff[i].img != NULL)
+			mlx_destroy_image(r->mlx, r->frame_buff[i].img);
 		i++;
 	}
 	if (render()->mlx != NULL)
 		mlx_destroy_display(render()->mlx);
 	free(render()->mlx);
 	lib_split_clean(map()->layout);
-	printf("Average framerate %ld\n", render()->total_frames / (get_time() / 1000 - render()->start_time / 1000));
+	if (r->start_time / 1000 != get_time() / 1000)
+		printf("Average framerate %ld\n", r->total_frames / (get_time() / 1000 - r->start_time / 1000));
 	exit(0);
 	return (0);
 }
 
-void clean_error(char *msg)
+void exit_error(char *msg)
 {
 	if (msg == NULL)
 		perror(GAMENAME);
 	else
-		print_fd(2, "%s: $s", GAMENAME, msg);
+		print_fd(2, "%s: %s\n", GAMENAME, msg);
 	exit_clean();
 }

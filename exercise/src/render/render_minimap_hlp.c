@@ -31,10 +31,10 @@ static float *val(t_vct *vct, t_axis axis)
 
 static void resize_border(t_minimap *m, t_axis axis)
 {
-	float *grid;
-	float *center; 
-	float max;
-	float min;
+	float	*grid;
+	float	*center; 
+	float	max;
+	float	min;
 
 	grid = val(&m->grid_size, axis);
 	center = val(&m->center, axis);
@@ -54,9 +54,9 @@ static void resize_border(t_minimap *m, t_axis axis)
 
 void	draw_map_tile(t_minimap m, int x, int y)
 {
-	t_vct cur;
-	t_vct draw_pos;
-	t_vct adjust;
+	t_vct	cur;
+	t_vct	draw_pos;
+	t_vct	adjust;
 
 	cur = add_vct(player()->grid, ini_vct_pos(x,y));
 	draw_pos = ini_vct_pos(m.grid_size.x * x, m.grid_size.y * y);
