@@ -95,7 +95,7 @@ typedef struct s_frame
 {
 	void	*img;
 	char	*addr;
-	int		bits_pixel;
+	int		byte_pixel;
 	int		line_len;
 	int		end;
 }	t_frame;
@@ -124,6 +124,7 @@ typedef struct s_render
 	long		frame_count;
 	long		fps;
 	int			frame_cur;
+	t_frame		test_img;
 }	t_render;
 
 typedef struct s_quad

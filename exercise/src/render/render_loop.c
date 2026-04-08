@@ -33,6 +33,8 @@ static void	updatefps(t_render *rnd)
 		rnd->frame_count++;
 }
 
+
+
 int render_loop(void)
 {
 	t_render *rnd;
@@ -45,21 +47,21 @@ int render_loop(void)
 	if (0)
 		render_debug_map(p);
 	else
+	{
+	
 		render_cub();
+
+		
+	}
 
 	if (BONUS)
 		render_minimap(rnd);
 	put_image(rnd);
 	updatefps(rnd);
-	// ===================== MOVE FROM HERE ===================== 
 	if (rnd->fps == 1)
 		return 0;
 	update_rot();
 	update_move();
 	render_debug_str(rnd);
-
-	// ===================== MOVE FROM HERE ===================== c
-	
-	
 	return 0;
 }
