@@ -44,15 +44,10 @@ int render_loop(void)
 	p = player();
 
 	//minimap
-	if (0)
+	if (1)
 		render_debug_map(p);
 	else
-	{
-	
 		render_cub();
-
-		
-	}
 
 	if (BONUS)
 		render_minimap(rnd);

@@ -25,7 +25,7 @@ t_rayhit	ini_hit(t_ray *r, t_axis axis, float m, float b)
 	ret.axis = axis;
 	if (axis == X)
 	{
-		ret.pos = ini_vct_pos(r->tar.x, r->tar.x * m + b);
+		ret.pos = ini_vct_pos(r->tar.x, ceil(r->tar.x * m + b));
 		if (sign(r->axis_dir[X].x) > 0)
 			ret.dir = dir_west;
 		else
@@ -36,7 +36,7 @@ t_rayhit	ini_hit(t_ray *r, t_axis axis, float m, float b)
 		if (r->rot.x == 0)
 			ini_vct_pos(r->pos.x, r->tar.y);
 		else
-			ret.pos = ini_vct_pos((r->tar.y - b) / m, r->tar.y);
+			ret.pos = ini_vct_pos(ceil((r->tar.y - b) / m), r->tar.y);
 		if (sign(r->axis_dir[Y].y) > 0)
 			ret.dir = dir_north;
 		else

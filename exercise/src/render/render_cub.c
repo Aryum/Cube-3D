@@ -9,7 +9,7 @@ static void draw(t_rayhit hit, float rad,int i)
 	t_vct	sq_size;
 
 	dist = dist_vct(player()->pos, hit.pos) * cos(player()->rot_rad - rad);
-	size_y = WINDOW_Y * GRIDSIZE / dist;
+	size_y = (float)(WINDOW_Y * GRIDSIZE) / dist;
 	center = ini_vct_pos(i * render()->resolution, WINDOW_Y / 2);
 	center.y += sin(player()->tilt) * (float)(WINDOW_Y / 2);
 	sq_size = ini_vct_pos(render()->resolution, size_y);
