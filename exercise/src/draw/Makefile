@@ -2,7 +2,6 @@ NAME := draw.a
 
 SRC :=	draw_lines.c			\
 		draw_square.c			\
-		draw_wall.c				\
 		draw_circle.c			\
 		draw_pixel.c			\
 		

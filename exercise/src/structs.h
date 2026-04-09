@@ -74,6 +74,7 @@ typedef struct s_ray
 
 typedef struct s_rayhit
 {
+	t_vct	ray;
 	t_vct	pos;
 	t_dir	dir;
 	t_axis	axis;

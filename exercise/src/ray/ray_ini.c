@@ -22,6 +22,7 @@ t_rayhit	ini_hit(t_ray *r, t_axis axis, float m, float b)
 	t_rayhit	ret;
 
 	ret.sucess = true;
+	ret.ray = r->rot;
 	ret.axis = axis;
 	if (axis == X)
 	{

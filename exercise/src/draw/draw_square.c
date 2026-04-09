@@ -4,10 +4,10 @@ static void set_limit(t_vct *i, t_vct *end, t_vct center, t_vct size)
 {
 	*i = ini_vct_pos(center.x - size.x / 2.0 , center.y - size.y / 2.0);
 	*end = ini_vct_pos(center.x + size.x / 2.0, center.y + size.y / 2.0);
-	i->x = clamp(i->x, 0,  WINDOW_X);
-	i->y = clamp(i->y, 0, WINDOW_Y);
-	end->x = clamp(end->x, 0, WINDOW_X);
-	end->y = clamp(end->y, 0, WINDOW_Y);
+	i->x = clamp(i->x, 0,  WINDOW_X - 1);
+	i->y = clamp(i->y, 0, WINDOW_Y - 1);
+	end->x = clamp(end->x, 0, WINDOW_X - 1);
+	end->y = clamp(end->y, 0, WINDOW_Y - 1);
 }
 
 void	draw_square(t_vct center, t_vct size, int color)
