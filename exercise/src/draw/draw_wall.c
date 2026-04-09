@@ -18,13 +18,13 @@ static int	get_color(int x, float y, t_frame *f)
 {
 	char	*dst;
 
-	dst = f->addr + (int)(y * GRIDSIZE) * f->line_len + (x % GRIDSIZE) * f->byte_pixel;
+	dst = f->addr + (int)(y * (float)GRIDSIZE) * f->line_len + (GRIDSIZE-x % (GRIDSIZE)) * f->byte_pixel;
 	return (*(unsigned int *)dst);
 }
 /*
 	calculate % based of how much it has already drawn 
-
 */
+
 void	draw_wall(t_vct center, t_vct size, int x, t_frame *texture)
 {
 	t_vct	i[2];
@@ -41,7 +41,7 @@ void	draw_wall(t_vct center, t_vct size, int x, t_frame *texture)
 		pivot.y = (int)i[0].y * f->line_len;
 		while (i[0].x > i[1].x)
 		{
-			set_pixel_add(f, i[0].x, pivot.y, get_color( x,  (i[1].y - i[0].y) / (total), texture));
+			set_pixel_add(f, i[0].x, pivot.y, get_color(x, (i[1].y - i[0].y) / (total), texture));
 			i[0].x--;
 		}
 		i[0].y--;

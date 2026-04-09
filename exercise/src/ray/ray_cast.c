@@ -22,14 +22,14 @@ static t_rayhit	check_default(t_ray *r)
 		{
 			if (check_grid(r, X))
 				return (ini_hit(r, X, m, b));
-			if (reached_clamp(&r->tar.x, 0, WINDOW_X))
+			if (reached_clamp(&r->tar.x, 0, map()->scale.x))
 				break ;
 		}
 		else
 		{
 			if (check_grid(r, Y))
 				return (ini_hit(r, Y, m, b));
-			if (reached_clamp(&r->tar.y, 0, WINDOW_Y))
+			if (reached_clamp(&r->tar.y, 0, map()->scale.y))
 				break ;
 		}
 	}
@@ -42,7 +42,7 @@ static t_rayhit	check_v(t_ray *r)
 	{
 		if (check_grid(r, Y))
 			return (ini_hit(r, Y, 0, 0));
-		if (reached_clamp(&r->tar.y, 0, WINDOW_Y))
+		if (reached_clamp(&r->tar.y, 0, map()->scale.y))
 			break ;
 	}
 	return (ini_miss());

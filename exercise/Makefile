@@ -3,6 +3,7 @@ NAME := cub3D
 MAIN_C := src/main.c
 HDR_DIR = .
 
+
 #Libs
 MLX_DIR :=	./mlx
 MLX_ARC :=	$(MLX_DIR)/libmlx.a
@@ -47,7 +48,7 @@ COLOR_WHITE := \033[0m
 
 all: $(NAME)
 
-$(NAME): $(MLX_ARC) $(ALL_ARC)  $(MAIN_C)
+$(NAME): $(MLX_ARC) $(ALL_ARC) $(MAIN_C) 
 	@cc $(FLAGS) -o $@ -I$(HDR_DIR) $(MAIN_C) $(ALL_ARC) $(LINKS)
 	@echo "$(COLOUR_GREEN)Made main file$(COLOR_WHITE)"
 

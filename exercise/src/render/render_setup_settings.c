@@ -19,8 +19,8 @@ void setup_settings(t_render *rnd)
 	rnd->last_time = get_time();
 	rnd->start_time = rnd->last_time;
 	rnd->frame_count = 0;
-	rnd->resolution = 1.0;
-	rnd->fov_delta = FOV / ((float) WINDOW_X / rnd->resolution);
-	rnd->fov_tar = FOV / 2;
+	rnd->fov_v_adjust = (WINDOW_X / 2) / tan(FOV / 2);
+	rnd->ray_delta_angle = FOV / (float)(RAYCOUNT - 1);
+	rnd->ray_width = (float)WINDOW_X / (float)RAYCOUNT;
 	rnd->minimap = ini_minimap();
 }

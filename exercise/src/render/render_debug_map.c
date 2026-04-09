@@ -69,23 +69,18 @@ void	render_debug_map(t_player *p)
 
 	draw_dbg_map();
 	draw_circle(p->pos, 5, 0xff0000);
-
 	t_rayhit	hit;
-	float		cur;
-	float		tar;
 	float		rad;
 	int			i;
 
-	cur = -render()->fov_tar;
-	tar = render()->fov_tar;
 	i = 0;
-	while (cur <= tar)
+	rad = add_rad(player()->rot_rad, -FOV / 2.0);
+	while (i < RAYCOUNT)
 	{
-		rad = add_rad(player()->rot_rad, cur);
 		hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_wall));
 		if (hit.sucess)
 			draw_line(p->pos, hit.pos, 0xff0000);
-		cur += render()->fov_delta;
+		rad = add_rad(rad, render()->ray_delta_angle);
 		i++;
 	}
 

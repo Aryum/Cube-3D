@@ -12,6 +12,8 @@
 
 #define MOV_SPEED 25.0
 
+#define RAYCOUNT 1280
+
 #define WINDOW_X 1280
 #define WINDOW_Y 720
 
@@ -22,7 +24,7 @@
 # define PI_360 6.28318
 # define PI_90 1.57079
 
-#define FOV PI_90
+#define FOV 1.04719
 
 #define KEYCOUNT 10
 
@@ -113,9 +115,9 @@ typedef struct s_render
 {
 	t_frame		frame_buff[FRAMEBUFF];
 	t_minimap	minimap;
-	float		fov_delta;
-	float		fov_tar;
-	float		resolution;
+	float		fov_v_adjust;
+	float		ray_width;
+	float		ray_delta_angle;
 	void		*window;
 	void		*mlx;
 	time_t		last_time;

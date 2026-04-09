@@ -9,6 +9,7 @@ static void	fps(t_render *rnd)
 		mlx_string_put(rnd->mlx, rnd->window, 25, 25, 0x00ff0000, fps);
 	free(fps);
 }
+
 static void	cords(t_render *rnd)
 {
 	t_vct grid;
