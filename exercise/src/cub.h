@@ -9,6 +9,7 @@
 # include "../helpers/helpers.h"
 # include "structs.h"
 
+# include "parsing/parsing.h"
 # include "var_hlp/var_hlp.h"
 # include "ray/ray.h"
 # include "draw/draw.h"

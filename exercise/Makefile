@@ -20,6 +20,8 @@ SRC_ARC :=	$(SRC_DIR)/render/render.a		\
 			$(SRC_DIR)/input/input.a		\
 			$(SRC_DIR)/ray/ray.a			\
 			$(SRC_DIR)/var_hlp/var_hlp.a	\
+			$(SRC_DIR)/parsing/parse.a	    \
+
 			
 
 
@@ -30,7 +32,7 @@ MAKEFLAGS += --no-print-directory
 
 FLAGS := -Wall -Wextra -Werror
 
-LINKS := -lmlx -lXext -lX11 -lm
+LINKS := -lXext -lX11 -lm
 
 RM := rm -f
 

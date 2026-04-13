@@ -1,8 +1,9 @@
 #include "cub.h"
 
-int	main()
+int	main(int ac, char **av)
 {
-	ini_data();
-	render_ini();
+	parse(ac, av);
+	// ini_data();
+	// render_ini();
 
 }
