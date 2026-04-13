@@ -6,7 +6,7 @@
 /*   By: ricsanto <ricsanto@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 17:13:09 by ricsanto          #+#    #+#             */
-/*   Updated: 2026/04/13 12:55:33 by ricsanto         ###   ########.fr       */
+/*   Updated: 2026/04/13 14:42:18 by ricsanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,18 @@ static ssize_t	h_strlen(char *str)
 	return (i);
 }
 
-int	h_appendbuffer(char **last, char *buffer)
+void	h_updateline(t_gnl *gnl, char *updated, bool failed)
+{
+	if (failed)
+		gnl->failed = true;
+	if (gnl->line != NULL)
+	{
+		free(gnl->line);
+		gnl->line = updated;
+	}
+}
+
+int	h_appendbuffer(t_gnl *ret, char *buffer)
 {
 	ssize_t	i;
 	ssize_t	h;
@@ -34,13 +45,13 @@ int	h_appendbuffer(char **last, char *buffer)
 
 	i = 0;
 	h = h_strlen(buffer);
-	total_len = h_strlen(*last) + h + (buffer[h] == '\n');
+	total_len = h_strlen(ret->line) + h + (buffer[h] == '\n');
 	retval = malloc(total_len + 1);
 	if (retval == NULL)
-		return (h_updateret(last, NULL), 1);
-	while ((*last)[i] != '\0')
+		return (h_updateline(ret, NULL, true), 1);
+	while (ret->line[i] != '\0')
 	{
-		retval[i] = (*last)[i];
+		retval[i] = ret->line[i];
 		i++;
 	}
 	h = 0;
@@ -50,7 +61,7 @@ int	h_appendbuffer(char **last, char *buffer)
 		h++;
 	}
 	retval[h + i] = '\0';
-	h_updateret(last, retval);
+	h_updateline(ret, retval, false);
 	return (total_len != 0 && retval[h + i - 1] == '\n');
 }
 
@@ -72,15 +83,4 @@ void	h_resetbuffer(char *buffer, int failed)
 	if (j == 0 || failed)
 		buffer[0] = '\0';
 	buffer[i - j] = '\0';
-}
-
-char	*h_updateret(char **last, char *updated)
-{
-	if (last != NULL && *last != NULL)
-	{
-		free(*last);
-		*last = updated;
-		return (*last);
-	}
-	return (NULL);
 }

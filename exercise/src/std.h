@@ -7,5 +7,6 @@
 # include <stdio.h>
 # include <math.h>
 # include <stdbool.h>
+# include <errno.h>
 
 #endif

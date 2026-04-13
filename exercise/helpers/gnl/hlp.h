@@ -3,8 +3,8 @@
 
 #include "gnl.h"
 
-int		h_appendbuffer(char **last, char *buffer);
+int		h_appendbuffer(t_gnl *gnl, char *buffer);
 void	h_resetbuffer(char *buffer, int failed);
+void	h_updateline(t_gnl *gnl, char *updated, bool failed);
 
-char	*h_updateret(char **last, char *updated);
 #endif
