@@ -6,7 +6,7 @@
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:00:40 by david             #+#    #+#             */
-/*   Updated: 2026/04/09 16:24:25 by david            ###   ########.fr       */
+/*   Updated: 2026/04/13 13:14:37 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <limits.h>
 # include <stdio.h>
 # include <stdbool.h>
+# include <errno.h>
 # include "../cub.h"
 
 typedef struct s_resorcers
