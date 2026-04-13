@@ -15,9 +15,11 @@ int	exit_clean(void)
 			mlx_destroy_image(r->mlx, r->frame_buff[i].img);
 		i++;
 	}
+	mlx_destroy_image(r->mlx, r->wall_frame.img);
+	mlx_destroy_image(r->mlx, r->door_frame.img);
 	if (render()->mlx != NULL)
 		mlx_destroy_display(render()->mlx);
-	free(render()->mlx);
+	free(r->mlx);
 	lib_free_arr((void **)map()->door_arr, free);
 	lib_free_arr((void **)map()->enemy_arr, free);
 	lib_split_clean(map()->layout);

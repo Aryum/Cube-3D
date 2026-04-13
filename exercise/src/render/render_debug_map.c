@@ -77,7 +77,7 @@ void	render_debug_map(t_player *p)
 	rad = add_rad(player()->rot_rad, -FOV / 2.0);
 	while (i < RAYCOUNT)
 	{
-		hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_wall));
+		hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_any));
 		if (hit.sucess)
 			draw_line(p->pos, hit.pos, 0xff0000);
 		rad = add_rad(rad, render()->ray_delta_angle);

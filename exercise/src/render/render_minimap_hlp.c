@@ -17,6 +17,8 @@ static int get_color(t_vct grid_pos)
 		return 0x0D4D6C;
 	if (c == '0')
 		return 0x4C6C0D;
+	if (c == 'D')
+		return (0xffffff);
 	else
 		return 0x4C6C0D;
 }

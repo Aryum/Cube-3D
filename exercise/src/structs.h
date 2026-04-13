@@ -1,6 +1,7 @@
 #ifndef STRUCTS_H
 # define STRUCTS_H
 
+# define GAMENAME "Cube"
 
 #define GRIDSIZE 64
 
@@ -10,9 +11,9 @@
 
 #define ROT_SPEED 5.0
 
-#define MOV_SPEED 25.0
+#define MOV_SPEED 75.0
 
-#define RAYCOUNT 1280
+#define RAYCOUNT 640
 
 #define WINDOW_X 1280
 #define WINDOW_Y 720
@@ -78,6 +79,7 @@ typedef struct s_rayhit
 	t_vct	pos;
 	t_dir	dir;
 	t_axis	axis;
+	char	c;
 	bool	sucess;
 }	t_rayhit;
 
@@ -127,7 +129,8 @@ typedef struct s_render
 	long		frame_count;
 	long		fps;
 	int			frame_cur;
-	t_frame		test_frame;
+	t_frame		wall_frame;
+	t_frame		door_frame;
 }	t_render;
 
 typedef struct s_quad
@@ -148,6 +151,7 @@ typedef struct s_enemy
 	t_vct	pos;
 
 }	t_enemy;
+
 typedef struct s_map
 {
 	t_vct	scale;

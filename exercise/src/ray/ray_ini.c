@@ -43,7 +43,7 @@ t_rayhit	ini_hit(t_ray *r, t_axis axis, float m, float b)
 		else
 			ret.dir = dir_south;
 	}
-	return (ret);
+	return (ret.c = get_map_char(r->cur_grid), ret);
 }
 
 t_rayhit	ini_miss()

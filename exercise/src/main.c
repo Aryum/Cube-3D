@@ -2,8 +2,9 @@
 
 int	main(int ac, char **av)
 {
-	parse(ac, av);
-	// ini_data();
-	// render_ini();
+	if (0)
+		parse(ac, av);
+	ini_data();
+	render_ini();
 
 }

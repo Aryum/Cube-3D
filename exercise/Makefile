@@ -53,7 +53,7 @@ COLOR_WHITE := \033[0m
 all: $(NAME)
 
 $(NAME): $(MLX_ARC) $(ALL_ARC) $(MAIN_C) 
-	@cc $(FLAGS) -o $@ -I$(HDR_DIR) $(MAIN_C) $(ALL_ARC) $(LINKS)
+	@cc $(FLAGS) -o $@ -I$(HDR_DIR) $(MAIN_C) $(ALL_ARC) $(MLX_ARC) $(LINKS)
 	@echo "$(COLOUR_GREEN)Made main file$(COLOR_WHITE)"
 
 $(ALL_ARC): FORCE
