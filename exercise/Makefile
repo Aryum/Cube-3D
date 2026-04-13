@@ -12,6 +12,8 @@ HLP_DIR :=	./helpers
 HLP_ARC :=	$(HLP_DIR)/lib/libft.a		\
 			$(HLP_DIR)/lists/lst.a		\
 			$(HLP_DIR)/print/prt.a		\
+			$(HLP_DIR)/gnl/gnl.a		\
+
 
 SRC_DIR :=	./src
 SRC_ARC :=	$(SRC_DIR)/render/render.a		\
