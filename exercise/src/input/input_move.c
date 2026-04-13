@@ -46,7 +46,8 @@ static void	update_pos(t_player *p, float rad)
 	grid = pos_to_grid(pos);
 	if (grid.x != p->grid.x || grid.y != p->grid.y)
 	{
-		map()->layout[(int)p->grid.y][(int)p->grid.x] = '0';
+		map()->layout[(int)p->grid.y][(int)p->grid.x] = p->last_tile;
+		p->last_tile = map()->layout[(int)grid.y][(int)grid.x];
 		map()->layout[(int)grid.y][(int)grid.x] = 'P';
 		p->grid = grid;
 	}

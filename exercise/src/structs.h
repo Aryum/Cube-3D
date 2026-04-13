@@ -92,6 +92,7 @@ typedef struct s_player
 	float	rot_rad;
 	float	tilt;
 	bool	is_moving;
+	char	last_tile;
 	t_vct mov_vct;
 }	t_player;
 

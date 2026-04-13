@@ -99,4 +99,5 @@ void	ini_data()
 	player()->rot_vct = ini_vct_pos(1,0);
 	player()->rot_rad = 0;
 	player()->tilt = 0;
+	player()->last_tile = '0';
 }
