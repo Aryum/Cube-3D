@@ -127,7 +127,7 @@ typedef struct s_render
 	long		frame_count;
 	long		fps;
 	int			frame_cur;
-	t_frame		test_img;
+	t_frame		test_frame;
 }	t_render;
 
 typedef struct s_quad
@@ -137,10 +137,22 @@ typedef struct s_quad
 
 }	t_quad;
 
+typedef struct s_door
+{
+	t_vct	pos;
+	bool	open;
+}	t_door;
 
+typedef struct s_enemy
+{
+	t_vct	pos;
+
+}	t_enemy;
 typedef struct s_map
 {
 	t_vct	scale;
+	t_door	**door_arr;
+	t_enemy	**enemy_arr;
 	char	**layout;
 	int		len_x;
 	int		len_y;

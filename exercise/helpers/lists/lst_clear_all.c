@@ -1,39 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_to_arr.c                                       :+:      :+:    :+:   */
+/*   lst_clear.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ricsanto <ricsanto@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/12 22:03:11 by ricsanto          #+#    #+#             */
-/*   Updated: 2026/04/13 11:58:50 by ricsanto         ###   ########.fr       */
+/*   Created: 2025/12/12 22:02:36 by ricsanto          #+#    #+#             */
+/*   Updated: 2026/04/13 11:40:24 by ricsanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lst.h"
 
-void	**lst_to_arr(t_list **lst)
+static void	clear(t_list **current, void (*del)(void*))
 {
-	t_list	*tmp;
-	void	**ret;
-	int		i;
-	int		size;
+	if ((**current).next != NULL)
+		clear(&((**current).next), del);
+	del((**current).content);
+	free (*current);
+}
 
-	if (lst == NULL || *lst == NULL)
-		return (NULL);
-	size = lst_size(*lst);
-	ret = malloc((size + 1) * sizeof(void *));
-	tmp = *lst;
-	if (ret == NULL)
-		return (NULL);
-	i = 0;
-	while (i < size)
+void	lst_clear_all(t_list **lst, void (*del)(void*))
+{
+	if (lst != NULL && *lst != NULL && del != NULL)
 	{
-		ret[i] = tmp->content;
-		tmp = tmp->next;
-		i++;
+		clear(lst, del);
+		*lst = NULL;
 	}
-	ret[size] = NULL;
-	lst_clear_nodes(lst);
-	return (ret);
 }

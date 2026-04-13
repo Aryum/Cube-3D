@@ -18,14 +18,14 @@ static void	put_image(t_render *r)
 static void	updatefps(t_render *rnd)
 {
 	time_t	cur;
-	long	a;
+	long	delta;
 
 	cur = get_time();
-	a = 500;
+	delta = 500;
 	rnd->total_frames++;
-	if (cur - rnd->last_time > a)
+	if (cur - rnd->last_time > delta)
 	{
-		rnd->fps = (rnd->frame_count) * (1000 / a);
+		rnd->fps = (rnd->frame_count) * (1000 / delta);
 		rnd->frame_count = 0;
 		rnd->last_time = cur;
 	}
@@ -44,7 +44,7 @@ int render_loop(void)
 	p = player();
 
 	//minimap
-	if (!true)
+	if (true)
 		render_debug_map(p);
 	else
 		render_cub();

@@ -6,7 +6,7 @@
 /*   By: ricsanto <ricsanto@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 22:02:58 by ricsanto          #+#    #+#             */
-/*   Updated: 2025/12/12 22:03:00 by ricsanto         ###   ########.fr       */
+/*   Updated: 2026/04/13 11:53:21 by ricsanto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_list	*lst_map(t_list *lst, void *(*f)(void *), void (*del)(void *))
 		if (cur_node == NULL)
 		{
 			del(cur_content);
-			lst_clear(&ret, del);
+			lst_clear_all(&ret, del);
 			break ;
 		}
 		lst_add_back(&ret, cur_node);

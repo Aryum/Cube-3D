@@ -18,6 +18,8 @@ int	exit_clean(void)
 	if (render()->mlx != NULL)
 		mlx_destroy_display(render()->mlx);
 	free(render()->mlx);
+	lib_free_arr((void **)map()->door_arr, free);
+	lib_free_arr((void **)map()->enemy_arr, free);
 	lib_split_clean(map()->layout);
 	if (r->start_time / 1000 != get_time() / 1000)
 		printf("Average framerate %ld\n", r->total_frames / (get_time() / 1000 - r->start_time / 1000));

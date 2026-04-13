@@ -1,8 +1,9 @@
 NAME := lst.a
 
-SRC := 	lst_new.c		lst_add_front.c	lst_size.c		lst_last.c	\
-		lst_add_back.c	lst_delone.c	lst_clear.c		lst_iter.c	\
-		lst_map.c		lst_get_node.c	lst_to_arr.c	lst_mod_node.c
+SRC := 	lst_new.c		lst_add_front.c	lst_size.c		lst_last.c			\
+		lst_add_back.c	lst_delone.c	lst_clear_all.c	lst_clear_nodes.c	\
+		lst_iter.c		lst_map.c		lst_get_node.c	lst_to_arr.c		\
+		lst_mod_node.c
 
 HDR_DIR := .
 

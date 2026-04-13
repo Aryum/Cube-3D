@@ -77,9 +77,9 @@ static void draw_wall(t_rayhit hit, int i)
 	//return;
 
 	if (hit.axis == X)
-		draw(center, sq_size, (int)hit.pos.y, &render()->test_img);
+		draw(center, sq_size, (int)hit.pos.y, &render()->test_frame);
 	else
-		draw(center, sq_size, (int)hit.pos.x, &render()->test_img);
+		draw(center, sq_size, (int)hit.pos.x, &render()->test_frame);
 }
 
 void render_cub(void)

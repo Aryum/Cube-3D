@@ -22,14 +22,13 @@ void	render_ini()
 	setup_settings(rnd);
 	if (!setup_mlx(rnd))
 		exit_error("Failed to setup mlx");
-	if(!ini_image(rnd, "test2.xpm", &rnd->test_img))
+	if(!ini_image(rnd, "test2.xpm", &rnd->test_frame))
 	{
-		printf("fuck\n");
 		exit_clean(NULL);
 
 		return;
 	}
 	mlx_loop(rnd->mlx);
-	mlx_destroy_image(rnd->mlx, rnd->test_img.img);
+	mlx_destroy_image(rnd->mlx, rnd->test_frame.img);
 	exit_clean(NULL);
 }
