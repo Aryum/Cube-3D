@@ -22,12 +22,32 @@ void	render_ini()
 	setup_settings(rnd);
 	if (!setup_mlx(rnd))
 		exit_error("Failed to setup mlx");
-	if(!ini_image(rnd, "test2.xpm", &rnd->wall_frame))
+	if(!ini_image(rnd, "NORTH.xpm", &rnd->wall_frame[dir_north]))
 	{
 		exit_clean(NULL);
 		return;
 	}
-	if(!ini_image(rnd, "test.xpm", &rnd->door_frame))
+	if(!ini_image(rnd, "SOUTH.xpm", &rnd->wall_frame[dir_south]))
+	{
+		exit_clean(NULL);
+		return;
+	}
+	if(!ini_image(rnd, "EAST.xpm", &rnd->wall_frame[dir_east]))
+	{
+		exit_clean(NULL);
+		return;
+	}
+	if(!ini_image(rnd, "WEST.xpm", &rnd->wall_frame[dir_west]))
+	{
+		exit_clean(NULL);
+		return;
+	}
+	if(!ini_image(rnd, "test.xpm", &rnd->door_frame[0]))
+	{
+		exit_clean(NULL);
+		return;
+	}
+		if(!ini_image(rnd, "test2.xpm", &rnd->door_frame[1]))
 	{
 		exit_clean(NULL);
 		return;

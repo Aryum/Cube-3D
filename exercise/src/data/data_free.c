@@ -15,8 +15,14 @@ int	exit_clean(void)
 			mlx_destroy_image(r->mlx, r->frame_buff[i].img);
 		i++;
 	}
-	mlx_destroy_image(r->mlx, r->wall_frame.img);
-	mlx_destroy_image(r->mlx, r->door_frame.img);
+	i = 0;
+	while (i < 4)
+	{
+		if (i < 2)
+			mlx_destroy_image(r->mlx, r->door_frame[i].img);
+		mlx_destroy_image(r->mlx, r->wall_frame[i].img);
+		i++;
+	}
 	if (render()->mlx != NULL)
 		mlx_destroy_display(render()->mlx);
 	free(r->mlx);

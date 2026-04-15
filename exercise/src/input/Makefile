@@ -4,6 +4,7 @@ SRC :=	input_call.c			\
 		input_setup.c			\
 		input_rotate.c			\
 		input_move.c			\
+		input_interact.c
 
 HDR_DIR := .
 

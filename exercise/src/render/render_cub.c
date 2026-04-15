@@ -45,12 +45,13 @@ static void	draw(t_vct center, t_vct size, int x, t_frame *texture)
 		pivot.y = (int)i[0].y * f->line_len;
 		while (i[0].x > i[1].x)
 		{
-			set_pixel_pos(i[0].x, i[0].y, get_color(x - 1, i, adjst, texture));
+			set_pixel_pos(i[0].x, i[0].y, get_color(x, i, adjst, texture));
 			i[0].x--;
 		}
 		i[0].y--;
 	}
 }
+
 
 static void draw_wall(t_rayhit hit, int i, float rad)
 {
@@ -58,7 +59,7 @@ static void draw_wall(t_rayhit hit, int i, float rad)
 	float	size_y;
 	t_vct	center;
 	t_vct	sq_size;
-
+	
 	dist = dist_vct(player()->pos, hit.pos) * cos(add_rad(rad, -player()->rot_rad));
 	size_y = (render()->fov_v_adjust * (float)GRIDSIZE) / dist;
 	center = ini_vct_pos(render()->ray_width / 2 + i * render()->ray_width, WINDOW_Y / 2);
@@ -74,9 +75,9 @@ static void draw_wall(t_rayhit hit, int i, float rad)
 	//return;
 	t_frame *f;
 	if (hit.c == '1')
-		f = &render()->wall_frame;
-	else
-		f = &render()->door_frame;
+		f = &render()->wall_frame[hit.dir];
+	else if (hit.c == 'D')
+		f = &render()->door_frame[door_get_state(hit.grid)];
 	if (hit.axis == X)
 		draw(center, sq_size, (int)hit.pos.y, f);
 	else

@@ -13,7 +13,7 @@
 
 #define MOV_SPEED 75.0
 
-#define RAYCOUNT 640
+#define RAYCOUNT 1280
 
 #define WINDOW_X 1280
 #define WINDOW_Y 720
@@ -36,6 +36,7 @@ typedef enum e_keys
 	key_a,
 	key_s,
 	key_d,
+	key_e,
 	key_esc,
 	key_left,
 	key_right,
@@ -77,6 +78,7 @@ typedef struct s_rayhit
 {
 	t_vct	ray;
 	t_vct	pos;
+	t_vct	grid;
 	t_dir	dir;
 	t_axis	axis;
 	char	c;
@@ -130,8 +132,8 @@ typedef struct s_render
 	long		frame_count;
 	long		fps;
 	int			frame_cur;
-	t_frame		wall_frame;
-	t_frame		door_frame;
+	t_frame		wall_frame[4];
+	t_frame		door_frame[2];
 }	t_render;
 
 typedef struct s_quad

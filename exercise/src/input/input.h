@@ -7,6 +7,7 @@
 int		key_press(int key);
 int		key_release(int key);
 bool	key_read(t_keys key);
+int		input_interact(void);
 
 //setuo
 void	setup_inputs();

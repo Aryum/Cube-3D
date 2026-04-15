@@ -15,6 +15,7 @@ char get_map_char(t_vct grid_pos)
 		return ('\0');
 	return (map()->layout[y][x]);
 }
+
 bool hit_wall(t_vct grid_pos)
 {
 	return (get_map_char(grid_pos) == '1');
@@ -25,4 +26,9 @@ bool hit_any(t_vct grid_pos)
 	char	c;
 	c = get_map_char(grid_pos);
 	return (c == '1' || c == 'D');
+}
+
+bool hit_door(t_vct grid_pos)
+{
+	return (get_map_char(grid_pos) == 'D');
 }

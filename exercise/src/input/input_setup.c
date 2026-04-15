@@ -24,6 +24,12 @@ void	setup_inputs()
 	setup_key(dt, key_a, 97, NULL);
 	setup_key(dt, key_s, 115, NULL);
 	setup_key(dt, key_d, 100, NULL);
+	
+	
+	
+	setup_key(dt, key_e, 101, input_interact); //raycast in front of player check for door and open or close it
+
+
 	setup_key(dt, key_left, 65363, NULL);
 	setup_key(dt, key_right, 65361, NULL);
 	setup_key(dt, key_up, 65362, NULL);

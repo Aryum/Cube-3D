@@ -46,20 +46,20 @@ static void	draw_dbg_map(void)
 	}
 }
 
-static void draw_raycast_quads(t_player *p, t_vct v, t_vct h)
+static void draw_raycast_quads(t_rayhit hit)
 {
-	t_quad	p_quad;
-	t_quad	v_quad;
-	t_quad	h_quad;
+	int color;
 
-	p_quad = ini_quad(pos_to_grid(p->pos));
-	v_quad = ini_quad(pos_to_grid(add_vct(p->pos, v)));
-	h_quad = ini_quad(pos_to_grid(add_vct(p->pos, h)));
-	draw_quad(p_quad, 0x00ff00ff);
-	if (v_quad.grid.y != p_quad.grid.y)
-		draw_quad(v_quad, 0x000000ff);
-	if ( h_quad.grid.x != p_quad.grid.x )
-		draw_quad(h_quad, 0x0000ffff);
+
+	if (hit.dir == dir_north)
+		color = 0x51A3A3; //blue 
+	else if (hit.dir == dir_south)
+		color = 0x75485E; //purple
+	else if (hit.dir == dir_east)
+		color = 0xCB904D; //orange
+	else
+		color = 0xC3E991; //greeen
+	draw_quad(ini_quad(hit.grid), color);
 }
 
 void	render_debug_map(t_player *p)
@@ -79,7 +79,11 @@ void	render_debug_map(t_player *p)
 	{
 		hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_any));
 		if (hit.sucess)
-			draw_line(p->pos, hit.pos, 0xff0000);
+		{
+			if (i == 0 || i + 1 == RAYCOUNT)
+				draw_line(p->pos, hit.pos, 0xff0000);
+			draw_raycast_quads(hit);
+		}
 		rad = add_rad(rad, render()->ray_delta_angle);
 		i++;
 	}
@@ -90,5 +94,4 @@ void	render_debug_map(t_player *p)
 	h = ini_vct_pos(p->mov_vct.x * MOV_SPEED,0);
 	draw_line(p->pos, add_vct(p->pos, v), 0x000000ff);
 	draw_line(p->pos, add_vct(p->pos, h ), 0x0000ffff);
-	draw_raycast_quads(p, v, h);
 }

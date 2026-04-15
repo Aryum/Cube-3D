@@ -11,7 +11,7 @@ static int	key_update(int code, bool status)
 		if (data()->input[i].code == code)
 		{
 			cur = &data()->input[i];
-			if (cur->func != NULL && !cur->status)
+			if (cur->func != NULL && status && !cur->status)
 				data()->input[i].func();
 			cur->status = status;
 			return (0);
