@@ -1,48 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_main.c                                     :+:      :+:    :+:   */
+/*   parse_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/24 14:50:35 by david             #+#    #+#             */
-/*   Updated: 2026/04/13 14:19:31 by david            ###   ########.fr       */
+/*   Updated: 2026/04/15 18:08:44 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
 
-bool get_line(t_list **list, int fd)
-{
-	char *line;
-	t_list *tmp;
-
-	*line = get_next_line(fd);
-	tmp = lst_new(line);
-	if (!tmp)
-		return(false);
-	lst_add_back(list, tmp);
-	return(true);
-}
-
-bool map_creator(t_main *main)
+bool file_to_list(t_main *main, char *map_name)
 { 
 	int fd;
-	char *line;
 	t_list *tmp;
 	t_list *list;
+	t_gnl gnl;
+
 
 	list = NULL;
-	fd = open("map.txt", O_RDONLY);
+	fd = open(map_name , O_RDONLY);
 	while(1)
 	{
-		if (!get_line(&list, fd))
+		gnl = get_next_line(fd);
+		if (gnl.failed)
 			return(false);
-		
+		if (!gnl.line)
+			break ;
+		tmp = lst_new(gnl.line);
+		if (!tmp)
+			return(false);
+		lst_add_back(&list, tmp);
 	}
-	lst_to_arr(&list);
+	main->resorcers.file = (char **)lst_to_arr(&list);
+	return(main->resorcers.file != NULL);
 }
+
 
 
 bool parse(int ac, char **av)
@@ -52,7 +48,7 @@ bool parse(int ac, char **av)
 	memset(&main, 0, sizeof(t_main));
     if (ac == 2)
     {
-        map_creator(&main);
+        file_to_list(&main, av[1]);
 		if (!map_chek(&main))
 			return(false);
 		return (true);

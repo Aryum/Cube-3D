@@ -1,8 +1,8 @@
 NAME := parsing.a
 
-SRC :=	parsing_main.c		\
-		cheker.c 			\
-		newtry.c			\
+SRC :=	parse_file.c		\
+		parse_map.c			\
+		parse_textures.c	\
 		
 HDR_DIR := .
 

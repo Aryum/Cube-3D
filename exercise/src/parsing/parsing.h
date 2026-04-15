@@ -6,7 +6,7 @@
 /*   By: david <david@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 16:00:40 by david             #+#    #+#             */
-/*   Updated: 2026/04/13 13:14:37 by david            ###   ########.fr       */
+/*   Updated: 2026/04/15 20:10:07 by david            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,28 @@ typedef struct s_resorcers
     void *sky;
     char **file;
     char **map;
-	bool flood_flag;
+	char **dir;
 	size_t y;
 	size_t x;
 	size_t lower_x;
 	size_t end_map;
 } t_resorcers;
 
+
+typedef struct s_flag
+{
+	bool double_map;
+	bool NO;
+	bool SO;
+	bool WE;
+	bool EA;
+	
+} t_flag;
+
 typedef struct s_main
 {
     t_resorcers resorcers;
-
+	t_flag flags;
     
 } t_main;
 
