@@ -19,7 +19,7 @@
 #define WINDOW_Y 720
 
 
-#define BONUS 1
+#define BONUS 0
 
 # define PI	3.14159
 # define PI_360 6.28318

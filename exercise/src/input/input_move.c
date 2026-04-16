@@ -20,9 +20,9 @@ static void wall_adjust(t_player *p, t_vct *mov)
 
 	v = ini_vct_pos(0, sign(mov->y) * PLAYERSIZE);
 	h = ini_vct_pos(sign(mov->x) * PLAYERSIZE, 0);
-	if (hit_wall(pos_to_grid(add_vct(p->pos, v))))
+	if (hit_move(pos_to_grid(add_vct(p->pos, v))))
 		mov->y = 0;
-	if (hit_wall(pos_to_grid(add_vct(p->pos, h))))
+	if (hit_move(pos_to_grid(add_vct(p->pos, h))))
 		mov->x = 0;
 }
 
@@ -34,13 +34,13 @@ static void	update_pos(t_player *p, float rad)
 	float	speed;
 
 	p->mov_vct = ini_vct_rad(rad);
-	speed = MOV_SPEED / render()->fps;
+	speed = MOV_SPEED / (float)render()->fps;
 	mov = scale_vct(p->mov_vct, speed);
 	if (BONUS)
 		wall_adjust(p, &mov);
 	pos = add_vct(p->pos, mov);
-	pos.x = clamp(pos.x, 0, map()->scale.x);
-	pos.y = clamp(pos.y, 0, map()->scale.y);
+	pos.x = clamp(pos.x, 0, map()->scale.x - 1);
+	pos.y = clamp(pos.y, 0, map()->scale.y - 1);
 	p->pos = pos;
 	p->grid_dist = grid_distance(pos);
 	grid = pos_to_grid(pos);

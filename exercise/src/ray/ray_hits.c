@@ -32,3 +32,17 @@ bool hit_door(t_vct grid_pos)
 {
 	return (get_map_char(grid_pos) == 'D');
 }
+
+bool hit_move(t_vct grid_pos)
+{
+	t_tile	*tile;
+
+	tile = tile_get(grid_pos);
+	if (tile == NULL)
+		return (false);
+	if (tile->val == '1' || tile->val == 'E')
+		return (true);
+	if (tile->val == 'D')
+		return (((t_door *)tile->content)->open);
+	return (false);
+}

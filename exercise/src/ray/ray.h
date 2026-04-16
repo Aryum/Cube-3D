@@ -19,6 +19,8 @@ bool	check_next_x(t_ray r);
 bool hit_wall(t_vct grid_pos);
 bool hit_any(t_vct grid_pos);
 bool hit_door(t_vct grid_pos);
+bool hit_move(t_vct grid_pos);
+
 char get_map_char(t_vct grid_pos);
 
 t_rayhit	raycast(t_ray ray);
