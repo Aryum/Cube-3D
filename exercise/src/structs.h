@@ -71,7 +71,10 @@ typedef struct s_ray
 	t_vct	axis_dir[2];
 	t_vct	cur_grid;
 	t_vct	tar;
-	bool	(*hit_cond)(t_vct);
+	bool	(*hit)(t_vct);
+	bool	(*fail)(t_vct);
+	float	m;
+	float	b;
 }	t_ray;
 
 typedef struct s_rayhit

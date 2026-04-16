@@ -77,7 +77,7 @@ void	render_debug_map(t_player *p)
 	rad = add_rad(player()->rot_rad, -FOV / 2.0);
 	while (i < RAYCOUNT)
 	{
-		hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_any));
+		hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_any, NULL));
 		if (hit.sucess)
 		{
 			if (i == 0 || i + 1 == RAYCOUNT)

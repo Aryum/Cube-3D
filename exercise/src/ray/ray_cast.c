@@ -1,9 +1,11 @@
 #include "ray.h"
 
-static bool	check_grid(t_ray *ray, t_axis axis)
+static bool	check_grid(t_ray *ray, t_axis axis, t_rayhit *hit)
 {
 	ray->cur_grid = add_vct(ray->cur_grid, ray->axis_dir[axis]);
-	if (ray->hit_cond(ray->cur_grid))
+	if (ray->hit(ray->cur_grid))
+		return (*hit = ini_hit(ray, axis), true);
+	if (ray->fail != NULL && ray->fail(ray->cur_grid))
 		return (true);
 	ray->tar = add_vct(ray->tar, scale_vct(ray->axis_dir[axis], GRIDSIZE));
 	return (false);
@@ -11,41 +13,42 @@ static bool	check_grid(t_ray *ray, t_axis axis)
 
 static t_rayhit	check_default(t_ray *r)
 {
-	float	m;
-	float	b;
+	t_rayhit ret;
 
-	m = r->rot.y / r->rot.x;
-	b = r->pos.y - r->pos.x * m;
+	ret = ini_miss();
 	while (1)
 	{
 		if (check_next_x(*r))
 		{
-			if (check_grid(r, X))
-				return (ini_hit(r, X, m, b));
+			if (check_grid(r, X, &ret))
+				break ;
 			if (reached_clamp(&r->tar.x, 0, map()->scale.x))
 				break ;
 		}
 		else
 		{
-			if (check_grid(r, Y))
-				return (ini_hit(r, Y, m, b));
+			if (check_grid(r, Y, &ret))
+				break;
 			if (reached_clamp(&r->tar.y, 0, map()->scale.y))
 				break ;
 		}
 	}
-	return (ini_miss());
+	return (ret);
 }
 
 static t_rayhit	check_v(t_ray *r)
 {
+	t_rayhit ret;
+
+	ret = ini_miss();
 	while (1)
 	{
-		if (check_grid(r, Y))
-			return (ini_hit(r, Y, 0, 0));
+		if (check_grid(r, Y, &ret))
+			return (ini_hit(r, Y));
 		if (reached_clamp(&r->tar.y, 0, map()->scale.y))
 			break ;
 	}
-	return (ini_miss());
+	return (ret);
 }
 
 t_rayhit	raycast(t_ray ray)

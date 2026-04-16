@@ -4,8 +4,8 @@
 #include "../cub.h"
 
 //ini
-t_rayhit	ini_hit(t_ray *r, t_axis axis, float m, float b);
-t_ray		ini_ray(t_vct start, t_vct rot, bool (*hit_cond)(t_vct));
+t_rayhit	ini_hit(t_ray *r, t_axis axis);
+t_ray		ini_ray(t_vct s, t_vct rot, bool (*hit)(t_vct), bool (*fail)(t_vct));
 t_rayhit	ini_miss(void);
 
 //hlp
