@@ -2,17 +2,11 @@
 
 t_door	*door_get(t_vct grid)
 {
-	t_door	**arr;
-	int		i;
+	t_tile	*tile;
 
-	i = 0;
-	arr = map()->door_arr;
-	while (arr[i] != NULL)
-	{
-		if (equal_vct(grid, arr[i]->pos))
-			return (arr[i]);
-		i++;
-	}
+	tile = tile_get(grid);
+	if (tile != NULL && tile->val == 'D')
+		return (tile->content);
 	return (NULL);
 }
 

@@ -1,13 +1,13 @@
 #include "hlp.h"
 
-static void draw(char **map, int x, int y)
+static void draw(t_tile **map, int x, int y)
 {
 	t_vct	limit;
 	t_vct	cur;
 	int		border;
 
 	border = 1;
-	if (map[y][x] == '1')
+	if (map[y][x].val == '1')
 	{
 		cur.x = x * GRIDSIZE + border;
 		cur.y = y * GRIDSIZE + border;

@@ -91,11 +91,10 @@ typedef struct s_player
 	t_vct	grid;
 	t_vct	grid_dist;
 	t_vct	rot_vct;
+	t_vct	mov_vct;
 	float	rot_rad;
 	float	tilt;
 	bool	is_moving;
-	char	last_tile;
-	t_vct mov_vct;
 }	t_player;
 
 
@@ -145,22 +144,25 @@ typedef struct s_quad
 
 typedef struct s_door
 {
-	t_vct	pos;
 	bool	open;
 }	t_door;
 
 typedef struct s_enemy
 {
-	t_vct	pos;
-
+	int	health;
 }	t_enemy;
+
+typedef struct s_tile
+{
+	void	*content;
+	char	val;
+	char	playable;
+}	t_tile;
 
 typedef struct s_map
 {
+	t_tile	**layout;
 	t_vct	scale;
-	t_door	**door_arr;
-	t_enemy	**enemy_arr;
-	char	**layout;
 	int		len_x;
 	int		len_y;
 

@@ -32,7 +32,7 @@ void	render_ini()
 		exit_clean(NULL);
 		return;
 	}
-	if(!ini_image(rnd, "EAST.xpm", &rnd->wall_frame[dir_east]))
+	if(!ini_image(rnd, "test2.xpm", &rnd->wall_frame[dir_east]))
 	{
 		exit_clean(NULL);
 		return;

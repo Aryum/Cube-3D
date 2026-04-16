@@ -13,7 +13,7 @@ char get_map_char(t_vct grid_pos)
 		return ('\0');
 	if (grid_pos.y < 0 || grid_pos.y >= map()->len_y)
 		return ('\0');
-	return (map()->layout[y][x]);
+	return (map()->layout[y][x].val);
 }
 
 bool hit_wall(t_vct grid_pos)

@@ -34,4 +34,8 @@ t_door	*door_get(t_vct grid);
 void	door_switch_state(t_vct grid);
 bool	door_get_state(t_vct grid);
 
+//tile
+char	tile_get_char(t_vct grid);
+t_tile	*tile_get(t_vct grid);
+
 #endif

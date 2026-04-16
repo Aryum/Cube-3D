@@ -1,5 +1,19 @@
 #include "data.h"
 
+void	free_tile(void *ptr)
+{
+	t_tile	*tile;
+	int		i;
+
+	tile = ptr;
+	i = 0;
+	while (i < map()->len_x)
+	{
+		free(tile[i].content);
+		i++;
+	}
+}
+
 int	exit_clean(void)
 {
 	t_render	*r;
@@ -26,9 +40,7 @@ int	exit_clean(void)
 	if (render()->mlx != NULL)
 		mlx_destroy_display(render()->mlx);
 	free(r->mlx);
-	lib_free_arr((void **)map()->door_arr, free);
-	lib_free_arr((void **)map()->enemy_arr, free);
-	lib_split_clean(map()->layout);
+	lib_free_arr((void **)map()->layout, free_tile);
 	if (r->start_time / 1000 != get_time() / 1000)
 		printf("Average framerate %ld\n", r->total_frames / (get_time() / 1000 - r->start_time / 1000));
 	exit(0);

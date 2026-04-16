@@ -5,7 +5,8 @@ SRC :=	math_hlp.c			\
 		time.c				\
 		vector_ini.c		\
 		vector_op.c			\
-		door_hlp.c
+		door_hlp.c			\
+		tile_hlp.c			\
 
 HDR_DIR := .
 

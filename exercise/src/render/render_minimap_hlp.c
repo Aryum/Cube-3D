@@ -12,7 +12,7 @@ static int get_color(t_vct grid_pos)
 		return 0x6C0D4C;
 	if (grid_pos.y < 0 || grid_pos.y >= map()->len_y)
 		return 0x6C0D4C;
-	c = map()->layout[y][x];
+	c = map()->layout[y][x].val;
 	if (c == '1')
 		return 0x0D4D6C;
 	if (c == '0')

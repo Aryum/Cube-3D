@@ -74,10 +74,14 @@ static void draw_wall(t_rayhit hit, int i, float rad)
 	//draw_square(center, sq_size, color[hit.dir]);
 	//return;
 	t_frame *f;
+
+	f = NULL;
 	if (hit.c == '1')
 		f = &render()->wall_frame[hit.dir];
 	else if (hit.c == 'D')
 		f = &render()->door_frame[door_get_state(hit.grid)];
+	if (f == NULL)
+		return ;
 	if (hit.axis == X)
 		draw(center, sq_size, (int)hit.pos.y, f);
 	else
