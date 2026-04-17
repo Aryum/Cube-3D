@@ -46,10 +46,9 @@ static void	draw_dbg_map(void)
 	}
 }
 
-static void draw_raycast_quads(t_rayhit hit)
+void draw_raycast_quads(t_rayhit hit)
 {
 	int color;
-
 
 	if (hit.dir == dir_north)
 		color = 0x51A3A3; //blue 
@@ -82,7 +81,21 @@ void	render_debug_map(t_player *p)
 		{
 			if (i == 0 || i + 1 == RAYCOUNT)
 				draw_line(p->pos, hit.pos, 0xff0000);
-			draw_raycast_quads(hit);
+			if (hit.c == 'D')
+			{
+				t_vct vct;
+
+				if (hit.dir == dir_north)
+					vct = ini_vct_pos(0, -1);
+				if (hit.dir == dir_south)
+					vct = ini_vct_pos(0, 1);
+				if (hit.dir == dir_east)
+					vct = ini_vct_pos(1, 0);
+				if (hit.dir == dir_west)
+					vct = ini_vct_pos(-1, 0);
+				hit.pos = add_vct(hit.pos, scale_vct(vct, GRIDSIZE / 2));
+				set_pixel_pos((int)hit.pos.x, (int)hit.pos.y, 0xff0000);
+			}
 		}
 		rad = add_rad(rad, render()->ray_delta_angle);
 		i++;

@@ -52,40 +52,87 @@ static void	draw(t_vct center, t_vct size, int x, t_frame *texture)
 	}
 }
 
-
-static void draw_wall(t_rayhit hit, int i, float rad)
+typedef	struct s_draw_info
 {
+	t_vct	center;
+	t_vct	sq_size;
+	float	dist;
+	float	size_y;
+}	t_draw_info;
+
+t_draw_info	ini_draw_info(t_rayhit *hit, int i, float rad)
+{
+	t_render	*r;
+	t_player	*p;
+	t_draw_info	ret;
+
+	r = render();
+	p = player();
+	ret.dist = dist_vct(p->pos, hit->pos) * cos(add_rad(rad, -p->rot_rad) );
+	ret.size_y = render()->fov_v_adjust / ret.dist;
+	ret.center = ini_vct_pos(r->ray_width / 2 + i * r->ray_width, WINDOW_Y / 2);
+	ret.center.y += sin(player()->tilt) * (float)(WINDOW_Y / 2);
+	ret.sq_size = ini_vct_pos(render()->ray_width, ret.size_y);
+	return (ret);
+}
+
+
+static void draw_door(t_rayhit *hit, int i, float rad)
+{
+	t_frame *f;
+
+	float	dist;
+	float	size_y;
+	t_vct	center;
+	t_vct	sq_size;
+
+	t_vct vct;
+	t_vct pos;
+
+	if (hit->dir == dir_north)
+		vct = ini_vct_pos(0, -1);
+	if (hit->dir == dir_south)
+		vct = ini_vct_pos(0, 1);
+	if (hit->dir == dir_east)
+		vct = ini_vct_pos(1, 0);
+	if (hit->dir == dir_west)
+		vct = ini_vct_pos(-1, 0);
+	pos = add_vct(hit->pos, scale_vct(vct, GRIDSIZE / 2));
+	float adjust = dist_vct(player()->pos, pos) * cos(add_rad(rad, -player()->rot_rad) );
+	dist = dist_vct(player()->pos, hit->pos) * cos(add_rad(rad, -player()->rot_rad) );
+	
+	size_y = render()->fov_v_adjust / dist;
+	float dif = render()->fov_v_adjust / adjust;
+	center = ini_vct_pos(render()->ray_width / 2 + i * render()->ray_width, WINDOW_Y / 2 + size_y - dif);
+	center.y += sin(player()->tilt) * (float)(WINDOW_Y / 2);
+	sq_size = ini_vct_pos(render()->ray_width, dif);
+	set_pixel_pos(center.x, center.y , 0xFF0000);
+	f = &render()->door_frame[door_get_state(hit->grid)];
+	if (hit->axis == X)
+		draw(center, sq_size, (int)hit->pos.y, f);
+	else
+		draw(center, sq_size, (int)hit->pos.x, f);
+}
+static void draw_wall(t_rayhit *hit, int i, float rad)
+{
+	t_frame *f;
+
 	float	dist;
 	float	size_y;
 	t_vct	center;
 	t_vct	sq_size;
 	
-	dist = dist_vct(player()->pos, hit.pos) * cos(add_rad(rad, -player()->rot_rad));
-	size_y = (render()->fov_v_adjust * (float)GRIDSIZE) / dist;
+	dist = dist_vct(player()->pos, hit->pos) * cos(add_rad(rad, -player()->rot_rad) );
+	size_y = render()->fov_v_adjust / dist;
 	center = ini_vct_pos(render()->ray_width / 2 + i * render()->ray_width, WINDOW_Y / 2);
 	center.y += sin(player()->tilt) * (float)(WINDOW_Y / 2);
 	sq_size = ini_vct_pos(render()->ray_width, size_y);
 
-	//int		color[4];
-	//color[dir_east] = 0x00ff0000;
-	//color[dir_west] = 0x000000ff;
-	//color[dir_north] = 0x00ff00ff;
-	//color[dir_south] = 0x0000ff00;
-	//draw_square(center, sq_size, color[hit.dir]);
-	//return;
-	t_frame *f;
-
-	f = NULL;
-	if (hit.c == '1')
-		f = &render()->wall_frame[hit.dir];
-	else if (hit.c == 'D')
-		f = &render()->door_frame[door_get_state(hit.grid)];
-	if (f == NULL)
-		return ;
-	if (hit.axis == X)
-		draw(center, sq_size, (int)hit.pos.y, f);
+	f = &render()->wall_frame[hit->dir];
+	if (hit->axis == X)
+		draw(center, sq_size, (int)hit->pos.y, f);
 	else
-		draw(center, sq_size, (int)hit.pos.x, f);
+		draw(center, sq_size, (int)hit->pos.x, f);
 }
 
 void render_cub(void)
@@ -100,20 +147,29 @@ void render_cub(void)
 	{
 		hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_wall, NULL));
 		if (hit.sucess)
-			draw_wall(hit, i, rad);
+			draw_wall(&hit, i, rad);
 		rad = add_rad(rad, render()->ray_delta_angle);
 		i++;
 	}
-	rad = add_rad(player()->rot_rad, -FOV / 2.0);
+
+
 	i = 0;
+	rad = add_rad(player()->rot_rad, -FOV / 2.0);
 	while (i < RAYCOUNT)
 	{
 		hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_door, hit_wall));
 		if (hit.sucess)
-			draw_wall(hit, i, rad);
+			draw_door(&hit, i, rad);
 		rad = add_rad(rad, render()->ray_delta_angle);
 		i++;
 	}
+
+
+
+
+	
+	rad = add_rad(player()->rot_rad, -FOV / 2.0);
+	
 
 	
 }

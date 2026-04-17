@@ -25,23 +25,7 @@ t_ray	ini_ray(t_vct s, t_vct rot, bool (*hit)(t_vct), bool (*fail)(t_vct))
 	return (ret);
 }
 
-static t_rayhit	ret_hit(t_ray *r, t_vct pos, t_axis axis, t_dir dir)
-{
-	t_rayhit	ret;
 
-	ret.sucess = true;
-	ret.axis = axis;
-	ret.dir = dir;
-	ret.pos = pos;
-	ret.ray = r->rot;
-	ret.grid = pos_to_grid(pos);
-	if (dir == dir_west)
-		ret.grid = add_vct(ret.grid, ini_vct_pos(-1, 0));
-	else if (dir == dir_north)
-		ret.grid = add_vct(ret.grid, ini_vct_pos(0, -1));
-	ret.c = get_map_char(ret.grid);
-	return (ret);
-}
 
 t_rayhit	ini_hit(t_ray *r, t_axis axis)
 {
@@ -69,7 +53,30 @@ t_rayhit	ini_hit(t_ray *r, t_axis axis)
 	}
 	return (ret_hit(r, pos, axis, dir));
 }
+t_rayhit	ini_hit_start(t_ray *r)
+{
+	t_vct	pos;
+	t_axis	axis;
+	t_dir	dir;
 
+	axis = get_hit_axis(r);
+	if (axis == X)
+	{
+		pos = ini_vct_pos(r->tar.x, ceil(r->tar.x * r->m + r->b));
+		dir = 2 + sign(r->axis_dir[X].x) < 0;
+	}
+	else
+	{
+		if (r->rot.x == 0)
+			pos = ini_vct_pos(r->pos.x, r->tar.y);
+		else
+		{
+			pos = ini_vct_pos(ceil((r->tar.y - r->b) / r->m), r->tar.y);
+			dir = sign(r->axis_dir[Y].y) > 0;
+		}
+	}
+	return (ret_hit_start(r, pos, axis, dir));
+}
 t_rayhit	ini_miss()
 {
 	t_rayhit	ret;

@@ -12,6 +12,7 @@ void	free_tile(void *ptr)
 		free(tile[i].content);
 		i++;
 	}
+	free(ptr);
 }
 
 int	exit_clean(void)

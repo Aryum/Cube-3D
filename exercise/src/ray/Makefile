@@ -3,7 +3,8 @@ NAME := ray.a
 SRC :=	ray_cast.c			\
 		ray_hlp.c			\
 		ray_hits.c			\
-		ray_ini.c
+		ray_ini.c			\
+		ray_ini_hlp.c		\
 
 HDR_DIR := .
 
