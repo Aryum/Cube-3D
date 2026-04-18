@@ -69,7 +69,7 @@ t_draw_info	ini_draw_info(t_rayhit *hit, int i, float rad)
 	r = render();
 	p = player();
 	ret.dist = dist_vct(p->pos, hit->pos) * cos(add_rad(rad, -p->rot_rad) );
-	ret.size_y = render()->fov_v_adjust / ret.dist;
+	ret.size_y = render()->fov_adj.y / ret.dist;
 	ret.center = ini_vct_pos(r->ray_width / 2 + i * r->ray_width, WINDOW_Y / 2);
 	ret.center.y += sin(player()->tilt) * (float)(WINDOW_Y / 2);
 	ret.sq_size = ini_vct_pos(render()->ray_width, ret.size_y);
@@ -99,7 +99,7 @@ void draw_door(t_rayhit *hit, int i, float rad)
 		vct = ini_vct_pos(-1, 0);
 	pos = add_vct(hit->pos, scale_vct(vct, GRIDSIZE / 2));
 	dist = dist_vct(player()->pos, pos) * cos(add_rad(rad, -player()->rot_rad) );
-	size_y = render()->fov_v_adjust / dist;
+	size_y = render()->fov_adj.y / dist;
 	center = ini_vct_pos(render()->ray_width / 2 + i * render()->ray_width, WINDOW_Y / 2);
 	center.y += sin(player()->tilt) * (float)(WINDOW_Y / 2);
 	sq_size = ini_vct_pos(render()->ray_width, size_y);
@@ -119,8 +119,8 @@ static void draw_wall(t_rayhit *hit, int i, float rad)
 	t_vct	center;
 	t_vct	sq_size;
 	
-	dist = dist_vct(player()->pos, hit->pos) * cos(add_rad(rad, -player()->rot_rad) );
-	size_y = render()->fov_v_adjust / dist;
+	dist = dist_vct(player()->pos, hit->pos) * cos(add_rad(rad, -player()->rot_rad));
+	size_y = (render()->fov_adj.y * (float)GRIDSIZE) / dist;
 	center = ini_vct_pos(render()->ray_width / 2 + i * render()->ray_width, WINDOW_Y / 2);
 	center.y += sin(player()->tilt) * (float)(WINDOW_Y / 2);
 	sq_size = ini_vct_pos(render()->ray_width, size_y);
@@ -137,15 +137,18 @@ void render_cub(void)
 	t_rayhit	hit;
 	float		rad;
 	int			i;
+	float		cast_pos;
 	
 	i = 0;
-	rad = add_rad(player()->rot_rad, -FOV / 2.0);
+	//rad = add_rad(player()->rot_rad, -FOV / 2.0);
 	while (i < RAYCOUNT)
 	{
+		cast_pos = 2.0 * i / RAYCOUNT - 1.0;
+		rad = player()->rot_rad + atan(cast_pos * render()->fov_adj.x);
 		hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_wall, NULL));
 		if (hit.sucess)
 			draw_wall(&hit, i, rad);
-		rad = add_rad(rad, render()->ray_delta_angle);
+		//rad = add_rad(rad, render()->ray_delta_angle);
 		i++;
 	}
 

@@ -13,7 +13,7 @@
 
 #define MOV_SPEED 75.0
 
-#define RAYCOUNT 1280
+#define RAYCOUNT 640
 
 #define WINDOW_X 1280
 #define WINDOW_Y 720
@@ -122,8 +122,8 @@ typedef	struct s_minimap
 typedef struct s_render
 {
 	t_frame		frame_buff[FRAMEBUFF];
+	t_vct		fov_adj;
 	t_minimap	minimap;
-	float		fov_v_adjust;
 	float		ray_width;
 	float		ray_delta_angle;
 	void		*window;
