@@ -32,6 +32,7 @@ t_rayhit	ret_hit_start(t_ray *r, t_vct pos, t_axis axis, t_dir dir)
 	ret.c = get_map_char(ret.grid);
 	return (ret);
 }
+
 t_axis	get_hit_axis(t_ray *r)
 {
 	float x;
@@ -41,3 +42,4 @@ t_axis	get_hit_axis(t_ray *r)
 	y = f_abs((r->tar.y - r->pos.y) / r->rot.y);
 	return (x > y);
 }
+

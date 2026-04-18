@@ -79,8 +79,7 @@ void	render_debug_map(t_player *p)
 		hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_any, NULL));
 		if (hit.sucess)
 		{
-			if (i == 0 || i + 1 == RAYCOUNT)
-				draw_line(p->pos, hit.pos, 0xff0000);
+			draw_line(p->pos, hit.pos, 0xff0000);
 			if (hit.c == 'D')
 			{
 				t_vct vct;

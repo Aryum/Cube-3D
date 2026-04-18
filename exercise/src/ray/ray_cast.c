@@ -53,6 +53,10 @@ static t_rayhit	check_v(t_ray *r)
 
 t_rayhit	raycast(t_ray ray)
 {
+	if (ray.hit(ray.cur_grid))
+		return (ini_hit_start(&ray));
+	if (ray.fail != NULL && ray.fail(ray.cur_grid))
+		return (ini_miss());
 	if (ray.rot.x != 0)
 		return (check_default(&ray));
 	else

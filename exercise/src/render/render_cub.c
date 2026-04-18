@@ -77,7 +77,7 @@ t_draw_info	ini_draw_info(t_rayhit *hit, int i, float rad)
 }
 
 
-static void draw_door(t_rayhit *hit, int i, float rad)
+void draw_door(t_rayhit *hit, int i, float rad)
 {
 	t_frame *f;
 
@@ -98,14 +98,11 @@ static void draw_door(t_rayhit *hit, int i, float rad)
 	if (hit->dir == dir_west)
 		vct = ini_vct_pos(-1, 0);
 	pos = add_vct(hit->pos, scale_vct(vct, GRIDSIZE / 2));
-	float adjust = dist_vct(player()->pos, pos) * cos(add_rad(rad, -player()->rot_rad) );
-	dist = dist_vct(player()->pos, hit->pos) * cos(add_rad(rad, -player()->rot_rad) );
-	
+	dist = dist_vct(player()->pos, pos) * cos(add_rad(rad, -player()->rot_rad) );
 	size_y = render()->fov_v_adjust / dist;
-	float dif = render()->fov_v_adjust / adjust;
-	center = ini_vct_pos(render()->ray_width / 2 + i * render()->ray_width, WINDOW_Y / 2 + size_y - dif);
+	center = ini_vct_pos(render()->ray_width / 2 + i * render()->ray_width, WINDOW_Y / 2);
 	center.y += sin(player()->tilt) * (float)(WINDOW_Y / 2);
-	sq_size = ini_vct_pos(render()->ray_width, dif);
+	sq_size = ini_vct_pos(render()->ray_width, size_y);
 	set_pixel_pos(center.x, center.y , 0xFF0000);
 	f = &render()->door_frame[door_get_state(hit->grid)];
 	if (hit->axis == X)
@@ -152,7 +149,7 @@ void render_cub(void)
 		i++;
 	}
 
-
+	/*
 	i = 0;
 	rad = add_rad(player()->rot_rad, -FOV / 2.0);
 	while (i < RAYCOUNT)
@@ -163,13 +160,5 @@ void render_cub(void)
 		rad = add_rad(rad, render()->ray_delta_angle);
 		i++;
 	}
-
-
-
-
-	
-	rad = add_rad(player()->rot_rad, -FOV / 2.0);
-	
-
-	
+	*/
 }
