@@ -18,7 +18,6 @@ void setup_settings(t_render *rnd)
 {
 	rnd->last_time = get_time();
 	rnd->start_time = rnd->last_time;
-	rnd->frame_count = 0;
 	rnd->fov_adj.x = tan(FOV /2);
 	rnd->fov_adj.y = (float)(WINDOW_X / 2) / tan(FOV / 2);
 	rnd->ray_delta_angle = FOV / (float)(RAYCOUNT - 1);

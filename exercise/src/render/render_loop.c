@@ -18,19 +18,15 @@ static void	put_image(t_render *r)
 static void	updatefps(t_render *rnd)
 {
 	time_t	cur;
-	long	delta;
+	float	delta;
 
 	cur = get_time();
-	delta = 500;
 	rnd->total_frames++;
-	if (cur - rnd->last_time > delta)
-	{
-		rnd->fps = (rnd->frame_count) * (1000 / delta);
-		rnd->frame_count = 0;
-		rnd->last_time = cur;
-	}
-	else
-		rnd->frame_count++;
+	delta = cur - rnd->last_time;
+	rnd->fps = 1000 / delta;
+	rnd->last_time = cur;
+	if (cur % 50 == 0)
+		rnd->fps_display = rnd->fps;
 }
 
 

@@ -131,8 +131,8 @@ typedef struct s_render
 	time_t		last_time;
 	time_t		start_time;
 	long		total_frames;
-	long		frame_count;
 	long		fps;
+	long		fps_display;
 	int			frame_cur;
 	t_frame		wall_frame[4];
 	t_frame		door_frame[2];

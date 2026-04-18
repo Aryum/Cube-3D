@@ -4,7 +4,7 @@ static void	fps(t_render *rnd)
 {
 	char	*fps;
 
-	fps = lib_itoa(rnd->fps);
+	fps = lib_itoa(rnd->fps_display);
 	if (fps != NULL)
 		mlx_string_put(rnd->mlx, rnd->window, 25, 25, 0x00ff0000, fps);
 	free(fps);

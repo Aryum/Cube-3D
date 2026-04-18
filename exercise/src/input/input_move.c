@@ -34,7 +34,7 @@ static void	update_pos(t_player *p, float rad)
 	float	speed;
 
 	p->mov_vct = ini_vct_rad(rad);
-	speed = MOV_SPEED / (float)render()->fps;
+	speed = MOV_SPEED / render()->fps;
 	mov = scale_vct(p->mov_vct, speed);
 	if (BONUS)
 		wall_adjust(p, &mov);
