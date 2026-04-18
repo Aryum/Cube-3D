@@ -18,13 +18,15 @@ float	add_rad(float rad, float delta);
 float	sign(float a);
 
 //	Vector
-
+t_vct	ini_vct_pos(float x, float y);
 t_vct	ini_vct_rad(float rad);
+t_vct	ini_vct_vct(t_vct a, t_vct b);
+
 t_vct	scale_vct(t_vct a, float factor);
 t_vct	add_vct(t_vct a, t_vct b);
-t_vct	ini_vct_pos(float x, float y);
 float	dist_vct(t_vct a, t_vct b);
 bool	equal_vct(t_vct a, t_vct b);
+float	angle_vct(t_vct vct);
 
 //	Time
 long	get_time(void);

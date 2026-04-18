@@ -13,7 +13,7 @@
 
 #define MOV_SPEED 75.0
 
-#define RAYCOUNT 640
+#define RAYCOUNT 1280
 
 #define WINDOW_X 1280
 #define WINDOW_Y 720
@@ -185,6 +185,7 @@ typedef struct s_data
 	t_render	render;
 	t_map		map;
 	t_input		input[KEYCOUNT];
+	bool		debug_2d;
 }	t_data;
 
 #endif

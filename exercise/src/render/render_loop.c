@@ -40,7 +40,7 @@ int render_loop(void)
 	p = player();
 
 	//minimap
-	if (!true)
+	if (data()->debug_2d)
 		render_debug_map(p);
 	else
 		render_cub();

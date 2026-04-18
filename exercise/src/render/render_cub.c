@@ -86,20 +86,9 @@ void draw_door(t_rayhit *hit, int i, float rad)
 	t_vct	center;
 	t_vct	sq_size;
 
-	t_vct vct;
-	t_vct pos;
-
-	if (hit->dir == dir_north)
-		vct = ini_vct_pos(0, -1);
-	if (hit->dir == dir_south)
-		vct = ini_vct_pos(0, 1);
-	if (hit->dir == dir_east)
-		vct = ini_vct_pos(1, 0);
-	if (hit->dir == dir_west)
-		vct = ini_vct_pos(-1, 0);
-	pos = add_vct(hit->pos, scale_vct(vct, GRIDSIZE / 2));
-	dist = dist_vct(player()->pos, pos) * cos(add_rad(rad, -player()->rot_rad) );
-	size_y = render()->fov_adj.y / dist;
+	
+	dist = dist_vct(player()->pos, hit->pos) * cos(add_rad(rad, -player()->rot_rad));
+	size_y = (render()->fov_adj.y * (float)GRIDSIZE) / dist;
 	center = ini_vct_pos(render()->ray_width / 2 + i * render()->ray_width, WINDOW_Y / 2);
 	center.y += sin(player()->tilt) * (float)(WINDOW_Y / 2);
 	sq_size = ini_vct_pos(render()->ray_width, size_y);
@@ -140,7 +129,6 @@ void render_cub(void)
 	float		cast_pos;
 	
 	i = 0;
-	//rad = add_rad(player()->rot_rad, -FOV / 2.0);
 	while (i < RAYCOUNT)
 	{
 		cast_pos = 2.0 * i / RAYCOUNT - 1.0;
@@ -152,16 +140,30 @@ void render_cub(void)
 		i++;
 	}
 
-	/*
 	i = 0;
-	rad = add_rad(player()->rot_rad, -FOV / 2.0);
 	while (i < RAYCOUNT)
 	{
+		cast_pos = 2.0 * i / RAYCOUNT - 1.0;
+		rad = player()->rot_rad + atan(cast_pos * render()->fov_adj.x);
 		hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_door, hit_wall));
 		if (hit.sucess)
-			draw_door(&hit, i, rad);
-		rad = add_rad(rad, render()->ray_delta_angle);
+		{
+			t_vct vct;
+
+			if (hit.dir == dir_north)
+				vct = ini_vct_pos(0, -1);
+			if (hit.dir == dir_south)
+				vct = ini_vct_pos(0, 1);
+			if (hit.dir == dir_east)
+				vct = ini_vct_pos(1, 0);
+			if (hit.dir == dir_west)
+				vct = ini_vct_pos(-1, 0);
+			vct = add_vct(hit.pos, vct);
+			float angle = angle_vct(ini_vct_vct(player()->pos, vct));
+			hit = raycast(ini_ray(player()->pos, ini_vct_rad(angle), hit_door, hit_wall));
+			if (hit.sucess)
+				draw_door(&hit,i, angle);
+		}
 		i++;
 	}
-	*/
 }

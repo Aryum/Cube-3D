@@ -71,32 +71,43 @@ void	render_debug_map(t_player *p)
 	t_rayhit	hit;
 	float		rad;
 	int			i;
+	float		cast_pos;
+
 
 	i = 0;
-	rad = add_rad(player()->rot_rad, -FOV / 2.0);
+	rad = player()->rot_rad + atan(-1 * render()->fov_adj.x);
+	hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_wall, NULL));
+	if (hit.sucess)
+		draw_line(p->pos, hit.pos, 0x0000ff);
+	rad = player()->rot_rad + atan(1 * render()->fov_adj.x);
+	hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_wall, NULL));
+	if (hit.sucess)
+		draw_line(p->pos, hit.pos, 0x0000ff);
+
 	while (i < RAYCOUNT)
 	{
-		hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_any, NULL));
+		cast_pos = 2.0 * i / RAYCOUNT - 1.0;
+		rad = player()->rot_rad + atan(cast_pos * render()->fov_adj.x);
+		hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_door, hit_wall));
 		if (hit.sucess)
 		{
-			draw_line(p->pos, hit.pos, 0xff0000);
-			if (hit.c == 'D')
-			{
-				t_vct vct;
+			t_vct vct;
 
-				if (hit.dir == dir_north)
-					vct = ini_vct_pos(0, -1);
-				if (hit.dir == dir_south)
-					vct = ini_vct_pos(0, 1);
-				if (hit.dir == dir_east)
-					vct = ini_vct_pos(1, 0);
-				if (hit.dir == dir_west)
-					vct = ini_vct_pos(-1, 0);
-				hit.pos = add_vct(hit.pos, scale_vct(vct, GRIDSIZE / 2));
-				set_pixel_pos((int)hit.pos.x, (int)hit.pos.y, 0xff0000);
-			}
+			if (hit.dir == dir_north)
+				vct = ini_vct_pos(0, -1);
+			if (hit.dir == dir_south)
+				vct = ini_vct_pos(0, 1);
+			if (hit.dir == dir_east)
+				vct = ini_vct_pos(1, 0);
+			if (hit.dir == dir_west)
+				vct = ini_vct_pos(-1, 0);
+			vct = scale_vct(vct, GRIDSIZE / 2);
+			t_vct	pos = add_vct(hit.pos, vct);
+			float angle = angle_vct(ini_vct_vct(player()->pos, pos));
+			t_rayhit a = raycast(ini_ray(player()->pos, ini_vct_rad(angle), hit_door, hit_wall));
+			if (a.sucess)
+				draw_line(p->pos, add_vct(hit.pos, vct)  , 0xff0000);
 		}
-		rad = add_rad(rad, render()->ray_delta_angle);
 		i++;
 	}
 

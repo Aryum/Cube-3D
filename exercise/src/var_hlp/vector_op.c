@@ -32,3 +32,8 @@ bool	equal_vct(t_vct a, t_vct b)
 {
 	return (a.x == b.x && a.y == b.y);
 }
+
+float	angle_vct(t_vct vct)
+{
+	return (atan(vct.y / vct.x));
+}
