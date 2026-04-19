@@ -24,8 +24,11 @@ t_vct	ini_vct_rad(float rad)
 
 t_vct	ini_vct_dir(t_dir dir)
 {
-	if (dir <= dir_south)
-		return (ini_vct_pos(0, 1 * -1 * (dir == dir_north)));
-	else
-		return (ini_vct_pos(1 * -1 * (dir == dir_east), 0));
+	if (dir == dir_north)
+		return ini_vct_pos(0, -1);
+	if (dir == dir_south)
+		return ini_vct_pos(0, 1);
+	if (dir == dir_east)
+		return (ini_vct_pos(1, 0));
+	return ini_vct_pos(-1, 0);
 }

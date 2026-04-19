@@ -5,7 +5,7 @@ static bool	check_grid(t_ray *ray, t_axis axis, t_rayhit *hit)
 	ray->cur_axis = axis;
 	ray->cur_grid = add_vct(ray->cur_grid, ray->axis_dir[axis]);
 	if (ray->hit(ray))
-		return (*hit = ini_hit(ray, axis), true);
+		return (*hit = ini_hit(ray), true);
 	if (ray->fail != NULL && ray->fail(ray))
 		return (true);
 	ray->tar = add_vct(ray->tar, scale_vct(ray->axis_dir[axis], GRIDSIZE));
@@ -45,7 +45,7 @@ static t_rayhit	check_v(t_ray *r)
 	while (1)
 	{
 		if (check_grid(r, Y, &ret))
-			return (ini_hit(r, Y));
+			return (ini_hit(r));
 		if (reached_clamp(&r->tar.y, 0, map()->scale.y))
 			break ;
 	}
@@ -54,6 +54,7 @@ static t_rayhit	check_v(t_ray *r)
 
 t_rayhit	raycast(t_ray ray)
 {
+	ray.cur_axis = get_hit_axis(&ray);
 	if (ray.hit(&ray))
 		return (ini_hit_start(&ray));
 	if (ray.fail != NULL && ray.fail(&ray))

@@ -27,12 +27,12 @@ t_ray	ini_ray(t_vct s, t_vct rot, bool (*hit)(t_ray *), bool (*fail)(t_ray *))
 
 
 
-t_rayhit	ini_hit(t_ray *r, t_axis axis)
+t_rayhit	ini_hit(t_ray *r)
 {
 	t_vct		pos;
 	t_dir		dir;
 	
-	if (axis == X)
+	if (r->cur_axis == X)
 	{
 		pos = ini_vct_pos(r->tar.x, ceil(r->tar.x * r->m + r->b));
 		dir = 2 + (sign(r->axis_dir[X].x) < 0);
@@ -45,16 +45,14 @@ t_rayhit	ini_hit(t_ray *r, t_axis axis)
 			pos = ini_vct_pos(ceil((r->tar.y - r->b) / r->m), r->tar.y);
 		dir = sign(r->axis_dir[Y].y) > 0;
 	}
-	return (ret_hit(r, pos, axis, dir));
+	return (ret_hit(r, pos, dir));
 }
 t_rayhit	ini_hit_start(t_ray *r)
 {
 	t_vct	pos;
-	t_axis	axis;
 	t_dir	dir;
 
-	axis = get_hit_axis(r);
-	if (axis == X)
+	if (r->cur_axis == X)
 	{
 		pos = ini_vct_pos(r->tar.x, ceil(r->tar.x * r->m + r->b));
 		dir = 2 + (sign(r->axis_dir[X].x) < 0);
@@ -69,7 +67,7 @@ t_rayhit	ini_hit_start(t_ray *r)
 			dir = sign(r->axis_dir[Y].y) > 0;
 		}
 	}
-	return (ret_hit_start(r, pos, axis, dir));
+	return (ret_hit_start(r, pos, dir));
 }
 
 t_rayhit	ini_miss()

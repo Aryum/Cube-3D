@@ -61,6 +61,7 @@ void draw_raycast_quads(t_rayhit hit)
 	draw_quad(ini_quad(hit.grid), color);
 }
 
+
 void	render_debug_map(t_player *p)
 {
 	t_vct	v;
@@ -83,10 +84,11 @@ void	render_debug_map(t_player *p)
 		hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_wall, NULL));
 		if (hit.sucess)
 			draw_line(p->pos, hit.pos, 0xff0000);
-		i++;
+		i+= RAYCOUNT - 1;
 	}
 
 	i = 0;
+	/*
 	while (i < RAYCOUNT)
 	{
 		cast_pos = 2.0 * i / RAYCOUNT - 1.0;
@@ -115,6 +117,25 @@ void	render_debug_map(t_player *p)
 				draw_line(p->pos,  pos, 0x00ff00);
 
 		}
+		i++;
+	}
+	*/
+
+	i = 0;
+	while (i < RAYCOUNT)
+	{
+		cast_pos = 2.0 * i / RAYCOUNT - 1.0;
+		rad = player()->rot_rad + atan(cast_pos * render()->fov_adj.x);
+		hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_door, hit_wall));
+		if (hit.sucess)
+		{
+			t_vct	pos;
+			pos = add_vct(hit.grid, ini_vct_dir(hit.dir) );
+			if (hit.axis != Y)
+				printf("bruh\n");
+			draw_quad(ini_quad(pos),0x00ff00);
+		}
+		//draw_line(p->pos, hit.pos, 0xff0000);
 		i++;
 	}
 

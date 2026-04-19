@@ -1,11 +1,11 @@
 #include "ray.h"
 
-t_rayhit	ret_hit(t_ray *r, t_vct pos, t_axis axis, t_dir dir)
+t_rayhit	ret_hit(t_ray *r, t_vct pos, t_dir dir)
 {
 	t_rayhit	ret;
 
 	ret.sucess = true;
-	ret.axis = axis;
+	ret.axis = r->cur_axis;
 	ret.dir = dir;
 	ret.pos = pos;
 	ret.ray = r->rot;
@@ -19,12 +19,12 @@ t_rayhit	ret_hit(t_ray *r, t_vct pos, t_axis axis, t_dir dir)
 }
 
 
-t_rayhit	ret_hit_start(t_ray *r, t_vct pos, t_axis axis, t_dir dir)
+t_rayhit	ret_hit_start(t_ray *r, t_vct pos, t_dir dir)
 {
 	t_rayhit	ret;
 
 	ret.sucess = true;
-	ret.axis = axis;
+	ret.axis = r->cur_axis;
 	ret.dir = dir;
 	ret.pos = pos;
 	ret.ray = r->rot;
