@@ -1,5 +1,7 @@
 #ifndef STRUCTS_H
+
 # define STRUCTS_H
+
 
 # define GAMENAME "Cube"
 
@@ -64,29 +66,41 @@ typedef struct s_vct
 	float y;
 }	t_vct;
 
+typedef struct s_recurse
+{
+	t_vct	last_grid;
+	t_vct	pos;
+	t_vct	rad;
+	float	cos_adjust;
+	int		i;
+	bool	first;
+}	t_recuse;
+
 typedef struct s_ray
 {
-	t_vct	pos;
-	t_vct	rot;
-	t_vct	axis_dir[2];
-	t_vct	cur_grid;
-	t_vct	tar;
-	t_axis	cur_axis;
-	bool	(*hit)(struct s_ray *);
-	bool	(*fail)(struct s_ray *);
-	float	m;
-	float	b;
+	t_vct		pos;
+	t_vct		rot;
+	t_vct		axis_dir[2];
+	t_vct		cur_grid;
+	t_vct		tar;
+	t_vct		skip_grid;
+	t_axis		cur_axis;
+	bool		(*hit)(struct s_ray *);
+	bool		(*fail)(struct s_ray *);
+	float		m;
+	float		b;
 }	t_ray;
 
 typedef struct s_rayhit
 {
-	t_vct	ray;
-	t_vct	pos;
-	t_vct	grid;
-	t_dir	dir;
-	t_axis	axis;
-	char	c;
-	bool	sucess;
+	t_vct		ray;
+	t_vct		pos;
+	t_vct		grid;
+	t_dir		dir;
+	t_axis		axis;
+	char		c;
+	bool		sucess;
+
 }	t_rayhit;
 
 typedef struct s_player

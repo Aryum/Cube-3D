@@ -17,7 +17,12 @@ char get_map_char(t_vct grid_pos)
 
 bool hit_wall(t_ray *r)
 {
-	return (get_map_char(r->cur_grid) == '1');
+	char c = get_map_char(r->cur_grid);
+	if (c == '1')
+		return (true);
+	if (c == 'D' && !door_get_state(r->cur_grid))
+		return (true);
+	return (false);
 }
 
 bool hit_any(t_ray *r)

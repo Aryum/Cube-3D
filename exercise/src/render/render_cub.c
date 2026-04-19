@@ -85,29 +85,61 @@ t_draw_info	ini_draw_info(t_rayhit *hit, int i, float cos_adj, t_frame *f)
 }
 
 
-void draw_door(t_rayhit *hit, int i, float cos_adj, bool force)
+void draw_door(t_rayhit *hit, int i, float cos_adj)
 {
 	t_draw_info	info;
-	bool		open;
-	if (!force)
-	{
-		open = door_get_state(hit->grid);
-		if (get_map_char(add_vct(hit->grid, ini_vct_dir(hit->dir))) == '1')
-			return ;
-	}
-	else
-		open = true;
-	info = ini_draw_info(hit, i, cos_adj, &render()->door_frame[open]);
+
+	info = ini_draw_info(hit, i, cos_adj, &render()->door_frame[true]);
 	draw(&info);
 }
 static void draw_wall(t_rayhit *hit, int i, float cos_adj)
 {
+	t_frame *f;
 	t_draw_info info;
 
-	info = ini_draw_info(hit, i, cos_adj, &render()->wall_frame[hit->dir]);
+
+	if (hit->c == 'D')
+		f = &render()->door_frame[0];
+	else
+		f = &render()->wall_frame[hit->dir];
+	info = ini_draw_info(hit, i, cos_adj, f);
 	draw(&info);
 }
 
+
+
+t_recuse	guh(t_vct pos, t_vct rad, int i, float cos_adjust)
+{
+	t_recuse	ret;
+
+	ret.pos = pos;
+	ret.rad = rad;
+	ret.i = i;
+	ret.cos_adjust = cos_adjust;
+	ret.last_grid = ini_vct_pos(-1, -1);
+	ret.first = true;
+	return (ret);
+}
+
+void	bruh(t_recuse info, bool (*check)(t_ray *))
+{
+	t_rayhit	hit;
+	t_ray		ray;
+
+	if (!info.first)
+		ray = ini_ray(info.pos, info.rad, &info.last_grid);
+	else
+		ray = ini_ray(info.pos, info.rad, NULL);
+	hit = raycast(ray, check, hit_wall);
+	if (hit.sucess && !vct_cmp(hit.grid, info.last_grid))
+	{
+		info.last_grid = hit.grid;
+		info.first = false;
+		info.pos = hit.pos;
+		bruh(info, check);
+		draw_door(&hit, info.i, info.cos_adjust);
+	}
+}
 void render_cub(void)
 {
 	t_rayhit	hit;
@@ -120,18 +152,15 @@ void render_cub(void)
 	while (i < RAYCOUNT)
 	{
 		cast_pos = 2.0 * i / RAYCOUNT - 1.0;
-		cos_adjust = cos(add_rad(rad, -player()->rot_rad));
 		rad = player()->rot_rad + atan(cast_pos * render()->fov_adj.x);
+		cos_adjust = cos(add_rad(rad, -player()->rot_rad));
 		rad_vct = ini_vct_rad(rad);
-		hit = raycast(ini_ray(player()->pos, rad_vct, hit_wall, NULL));
+		hit = raycast(ini_ray(player()->pos, rad_vct, NULL), hit_wall, NULL);
 		if (hit.sucess)
 			draw_wall(&hit, i, cos_adjust);
-		hit = raycast(ini_ray(player()->pos, rad_vct, hit_door_back, hit_any));
-		if (hit.sucess)
-			draw_door(&hit, i, cos_adjust, true);
-		hit = raycast(ini_ray(player()->pos, rad_vct, hit_door, hit_wall));
-		if (hit.sucess)
-			draw_door(&hit, i, cos_adjust, false);
+		t_recuse t = guh(player()->pos, rad_vct, i, cos_adjust);
+		bruh(t, hit_door_back);
+		bruh(t, hit_door);
 		i++;
 	}
 	

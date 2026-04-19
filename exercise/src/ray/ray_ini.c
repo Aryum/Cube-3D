@@ -1,11 +1,15 @@
 #include "ray.h"
 
-t_ray	ini_ray(t_vct s, t_vct rot, bool (*hit)(t_ray *), bool (*fail)(t_ray *))
+t_ray	ini_ray(t_vct s, t_vct rot, t_vct *skip_grid)
 {
 	t_ray	ret;
 	t_quad	quad;
 
 	ret.cur_grid = pos_to_grid(s);
+	if (skip_grid != NULL)
+		ret.skip_grid = ini_vct_pos(skip_grid->x, skip_grid->y);
+	else
+		ret.skip_grid = ini_vct_pos(-1, -1);
 	quad = ini_quad(ret.cur_grid);
 	ret.axis_dir[X] = ini_vct_pos(sign(rot.x), 0);
 	ret.axis_dir[Y] = ini_vct_pos(0, sign(rot.y));
@@ -13,15 +17,14 @@ t_ray	ini_ray(t_vct s, t_vct rot, bool (*hit)(t_ray *), bool (*fail)(t_ray *))
 	ret.tar.y = quad.pos[(rot.y > 0) * 3].y;
 	ret.pos = s;
 	ret.rot = rot;
-	ret.hit = hit;
-	ret.fail = fail;
+	ret.hit = NULL;
+	ret.fail = NULL;
 	ret.m = 0;
 	ret.b = 0;
-	if (rot.x != 0)
-	{
-		ret.m = rot.y / rot.x;
-		ret.b = s.y - s.x * ret.m;
-	}
+	if (rot.x == 0)
+		return (ret);
+	ret.m = rot.y / rot.x;
+	ret.b = s.y - s.x * ret.m;
 	return (ret);
 }
 

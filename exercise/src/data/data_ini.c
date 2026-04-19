@@ -19,7 +19,7 @@ bool	create_door(t_tile *tile)
 	door = lib_calloc(1, sizeof(t_door));
 	if (door == NULL)
 		return (false);
-	door->open = false;
+	door->open = !false;
 	tile->content = door;
 	return (true);
 }

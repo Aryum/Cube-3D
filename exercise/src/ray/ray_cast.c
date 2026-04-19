@@ -4,10 +4,15 @@ static bool	check_grid(t_ray *ray, t_axis axis, t_rayhit *hit)
 {
 	ray->cur_axis = axis;
 	ray->cur_grid = add_vct(ray->cur_grid, ray->axis_dir[axis]);
-	if (ray->hit(ray))
-		return (*hit = ini_hit(ray), true);
-	if (ray->fail != NULL && ray->fail(ray))
-		return (true);
+	if (!vct_cmp(ray->cur_grid, ray->skip_grid))
+	{
+		if (ray->hit(ray))
+			return (*hit = ini_hit(ray), true);
+		if (ray->fail != NULL && ray->fail(ray))
+			return (true);
+	}
+	else
+		printf("Skiping grid\n");
 	ray->tar = add_vct(ray->tar, scale_vct(ray->axis_dir[axis], GRIDSIZE));
 	return (false);
 }
@@ -52,13 +57,20 @@ static t_rayhit	check_v(t_ray *r)
 	return (ret);
 }
 
-t_rayhit	raycast(t_ray ray)
+t_rayhit	raycast(t_ray ray, bool (*hit)(t_ray *), bool (*fail)(t_ray *))
 {
 	ray.cur_axis = get_hit_axis(&ray);
-	if (ray.hit(&ray))
-		return (ini_hit_start(&ray));
-	if (ray.fail != NULL && ray.fail(&ray))
-		return (ini_miss());
+	ray.fail = fail;
+	ray.hit = hit;
+	if (!vct_cmp(ray.cur_grid, ray.skip_grid))
+	{
+		if (hit == NULL)
+			return (ini_miss());
+		if (ray.hit(&ray))
+			return (ini_hit_start(&ray));
+		if (ray.fail != NULL && ray.fail(&ray))
+			return (ini_miss());
+	}
 	if (ray.rot.x != 0)
 		return (check_default(&ray));
 	else

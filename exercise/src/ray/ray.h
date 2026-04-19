@@ -7,7 +7,7 @@
 t_rayhit	ini_hit(t_ray *r);
 t_rayhit	ini_hit_start(t_ray *r);
 
-t_ray		ini_ray(t_vct s, t_vct rot, bool (*hit)(t_ray*), bool (*fail)(t_ray*));
+t_ray		ini_ray(t_vct s, t_vct rot, t_vct *skip_grid);
 t_rayhit	ini_miss(void);
 t_axis		get_hit_axis(t_ray *r);
 t_rayhit	ret_hit(t_ray *r, t_vct pos,  t_dir dir);
@@ -29,7 +29,7 @@ bool hit_door_back(t_ray *r);
 
 char get_map_char(t_vct grid_pos);
 
-t_rayhit	raycast(t_ray ray);
 
+t_rayhit	raycast(t_ray ray, bool (*hit)(t_ray *), bool (*fail)(t_ray *));
 
 #endif
