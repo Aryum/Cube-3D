@@ -1,5 +1,19 @@
 #include "input.h"
 
+bool hit_move(t_vct vct)
+{
+	t_tile	*tile;
+
+	tile = tile_get(vct);
+	if (tile == NULL)
+		return (false);
+	if (tile->val == '1' || tile->val == 'E')
+		return (true);
+	if (tile->val == 'D')
+		return (((t_door *)tile->content)->open);
+	return (false);
+}
+
 static bool	has_input(void)
 {
 	if (key_read(key_w))

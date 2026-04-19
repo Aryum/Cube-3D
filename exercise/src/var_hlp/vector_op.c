@@ -28,7 +28,7 @@ float	dist_vct(t_vct a, t_vct b)
 	return (sqrt(pow_2(a.x - b.x) + pow_2(a.y - b.y)));
 }
 
-bool	equal_vct(t_vct a, t_vct b)
+bool	vct_cmp(t_vct a, t_vct b)
 {
 	return (a.x == b.x && a.y == b.y);
 }

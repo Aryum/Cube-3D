@@ -1,9 +1,8 @@
 #include "ray.h"
 
-#include "ray.h"
-
 char get_map_char(t_vct grid_pos)
 {
+	;
 	int	x;
 	int	y;
 
@@ -16,33 +15,20 @@ char get_map_char(t_vct grid_pos)
 	return (map()->layout[y][x].val);
 }
 
-bool hit_wall(t_vct grid_pos)
+bool hit_wall(t_ray *r)
 {
-	return (get_map_char(grid_pos) == '1');
+	return (get_map_char(r->cur_grid) == '1');
 }
 
-bool hit_any(t_vct grid_pos)
+bool hit_any(t_ray *r)
 {
 	char	c;
-	c = get_map_char(grid_pos);
+	c = get_map_char(r->cur_grid);
 	return (c == '1' || c == 'D');
 }
 
-bool hit_door(t_vct grid_pos)
+bool hit_door(t_ray *r)
 {
-	return (get_map_char(grid_pos) == 'D');
+	return (get_map_char(r->cur_grid) == 'D');
 }
 
-bool hit_move(t_vct grid_pos)
-{
-	t_tile	*tile;
-
-	tile = tile_get(grid_pos);
-	if (tile == NULL)
-		return (false);
-	if (tile->val == '1' || tile->val == 'E')
-		return (true);
-	if (tile->val == 'D')
-		return (((t_door *)tile->content)->open);
-	return (false);
-}

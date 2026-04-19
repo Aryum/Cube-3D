@@ -1,6 +1,6 @@
 #include "ray.h"
 
-t_ray	ini_ray(t_vct s, t_vct rot, bool (*hit)(t_vct), bool (*fail)(t_vct))
+t_ray	ini_ray(t_vct s, t_vct rot, bool (*hit)(t_ray *), bool (*fail)(t_ray *))
 {
 	t_ray	ret;
 	t_quad	quad;
@@ -31,7 +31,7 @@ t_rayhit	ini_hit(t_ray *r, t_axis axis)
 {
 	t_vct		pos;
 	t_dir		dir;
-
+	
 	if (axis == X)
 	{
 		pos = ini_vct_pos(r->tar.x, ceil(r->tar.x * r->m + r->b));

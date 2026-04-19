@@ -21,3 +21,11 @@ t_vct	ini_vct_rad(float rad)
 	ret.x = cos(rad);
 	return (ret);
 }
+
+t_vct	ini_vct_dir(t_dir dir)
+{
+	if (dir <= dir_south)
+		return (ini_vct_pos(0, 1 * -1 * (dir == dir_north)));
+	else
+		return (ini_vct_pos(1 * -1 * (dir == dir_east), 0));
+}
