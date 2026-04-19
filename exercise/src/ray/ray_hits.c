@@ -23,8 +23,11 @@ bool hit_wall(t_ray *r)
 bool hit_any(t_ray *r)
 {
 	char	c;
+	
 	c = get_map_char(r->cur_grid);
-	return (c == '1' || c == 'D');
+	if(c == 'D' && !door_get_state(r->cur_grid))
+		return (true);
+	return (c == '1');
 }
 
 bool hit_door(t_ray *r)
@@ -37,9 +40,10 @@ bool hit_door_back(t_ray *r)
 {
 	t_vct	pos;
 
+	if (vct_cmp(player()->grid, r->cur_grid))
+		return (false);
 	if (get_map_char(r->cur_grid) != '0')
 		return (0);
 	pos = add_vct(r->cur_grid, scale_vct(r->axis_dir[r->cur_axis] , -1));
 	return (get_map_char(pos) == 'D');
-
 }

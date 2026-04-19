@@ -13,13 +13,13 @@
 
 #define MOV_SPEED 75.0
 
-#define RAYCOUNT 1280
+#define RAYCOUNT 640
 
 #define WINDOW_X 1280
 #define WINDOW_Y 720
 
 
-#define BONUS 0
+#define BONUS 1
 
 # define PI	3.14159
 # define PI_360 6.28318

@@ -1,5 +1,14 @@
 #include "hlp.h"
 
+typedef	struct s_draw_info
+{
+	t_frame	*f;
+	t_vct	center;
+	t_vct	sq_size;
+	float	dist;
+	float	size_y;
+	int		x;
+}	t_draw_info;
 
 static t_vct set_limit(t_vct i[2], t_vct center, t_vct size)
 {
@@ -29,14 +38,14 @@ static int	get_color(int x, t_vct i[2], t_vct adjust, t_frame *f)
 	return (*(unsigned int *)dst);
 }
 
-static void	draw(t_vct center, t_vct size, int x, t_frame *texture)
+static void	draw(t_draw_info *d)
 {
 	t_vct	i[2];
 	t_vct	pivot;
 	t_vct	adjst;
 	t_frame	*f;
 
-	adjst = set_limit(i, center, size);
+	adjst = set_limit(i, d->center, d->sq_size);
 	f = &render()->frame_buff[render()->frame_cur];
 	pivot.x = i[0].x;
 	while (i[0].y > i[1].y)
@@ -45,113 +54,84 @@ static void	draw(t_vct center, t_vct size, int x, t_frame *texture)
 		pivot.y = (int)i[0].y * f->line_len;
 		while (i[0].x > i[1].x)
 		{
-			set_pixel_pos(i[0].x, i[0].y, get_color(x, i, adjst, texture));
+			set_pixel_add(f, i[0].x, pivot.y, get_color(d->x, i, adjst, d->f));
 			i[0].x--;
 		}
 		i[0].y--;
 	}
 }
 
-typedef	struct s_draw_info
-{
-	t_vct	center;
-	t_vct	sq_size;
-	float	dist;
-	float	size_y;
-}	t_draw_info;
 
-t_draw_info	ini_draw_info(t_rayhit *hit, int i, float rad)
+
+t_draw_info	ini_draw_info(t_rayhit *hit, int i, float cos_adj, t_frame *f)
 {
+	t_draw_info	ret;
 	t_render	*r;
 	t_player	*p;
-	t_draw_info	ret;
 
 	r = render();
 	p = player();
-
-	ret.dist = dist_vct(p->pos, hit->pos) * cos(add_rad(rad, -p->rot_rad));
+	ret.f = f;
+	ret.dist = dist_vct(p->pos, hit->pos) * cos_adj;
 	ret.size_y = (r->fov_adj.y * (float)GRIDSIZE) / ret.dist;
 	ret.center = ini_vct_pos(r->ray_width / 2 + i * r->ray_width, WINDOW_Y / 2);
 	ret.center.y += sin(player()->tilt) * (float)(WINDOW_Y / 2);
 	ret.sq_size = ini_vct_pos(r->ray_width, ret.size_y);
+	if (hit->axis == X)
+		ret.x = (int)hit->pos.y;
+	else
+		ret.x = (int)hit->pos.x;
 	return (ret);
 }
 
 
-void draw_door(t_rayhit *hit,int i, float rad)
+void draw_door(t_rayhit *hit, int i, float cos_adj, bool force)
+{
+	t_draw_info	info;
+	bool		open;
+	if (!force)
+	{
+		open = door_get_state(hit->grid);
+		if (get_map_char(add_vct(hit->grid, ini_vct_dir(hit->dir))) == '1')
+			return ;
+	}
+	else
+		open = true;
+	info = ini_draw_info(hit, i, cos_adj, &render()->door_frame[open]);
+	draw(&info);
+}
+static void draw_wall(t_rayhit *hit, int i, float cos_adj)
 {
 	t_draw_info info;
 
-	info = ini_draw_info(hit, i, rad);
-	t_frame *f;
-	bool open;
-
-	open = door_get_state(hit->grid);
-	f = &render()->door_frame[open];
-	if (hit->axis == X)
-		draw(info.center, info.sq_size, (int)hit->pos.y, f);
-	else
-		draw(info.center, info.sq_size, (int)hit->pos.x, f);
-}
-static void draw_wall(t_rayhit *hit, int i, float rad)
-{
-	t_frame *f;
-
-	float	dist;
-	float	size_y;
-	t_vct	center;
-	t_vct	sq_size;
-	
-	dist = dist_vct(player()->pos, hit->pos) * cos(add_rad(rad, -player()->rot_rad));
-	size_y = (render()->fov_adj.y * (float)GRIDSIZE) / dist;
-	center = ini_vct_pos(render()->ray_width / 2 + i * render()->ray_width, WINDOW_Y / 2);
-	center.y += sin(player()->tilt) * (float)(WINDOW_Y / 2);
-	sq_size = ini_vct_pos(render()->ray_width, size_y);
-
-	f = &render()->wall_frame[hit->dir];
-	if (hit->axis == X)
-		draw(center, sq_size, (int)hit->pos.y, f);
-	else
-		draw(center, sq_size, (int)hit->pos.x, f);
+	info = ini_draw_info(hit, i, cos_adj, &render()->wall_frame[hit->dir]);
+	draw(&info);
 }
 
 void render_cub(void)
 {
 	t_rayhit	hit;
+	t_vct		rad_vct;
 	float		rad;
 	int			i;
 	float		cast_pos;
-	
+	float		cos_adjust;
 	i = 0;
 	while (i < RAYCOUNT)
 	{
 		cast_pos = 2.0 * i / RAYCOUNT - 1.0;
+		cos_adjust = cos(add_rad(rad, -player()->rot_rad));
 		rad = player()->rot_rad + atan(cast_pos * render()->fov_adj.x);
-		hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_wall, NULL));
+		rad_vct = ini_vct_rad(rad);
+		hit = raycast(ini_ray(player()->pos, rad_vct, hit_wall, NULL));
 		if (hit.sucess)
-			draw_wall(&hit, i, rad);
-		//rad = add_rad(rad, render()->ray_delta_angle);
-		i++;
-	}
-
-	i = 0;
-	while (i < RAYCOUNT)
-	{
-		cast_pos = 2.0 * i / RAYCOUNT - 1.0;
-		rad = player()->rot_rad + atan(cast_pos * render()->fov_adj.x);
-		hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_door_back, hit_wall));
+			draw_wall(&hit, i, cos_adjust);
+		hit = raycast(ini_ray(player()->pos, rad_vct, hit_door_back, hit_any));
 		if (hit.sucess)
-			draw_door(&hit, i, rad);
-		i++;
-	}
-	i = 0;
-	while (i < RAYCOUNT)
-	{
-		cast_pos = 2.0 * i / RAYCOUNT - 1.0;
-		rad = player()->rot_rad + atan(cast_pos * render()->fov_adj.x);
-		hit = raycast(ini_ray(player()->pos, ini_vct_rad(rad), hit_door, hit_wall));
+			draw_door(&hit, i, cos_adjust, true);
+		hit = raycast(ini_ray(player()->pos, rad_vct, hit_door, hit_wall));
 		if (hit.sucess)
-			draw_door(&hit, i, rad);
+			draw_door(&hit, i, cos_adjust, false);
 		i++;
 	}
 	

@@ -42,12 +42,12 @@ void	render_ini()
 		exit_clean(NULL);
 		return;
 	}
-	if(!ini_image(rnd, "test.xpm", &rnd->door_frame[0]))
+	if(!ini_image(rnd, "close.xpm", &rnd->door_frame[0]))
 	{
 		exit_clean(NULL);
 		return;
 	}
-		if(!ini_image(rnd, "test2.xpm", &rnd->door_frame[1]))
+		if(!ini_image(rnd, "open.xpm", &rnd->door_frame[1]))
 	{
 		exit_clean(NULL);
 		return;

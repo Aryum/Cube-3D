@@ -10,7 +10,7 @@ bool hit_move(t_vct vct)
 	if (tile->val == '1' || tile->val == 'E')
 		return (true);
 	if (tile->val == 'D')
-		return (((t_door *)tile->content)->open);
+		return (!((t_door *)tile->content)->open);
 	return (false);
 }
 
