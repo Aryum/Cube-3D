@@ -32,3 +32,14 @@ bool hit_door(t_ray *r)
 	return (get_map_char(r->cur_grid) == 'D');
 }
 
+
+bool hit_door_back(t_ray *r)
+{
+	t_vct	pos;
+
+	if (get_map_char(r->cur_grid) != '0')
+		return (0);
+	pos = add_vct(r->cur_grid, scale_vct(r->axis_dir[r->cur_axis] , -1));
+	return (get_map_char(pos) == 'D');
+
+}
