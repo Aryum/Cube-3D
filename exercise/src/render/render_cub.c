@@ -54,6 +54,7 @@ static void	draw(t_draw_info *d)
 		pivot.y = (int)i[0].y * f->line_len;
 		while (i[0].x > i[1].x)
 		{
+			//break loop if its tranparent color
 			set_pixel_add(f, i[0].x, pivot.y, get_color(d->x, i, adjst, d->f));
 			i[0].x--;
 		}
@@ -89,6 +90,8 @@ void draw_door(t_rayhit *hit, int i, float cos_adj)
 {
 	t_draw_info	info;
 
+	if (get_map_char(add_vct(hit->grid, ini_vct_dir(hit->dir))) != '0')
+		return;
 	info = ini_draw_info(hit, i, cos_adj, &render()->door_frame[true]);
 	draw(&info);
 }
@@ -97,7 +100,7 @@ static void draw_wall(t_rayhit *hit, int i, float cos_adj)
 	t_frame *f;
 	t_draw_info info;
 
-
+	
 	if (hit->c == 'D')
 		f = &render()->door_frame[0];
 	else
@@ -121,7 +124,7 @@ t_recuse	guh(t_vct pos, t_vct rad, int i, float cos_adjust)
 	return (ret);
 }
 
-void	bruh(t_recuse info, bool (*check)(t_ray *))
+void	bruh(t_recuse info)
 {
 	t_rayhit	hit;
 	t_ray		ray;
@@ -130,13 +133,16 @@ void	bruh(t_recuse info, bool (*check)(t_ray *))
 		ray = ini_ray(info.pos, info.rad, &info.last_grid);
 	else
 		ray = ini_ray(info.pos, info.rad, NULL);
-	hit = raycast(ray, check, hit_wall);
+	hit = raycast(ray, hit_door_open, hit_wall);
 	if (hit.sucess && !vct_cmp(hit.grid, info.last_grid))
 	{
 		info.last_grid = hit.grid;
 		info.first = false;
 		info.pos = hit.pos;
-		bruh(info, check);
+		bruh(info);
+		t_rayhit a = raycast(ray, hit_door_back, hit_wall);
+		if( a.sucess)
+			draw_door(&a, info.i, info.cos_adjust);
 		draw_door(&hit, info.i, info.cos_adjust);
 	}
 }
@@ -159,8 +165,7 @@ void render_cub(void)
 		if (hit.sucess)
 			draw_wall(&hit, i, cos_adjust);
 		t_recuse t = guh(player()->pos, rad_vct, i, cos_adjust);
-		bruh(t, hit_door_back);
-		bruh(t, hit_door);
+		bruh(t);
 		i++;
 	}
 	

@@ -11,8 +11,6 @@ static bool	check_grid(t_ray *ray, t_axis axis, t_rayhit *hit)
 		if (ray->fail != NULL && ray->fail(ray))
 			return (true);
 	}
-	else
-		printf("Skiping grid\n");
 	ray->tar = add_vct(ray->tar, scale_vct(ray->axis_dir[axis], GRIDSIZE));
 	return (false);
 }

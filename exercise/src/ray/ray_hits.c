@@ -37,9 +37,12 @@ bool hit_any(t_ray *r)
 
 bool hit_door(t_ray *r)
 {
-	return (get_map_char(r->cur_grid) == 'D');
+	return (get_map_char(r->cur_grid) == 'D' );
 }
-
+bool hit_door_open(t_ray *r)
+{
+	return (get_map_char(r->cur_grid) == 'D' && door_get_state(r->cur_grid));
+}
 
 bool hit_door_back(t_ray *r)
 {

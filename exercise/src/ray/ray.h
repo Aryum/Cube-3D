@@ -26,6 +26,7 @@ bool hit_wall(t_ray *r);
 bool hit_any(t_ray *r);
 bool hit_door(t_ray *r);
 bool hit_door_back(t_ray *r);
+bool hit_door_open(t_ray *r);
 
 char get_map_char(t_vct grid_pos);
 
