@@ -39,7 +39,7 @@ int	exit_clean(void)
 	{
 		if (i < 2)
 			clean_img(r, r->door_frame[i].img);
-		clean_img(r->mlx, r->wall_frame[i].img);
+		clean_img(r, r->wall_frame[i].img);
 		i++;
 	}
 	if (render()->mlx != NULL)
