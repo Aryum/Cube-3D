@@ -1,7 +1,7 @@
 NAME := render.a
 
 SRC :=	render_loop.c			\
-		render_ini.c			\
+		render_ini_images.c		\
 		render_cub.c			\
 		render_cub_draw.c		\
 		render_cub_ini.c		\

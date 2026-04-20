@@ -15,37 +15,34 @@ bool ini_image(t_render *r, char *path, t_frame *f)
 	return (true);
 }
 
-void	render_ini(t_render *r)
+void	render_ini_images(t_render *r)
 {
 	r->fps = 1;
 	if(!ini_image(r, "NORTH.xpm", &r->wall_frame[dir_north]))
 	{
 		exit_clean(NULL);
-		return;
 	}
 	if(!ini_image(r, "SOUTH.xpm", &r->wall_frame[dir_south]))
 	{
 		exit_clean(NULL);
-		return;
 	}
 	if(!ini_image(r, "EAST.xpm", &r->wall_frame[dir_east]))
 	{
 		exit_clean(NULL);
-		return;
 	}
 	if(!ini_image(r, "WEST.xpm", &r->wall_frame[dir_west]))
 	{
 		exit_clean(NULL);
-		return;
 	}
+
+
+	//doesnt need refactor
 	if(!ini_image(r, "close.xpm", &r->door_frame[0]))
 	{
 		exit_clean(NULL);
-		return;
 	}
 		if(!ini_image(r, "open.xpm", &r->door_frame[1]))
 	{
 		exit_clean(NULL);
-		return;
 	}
 }

@@ -3,7 +3,7 @@
 
 #include "../cub.h"
 
-void	render_ini(t_render *r);
+void	render_ini_images(t_render *r);
 
 void render_loop(t_player *p, t_render *r);
 

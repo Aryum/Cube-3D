@@ -14,7 +14,7 @@ void	draw_square(t_vct center, t_vct size, int color)
 {
 	t_vct	i;
 	t_vct	end;
-	t_frame *f;
+	t_frame	*f;
 	int		x_start;
 	int		y_offset;
 
