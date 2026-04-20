@@ -59,7 +59,7 @@ bool create_tile(char c, t_tile *tile)
 }
 
 
-void	ini_data(t_data *d, t_map *m)
+bool	ini_data(t_data *d, t_map *m)
 {
 	setup_inputs(d);
 	char *str = "\
@@ -71,23 +71,25 @@ void	ini_data(t_data *d, t_map *m)
 100000100001\n\
 111111111111";
 
-	char **layout =lib_split(str, '\n');
+	char **layout = lib_split(str, '\n');
 	m->len_x = lib_strlen(layout[0]);
 
 	while(layout[m->len_y] != NULL)
 		m->len_y++;
 	m->layout = lib_calloc(m->len_y + 1, sizeof(t_tile *));
-		//can give error
+	if (m->layout == NULL)
+		return (lib_split_clean(layout), false);
 	int y = 0;
 	while (y < m->len_y)
 	{
 		int x = 0;
 		m->layout[y] = lib_calloc(m->len_x, sizeof(t_tile));
-			//can give error
+		if (m->layout[y] == NULL)
+			return (lib_split_clean(layout), false);
 		while (x < m->len_x)
 		{
 			if (!create_tile(layout[y][x], &m->layout[y][x]))
-				break; //error
+				return (lib_split_clean(layout), false);
 			if (layout[y][x] == 'P')
 				ini_player(x, y);
 			x++;
@@ -95,7 +97,6 @@ void	ini_data(t_data *d, t_map *m)
 		y++;
 	}
 	lib_split_clean(layout);
-	
-
 	m->scale = ini_vct_pos(GRIDSIZE * m->len_x, GRIDSIZE * m->len_y);
+	return (true);
 }

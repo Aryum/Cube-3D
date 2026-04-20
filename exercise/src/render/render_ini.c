@@ -18,8 +18,6 @@ bool ini_image(t_render *r, char *path, t_frame *f)
 void	render_ini(t_render *r)
 {
 	r->fps = 1;
-	if (!setup_mlx(r))
-		exit_error("Failed to setup mlx");
 	if(!ini_image(r, "NORTH.xpm", &r->wall_frame[dir_north]))
 	{
 		exit_clean(NULL);
