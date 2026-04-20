@@ -3,6 +3,8 @@ NAME := render.a
 SRC :=	render_loop.c			\
 		render_ini.c			\
 		render_cub.c			\
+		render_cub_draw.c		\
+		render_cub_ini.c		\
 		render_minimap.c		\
 		render_minimap_hlp.c	\
 		render_debug_map.c		\

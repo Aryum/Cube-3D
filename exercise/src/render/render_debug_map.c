@@ -61,35 +61,22 @@ void draw_raycast_quads(t_rayhit hit)
 	draw_quad(ini_quad(hit.grid), color);
 }
 
-
-t_recuse	ini_recuse(t_vct pos, t_vct rad, int i, float cos_adjust)
-{
-	t_recuse	ret;
-
-	ret.pos = pos;
-	ret.rad = rad;
-	ret.i = i;
-	ret.cos_adjust = cos_adjust;
-	ret.last_grid = ini_vct_pos(-1, -1);
-	ret.first = true;
-	return (ret);
-}
-void	fuck(t_recuse info, bool (*check)(t_ray *))
+void	recursive_dbg(t_draw_ray info, bool (*check)(t_ray *))
 {
 	t_rayhit	hit;
 	t_ray		ray;
 
 	if (!info.first)
-		ray = ini_ray(info.pos, info.rad, &info.last_grid);
+		ray = ini_ray(info.pos_vct, info.dir_vct, &info.last_grid);
 	else
-		ray = ini_ray(info.pos, info.rad, NULL);
+		ray = ini_ray(info.pos_vct, info.dir_vct, NULL);
 	hit = raycast(ray, check, hit_wall);
 	if (hit.sucess && !vct_cmp(hit.grid, info.last_grid))
 	{
 		info.last_grid = hit.grid;
 		info.first = false;
-		info.pos = hit.pos;
-		fuck(info, check);
+		info.pos_vct = hit.pos;
+		recursive_dbg(info, check);
 		set_pixel_pos(hit.pos.x, hit.pos.y, 0x0000ff);
 	}
 }
@@ -100,29 +87,22 @@ void	render_debug_map(t_player *p)
 	draw_dbg_map();
 	draw_circle(p->pos, 5, 0xff0000);
 
+	t_draw_ray t;
+
 	t_rayhit	hit;
-	t_vct		rad_vct;
-	float		rad;
-	int			i;
-	float		cast_pos;
-	float		cos_adjust;
+	int i;
 
 
 	i = 0;
 
 	while (i < RAYCOUNT)
 	{
-		cast_pos = 2.0 * i / RAYCOUNT - 1.0;
-		rad = player()->rot_rad + atan(cast_pos * render()->fov_adj.x);
-		cos_adjust = cos(add_rad(rad, -player()->rot_rad));
-		rad_vct = ini_vct_rad(rad);
-		hit = raycast(ini_ray(player()->pos, rad_vct, NULL), hit_wall, NULL);
+		t = ini_draw_ray(i);
+		hit = raycast(ini_ray(player()->pos, t.dir_vct, NULL), hit_wall, NULL);
 		if (hit.sucess && (i == 0 || i+ 1 == RAYCOUNT ))
 			draw_line(player()->pos, hit.pos, 0xff0000);
-		t_recuse t = ini_recuse(player()->pos, rad_vct, i, cos_adjust);
-		fuck(t, hit_door_back);
-		fuck(t, hit_door);
-
+		recursive_dbg(t, hit_door_back);
+		recursive_dbg(t, hit_door);
 		i++;
 	}
 	draw_line(p->pos, add_vct(p->pos, scale_vct(p->rot_vct, MOV_SPEED) ), 0xfffb00);

@@ -69,12 +69,12 @@ typedef struct s_vct
 typedef struct s_recurse
 {
 	t_vct	last_grid;
-	t_vct	pos;
-	t_vct	rad;
+	t_vct	pos_vct;
+	t_vct	dir_vct;
 	float	cos_adjust;
 	int		i;
 	bool	first;
-}	t_recuse;
+}	t_draw_ray;
 
 typedef struct s_ray
 {
@@ -120,7 +120,7 @@ typedef struct s_frame
 {
 	void	*img;
 	char	*addr;
-	int		byte_pixel;
+	int		bp;
 	int		line_len;
 	int		end;
 }	t_frame;

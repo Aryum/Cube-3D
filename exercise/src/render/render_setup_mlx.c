@@ -5,8 +5,8 @@ static bool	ini_frame(t_render *r, t_frame *f)
 	f->img = mlx_new_image(r->mlx, WINDOW_X, WINDOW_Y);
 	if (f->img == NULL)
 		return (false);
-	f->addr = mlx_get_data_addr(f->img, &f->byte_pixel, &f->line_len, &f->end);
-	f->byte_pixel = f->byte_pixel / 8;
+	f->addr = mlx_get_data_addr(f->img, &f->bp, &f->line_len, &f->end);
+	f->bp = f->bp / 8;
 	return (true);
 }
 
