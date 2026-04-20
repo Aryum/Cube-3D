@@ -14,44 +14,40 @@ bool ini_image(t_render *r, char *path, t_frame *f)
 	f->bp = f->bp / 8;
 	return (true);
 }
-void	render_ini()
-{
-	t_render	*rnd;
 
-	rnd = render();
-	setup_settings(rnd);
-	if (!setup_mlx(rnd))
+void	render_ini(t_render *r)
+{
+	r->fps = 1;
+	if (!setup_mlx(r))
 		exit_error("Failed to setup mlx");
-	if(!ini_image(rnd, "NORTH.xpm", &rnd->wall_frame[dir_north]))
+	if(!ini_image(r, "NORTH.xpm", &r->wall_frame[dir_north]))
 	{
 		exit_clean(NULL);
 		return;
 	}
-	if(!ini_image(rnd, "SOUTH.xpm", &rnd->wall_frame[dir_south]))
+	if(!ini_image(r, "SOUTH.xpm", &r->wall_frame[dir_south]))
 	{
 		exit_clean(NULL);
 		return;
 	}
-	if(!ini_image(rnd, "EAST.xpm", &rnd->wall_frame[dir_east]))
+	if(!ini_image(r, "EAST.xpm", &r->wall_frame[dir_east]))
 	{
 		exit_clean(NULL);
 		return;
 	}
-	if(!ini_image(rnd, "WEST.xpm", &rnd->wall_frame[dir_west]))
+	if(!ini_image(r, "WEST.xpm", &r->wall_frame[dir_west]))
 	{
 		exit_clean(NULL);
 		return;
 	}
-	if(!ini_image(rnd, "close.xpm", &rnd->door_frame[0]))
+	if(!ini_image(r, "close.xpm", &r->door_frame[0]))
 	{
 		exit_clean(NULL);
 		return;
 	}
-		if(!ini_image(rnd, "open.xpm", &rnd->door_frame[1]))
+		if(!ini_image(r, "open.xpm", &r->door_frame[1]))
 	{
 		exit_clean(NULL);
 		return;
 	}
-	mlx_loop(rnd->mlx);
-	exit_clean(NULL);
 }

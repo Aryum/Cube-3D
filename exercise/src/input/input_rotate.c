@@ -1,4 +1,4 @@
-#include "input.h"
+#include "hlp.h"
 
 static void	input_rot_x(t_player *p, float delta)
 {
@@ -6,18 +6,16 @@ static void	input_rot_x(t_player *p, float delta)
 	p->rot_vct = ini_vct_rad(p->rot_rad);
 }
 
-
 static void	input_rot_y(t_player *p, float delta)
 {
 	p->tilt += delta;
 	p->tilt = clamp(p->tilt, -PI_90, PI_90);
 }
-void	update_rot(void)
-{
-	t_player	*p;
-	float		delta;
 
-	p = player();
+void	update_rot(t_player	*p)
+{
+	float	delta;
+
 	delta = ROT_SPEED / render()->fps;
 	if(key_read(key_right))
 		input_rot_x(p, -delta);

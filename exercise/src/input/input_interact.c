@@ -1,4 +1,4 @@
-#include "input.h"
+#include "hlp.h"
 
 int	input_interact(void)
 {

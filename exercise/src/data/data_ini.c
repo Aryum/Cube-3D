@@ -59,15 +59,9 @@ bool create_tile(char c, t_tile *tile)
 }
 
 
-void	ini_data()
+void	ini_data(t_data *d, t_map *m)
 {
-	t_map *m;
-
-	m = map();
-	setup_inputs();
-
-
-	render()->fps=1;
+	setup_inputs(d);
 	char *str = "\
 111111111111\n\
 100000E00001\n\

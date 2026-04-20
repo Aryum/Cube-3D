@@ -16,13 +16,14 @@ HLP_ARC :=	$(HLP_DIR)/lib/libft.a		\
 
 
 SRC_DIR :=	./src
-SRC_ARC :=	$(SRC_DIR)/render/render.a		\
+SRC_ARC :=	$(SRC_DIR)/game/game.a			\
+			$(SRC_DIR)/render/render.a		\
 			$(SRC_DIR)/draw/draw.a			\
 			$(SRC_DIR)/data/data.a			\
 			$(SRC_DIR)/input/input.a		\
 			$(SRC_DIR)/ray/ray.a			\
 			$(SRC_DIR)/var_hlp/var_hlp.a	\
-			$(SRC_DIR)/parsing/parse.a	    \
+			$(SRC_DIR)/parsing/parse.a		\
 
 			
 

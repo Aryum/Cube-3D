@@ -1,11 +1,9 @@
-NAME := input.a
+NAME := game.a
 
-SRC :=	input_loop.c			\
-		input_call.c			\
-		input_setup.c			\
-		input_rotate.c			\
-		input_move.c			\
-		input_interact.c
+SRC :=	game_start.c			\
+		game_setup_mlx.c		\
+		game_setup_settings.c	\
+		game_loop.c				\
 
 HDR_DIR := .
 

@@ -14,7 +14,7 @@ int		exit_clean();
 void	exit_error(char *msg);
 
 //ini
-void	ini_data();
+void	ini_data(t_data *d, t_map *m);
 
 
 //vector

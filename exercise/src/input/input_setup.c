@@ -1,4 +1,4 @@
-#include "input.h"
+#include "hlp.h"
 
 static void	setup_key(t_data *dt, t_keys type, int code, int (*f)( void ))
 {
@@ -15,17 +15,12 @@ static void	set_neg(t_data *dt, t_keys a, t_keys b)
 	dt->input[b].neg_key = a;
 }
 
-void	setup_inputs()
+void	setup_inputs(t_data *dt)
 {
-	t_data *dt;
-
-	dt = data();
 	setup_key(dt, key_w, 119, NULL);
 	setup_key(dt, key_a, 97, NULL);
 	setup_key(dt, key_s, 115, NULL);
 	setup_key(dt, key_d, 100, NULL);
-	
-	
 	
 	setup_key(dt, key_e, 101, input_interact); //raycast in front of player check for door and open or close it
 

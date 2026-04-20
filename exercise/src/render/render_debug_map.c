@@ -98,9 +98,9 @@ void	render_debug_map(t_player *p)
 	while (i < RAYCOUNT)
 	{
 		t = ini_draw_ray(i);
-		hit = raycast(ini_ray(player()->pos, t.dir_vct, NULL), hit_wall, NULL);
+		hit = raycast(ini_ray(p->pos, t.dir_vct, NULL), hit_wall, NULL);
 		if (hit.sucess && (i == 0 || i+ 1 == RAYCOUNT ))
-			draw_line(player()->pos, hit.pos, 0xff0000);
+			draw_line(p->pos, hit.pos, 0xff0000);
 		recursive_dbg(t, hit_door_back);
 		recursive_dbg(t, hit_door);
 		i++;

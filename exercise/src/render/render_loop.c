@@ -29,30 +29,15 @@ static void	updatefps(t_render *rnd)
 		rnd->fps_display = rnd->fps;
 }
 
-
-
-int render_loop(void)
+void render_loop(t_player *p, t_render *r)
 {
-	t_render *rnd;
-	t_player	*p;
-
-	rnd = render();
-	p = player();
-
-	//minimap
 	if (data()->debug_2d)
 		render_debug_map(p);
 	else
-		render_cub();
-
+		render_cub(p, r);
 	if (BONUS)
-		render_minimap(rnd);
-	put_image(rnd);
-	updatefps(rnd);
-	if (rnd->fps == 1)
-		return 0;
-	update_rot();
-	update_move();
-	render_debug_str(rnd);
-	return 0;
+		render_minimap(r);
+	put_image(r);
+	updatefps(r);
+	render_debug_str(r);
 }

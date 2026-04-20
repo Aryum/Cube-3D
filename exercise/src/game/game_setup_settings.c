@@ -14,13 +14,13 @@ static t_minimap ini_minimap(void)
 	return ret;
 }
 
-void setup_settings(t_render *rnd)
+void setup_settings(t_render *r)
 {
-	rnd->last_time = get_time();
-	rnd->start_time = rnd->last_time;
-	rnd->fov_adj.x = tan(FOV /2);
-	rnd->fov_adj.y = (float)(WINDOW_X / 2) / tan(FOV / 2);
-	rnd->ray_delta_angle = FOV / (float)(RAYCOUNT - 1);
-	rnd->ray_width = (float)WINDOW_X / (float)RAYCOUNT;
-	rnd->minimap = ini_minimap();
+	r->last_time = get_time();
+	r->start_time = r->last_time;
+	r->fov_adj.x = tan(FOV /2);
+	r->fov_adj.y = (float)(WINDOW_X / 2) / tan(FOV / 2);
+	r->ray_delta_angle = FOV / (float)(RAYCOUNT - 1);
+	r->ray_width = (float)WINDOW_X / (float)RAYCOUNT;
+	r->minimap = ini_minimap();
 }

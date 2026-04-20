@@ -24,19 +24,19 @@ static bool	ini_buffer(t_render	*rnd)
 	return (true);
 }
 
-bool	setup_mlx(t_render	*rnd)
+bool	setup_mlx(t_render	*r)
 {
-	rnd->mlx = mlx_init();
-	if (rnd->mlx == NULL)
+	r->mlx = mlx_init();
+	if (r->mlx == NULL)
 		return (false);
-	if (!ini_buffer(rnd))
+	if (!ini_buffer(r))
 		return (false);
-	rnd->window = mlx_new_window(rnd->mlx, WINDOW_X, WINDOW_Y, "Cub3d");
-	if (rnd->window == NULL)
+	r->window = mlx_new_window(r->mlx, WINDOW_X, WINDOW_Y, "Cub3d");
+	if (r->window == NULL)
 		return (false);
-	mlx_hook(rnd->window, KeyPress, KeyPressMask, key_press, NULL);
-	mlx_hook(rnd->window, KeyRelease, KeyReleaseMask, key_release, NULL);
-	mlx_hook(rnd->window, DestroyNotify, NoEventMask, exit_clean, NULL);
-	mlx_loop_hook(render()->mlx, render_loop, NULL);
+	mlx_hook(r->window, KeyPress, KeyPressMask, key_press, NULL);
+	mlx_hook(r->window, KeyRelease, KeyReleaseMask, key_release, NULL);
+	mlx_hook(r->window, DestroyNotify, NoEventMask, exit_clean, NULL);
+	mlx_loop_hook(render()->mlx, game_loop, NULL);
 	return (true);
 }

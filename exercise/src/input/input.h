@@ -3,17 +3,8 @@
 
 #include "../cub.h"
 
-//call
+void	setup_inputs(t_data *dt);
+void	input_loop(t_player *p, t_input *input);
 int		key_press(int key);
 int		key_release(int key);
-bool	key_read(t_keys key);
-int		input_interact(void);
-
-//setuo
-void	setup_inputs();
-
-//rotate
-void	update_move(void);
-void	update_rot(void);
-
 #endif

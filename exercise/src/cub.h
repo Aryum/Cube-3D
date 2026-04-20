@@ -14,4 +14,6 @@
 # include "data/data.h"
 # include "input/input.h"
 # include "render/render.h"
+# include "game/game.h"
+
 #endif

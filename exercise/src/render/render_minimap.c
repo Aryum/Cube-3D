@@ -1,6 +1,6 @@
 #include "hlp.h"
 
-void	render_minimap(t_render *rnd)
+void	render_minimap(t_render *r)
 {
 	int	x;
 	int	y;
@@ -11,10 +11,10 @@ void	render_minimap(t_render *rnd)
 		x = -5;
 		while (x <= 5)
 		{
-			draw_map_tile(rnd->minimap, x, y);
+			draw_map_tile(r->minimap, x, y);
 			x++;
 		}
 		y++;
 	}
-	draw_circle(rnd->minimap.center, 5,  0xFA05EE);
+	draw_circle(r->minimap.center, 5,  0xFA05EE);
 }

@@ -1,6 +1,6 @@
-#include "input.h"
+#include "hlp.h"
 
-bool hit_move(t_vct vct)
+static bool hit_move(t_vct vct)
 {
 	t_tile	*tile;
 
@@ -66,15 +66,11 @@ static void	update_pos(t_player *p, float rad)
 	}
 }
 
-void	update_move(void)
+void	update_move(t_player *p, t_input *input)
 {
-	t_player	*p;
-	t_input		*input;
 	float		rad;
 	float		mod;
 
-	p = player();
-	input = data()->input;
 	p->is_moving = has_input();
 	rad = p->rot_rad;
 	if (p->is_moving)
