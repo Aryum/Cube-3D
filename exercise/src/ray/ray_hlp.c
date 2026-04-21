@@ -32,7 +32,7 @@ bool	check_next_x(t_ray r)
 	float	x_dist;
 	float	y_dist;
 	
-	x_dist = f_abs((r.tar.x - r.pos.x) / r.rot.x);
-	y_dist = f_abs((r.tar.y - r.pos.y) / r.rot.y);
+	x_dist = f_abs((r.tar.x - r.start.x) / r.rot.x);
+	y_dist = f_abs((r.tar.y - r.start.y) / r.rot.y);
 	return (x_dist < y_dist);
 }

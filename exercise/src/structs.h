@@ -78,7 +78,7 @@ typedef struct s_recurse
 
 typedef struct s_ray
 {
-	t_vct		pos;
+	t_vct		start;
 	t_vct		rot;
 	t_vct		axis_dir[2];
 	t_vct		cur_grid;
@@ -167,7 +167,8 @@ typedef struct s_door
 
 typedef struct s_enemy
 {
-	int	health;
+	int		health;
+	bool	alerted;
 }	t_enemy;
 
 typedef struct s_tile

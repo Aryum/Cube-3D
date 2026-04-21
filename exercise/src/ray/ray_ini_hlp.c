@@ -34,8 +34,8 @@ t_axis	get_hit_axis(t_ray *r)
 	float x;
 	float y;
 
-	x = f_abs((r->tar.x - r->pos.x) / r->rot.x);
-	y = f_abs((r->tar.y - r->pos.y) / r->rot.y);
+	x = f_abs((r->tar.x - r->start.x) / r->rot.x);
+	y = f_abs((r->tar.y - r->start.y) / r->rot.y);
 	return (x > y);
 }
 

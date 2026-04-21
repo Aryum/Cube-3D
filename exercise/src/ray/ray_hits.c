@@ -14,6 +14,16 @@ char get_map_char(t_vct grid_pos)
 	return (map()->layout[y][x].val);
 }
 
+bool hit_enemy(t_ray *r)
+{
+
+}
+
+bool hit_player(t_ray *r)
+{
+
+}
+
 bool hit_wall(t_ray *r)
 {
 	char	c;

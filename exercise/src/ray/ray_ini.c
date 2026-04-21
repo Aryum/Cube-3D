@@ -15,7 +15,7 @@ t_ray	ini_ray(t_vct s, t_vct rot, t_vct *skip_grid)
 	ret.axis_dir[Y] = ini_vct_pos(0, sign(rot.y));
 	ret.tar.x = quad.pos[(rot.x > 0) * 3].x;
 	ret.tar.y = quad.pos[(rot.y > 0) * 3].y;
-	ret.pos = s;
+	ret.start = s;
 	ret.rot = rot;
 	ret.hit = NULL;
 	ret.fail = NULL;
@@ -43,7 +43,7 @@ t_rayhit	ini_hit(t_ray *r)
 	else
 	{
 		if (r->rot.x == 0)
-			pos = ini_vct_pos(r->pos.x, r->tar.y);
+			pos = ini_vct_pos(r->start.x, r->tar.y);
 		else
 			pos = ini_vct_pos(ceil((r->tar.y - r->b) / r->m), r->tar.y);
 		dir = sign(r->axis_dir[Y].y) > 0;
@@ -63,7 +63,7 @@ t_rayhit	ini_hit_start(t_ray *r)
 	else
 	{
 		if (r->rot.x == 0)
-			pos = ini_vct_pos(r->pos.x, r->tar.y);
+			pos = ini_vct_pos(r->start.x, r->tar.y);
 		else
 		{
 			pos = ini_vct_pos(ceil((r->tar.y - r->b) / r->m), r->tar.y);
