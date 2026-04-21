@@ -61,30 +61,44 @@ void draw_raycast_quads(t_rayhit hit)
 	draw_quad(ini_quad(hit.grid), color);
 }
 
+
+
+static void	draw_back(t_rayhit	hit, t_ray ray)
+{
+	t_vct	dir;
+	t_vct	pos;
+
+	dir = ini_vct_dir(hit.dir);
+	if (get_map_char(vct_add(hit.grid, dir)) == tile_empty )
+	{
+		dir = vct_add(hit.pos,  vct_scale(dir, GRIDSIZE));
+		pos = calculate_ray_pos(ray, hit.axis, dir);
+		hit = raycast(ini_ray(pos, vct_scale(ray.dir, -1), NULL), hit_player, hit_wall );
+		if (hit.sucess)
+		{
+			hit.pos = pos;
+			set_pixel_pos(hit.pos.x, hit.pos.y, 0x00FF00);		
+		}
+	}
+}
 void	recursive_dbg(t_render *r, t_draw_ray d, int loop)
 {
-	t_rayhit	h_front;
-	t_rayhit	h_back;
+	t_rayhit	hit;
 	t_ray		ray;
 
 	if (!d.first)
 		ray = ini_ray(d.pos_vct, d.dir_vct, &d.last_grid);
 	else
 		ray = ini_ray(d.pos_vct, d.dir_vct, NULL);
-	h_front = raycast(ray, hit_door_open, hit_wall);
-	if (h_front.sucess)
+	hit = raycast(ray, hit_door_open, hit_wall);
+	if (hit.sucess)
 	{
-		ray.start_pos = h_front.pos;
-		recursive_dbg(r, update_draw_info(d, h_front), loop + 1);
-		h_back = raycast(ray, hit_rnd_backdoor, hit_wall);
-		if(h_back.sucess && loop == 1)
-			draw_line(h_back.pos, player()->pos , 0xff00ff);
-		t_vct tst = grid_to_pos(h_front.grid);
-		char *str = lib_itoa(loop);
-		mlx_string_put(render()->mlx, render()->window, tst.x, tst.y, 0xFFFFFF, str);
-		free(str);
-		set_pixel_pos(h_front.pos.x, h_front.pos.y, 0xFF0000);
-	}
+		recursive_dbg(r, update_draw_info(d, hit), loop + 1);
+		if (!vct_cmp(hit.grid, player()->grid))
+			draw_back(hit, ray);
+		set_pixel_pos(hit.pos.x, hit.pos.y, 0xff0000);
+		
+	}	
 }
 
 void	render_debug_map(t_player *p)

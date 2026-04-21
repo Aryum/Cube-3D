@@ -30,7 +30,7 @@ t_ray	ini_ray(t_vct s, t_vct d, t_vct *skip_grid)
 	return (ret);
 }
 
-void	calculate_ray_pos(t_ray *r)
+void	update_ray_pos(t_ray *r)
 {
 	if (r->cur_axis == X)
 		r->cur_pos = ini_vct_pos(r->tar.x, ceil(r->tar.x * r->m + r->b));
@@ -42,6 +42,8 @@ void	calculate_ray_pos(t_ray *r)
 			r->cur_pos = ini_vct_pos(ceil((r->tar.y - r->b) / r->m), r->tar.y);
 	}
 }
+
+
 
 t_rayhit	ini_hit(t_ray *r)
 {
@@ -57,7 +59,7 @@ t_rayhit	ini_hit_start(t_ray *r)
 {
 	t_dir	dir;
 
-	calculate_ray_pos(r);
+	update_ray_pos(r);
 	if (r->cur_axis == X)
 		dir = 2 + (sign(r->axis_dir[X].x) < 0);
 	else
@@ -70,5 +72,6 @@ t_rayhit	ini_miss()
 	t_rayhit	ret;
 
 	lib_memset(&ret, 0, sizeof(ret));
+	ret.pos = ini_vct_pos(-1, -1);
 	return (ret);
 }

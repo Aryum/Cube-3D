@@ -36,3 +36,13 @@ bool	check_next_x(t_ray r)
 	y_dist = f_abs((r.tar.y - r.start_pos.y) / r.dir.y);
 	return (x_dist < y_dist);
 }
+
+t_vct calculate_ray_pos(t_ray r, t_axis axis, t_vct pos)
+{
+	if (axis == X)
+		return (ini_vct_pos(pos.x, ceil(pos.x * r.m + r.b)));
+	if (r.dir.x == 0)
+		return (ini_vct_pos(pos.x, r.tar.y));
+	else
+		return (ini_vct_pos(ceil((pos.y - r.b) / r.m), pos.y));
+}

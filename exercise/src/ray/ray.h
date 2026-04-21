@@ -15,11 +15,13 @@ t_rayhit	ini_miss(void);
 t_vct	grid_distance(t_vct pos);
 t_vct	pos_to_grid(t_vct pos);
 t_vct	grid_to_pos(t_vct pos);
+t_vct calculate_ray_pos(t_ray r, t_axis axis, t_vct pos);
 
 
 //hits
 bool hit_wall(t_ray *r);
-bool miss_rnd_backdoor(t_ray *r);
+bool hit_player(t_ray *r);
+bool hit_enemy(t_ray *r);
 bool hit_door(t_ray *r);
 bool hit_rnd_backdoor(t_ray *r);
 bool hit_door_open(t_ray *r);

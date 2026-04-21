@@ -4,7 +4,7 @@ static bool	check_grid(t_ray *r, t_axis axis, t_rayhit *hit)
 {
 	r->cur_axis = axis;
 	r->cur_grid = vct_add(r->cur_grid, r->axis_dir[axis]);
-	calculate_ray_pos(r);
+	update_ray_pos(r);
 	if (!vct_cmp(r->cur_grid, r->skip_grid))
 	{
 		if (r->hit(r))
