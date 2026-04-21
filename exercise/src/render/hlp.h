@@ -17,6 +17,7 @@ typedef	struct s_draw_info
 //cub
 t_draw_info	ini_draw_info(t_rayhit *hit, t_draw_ray *d, t_frame *f);
 t_draw_ray	ini_draw_ray(int i);
+t_draw_ray	update_draw_info(t_draw_ray d, t_rayhit hit);
 void	draw_texture(t_draw_info *d);
 
 

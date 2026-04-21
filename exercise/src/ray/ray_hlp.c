@@ -1,4 +1,4 @@
-#include "ray.h"
+#include "hlp.h"
 
 t_vct	grid_distance(t_vct pos)
 {
@@ -32,7 +32,7 @@ bool	check_next_x(t_ray r)
 	float	x_dist;
 	float	y_dist;
 	
-	x_dist = f_abs((r.tar.x - r.start.x) / r.dir.x);
-	y_dist = f_abs((r.tar.y - r.start.y) / r.dir.y);
+	x_dist = f_abs((r.tar.x - r.start_pos.x) / r.dir.x);
+	y_dist = f_abs((r.tar.y - r.start_pos.y) / r.dir.y);
 	return (x_dist < y_dist);
 }

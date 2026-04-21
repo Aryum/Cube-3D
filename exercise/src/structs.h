@@ -15,7 +15,7 @@
 
 #define MOV_SPEED 75.0
 
-#define RAYCOUNT 640
+#define RAYCOUNT 1280
 
 #define WINDOW_X 1280
 #define WINDOW_Y 720
@@ -88,15 +88,17 @@ typedef struct s_draw_ray
 
 typedef struct s_ray
 {
-	t_vct		start;
+	t_vct		start_pos;
 	t_vct		dir;
 	t_vct		axis_dir[2];
 	t_vct		cur_grid;
+	t_vct		cur_pos;
 	t_vct		tar;
 	t_vct		skip_grid;
 	t_axis		cur_axis;
 	bool		(*hit)(struct s_ray *);
 	bool		(*fail)(struct s_ray *);
+	bool		check_done;
 	float		m;
 	float		b;
 }	t_ray;

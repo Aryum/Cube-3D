@@ -37,3 +37,11 @@ t_draw_info	ini_draw_info(t_rayhit *hit, t_draw_ray *d, t_frame *f)
 		ret.x = (int)hit->pos.x;
 	return (ret);
 }
+
+t_draw_ray	update_draw_info(t_draw_ray d, t_rayhit hit)
+{
+	d.last_grid = hit.grid;
+	d.first = false;
+	d.pos_vct = hit.pos;
+	return (d);
+}

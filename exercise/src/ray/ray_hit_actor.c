@@ -1,4 +1,4 @@
-#include "ray.h"
+#include "hlp.h"
 
 bool hit_enemy(t_ray *r)
 {
@@ -22,12 +22,12 @@ bool hit_player(t_ray *r)
 
 bool	miss_player(t_ray *r)
 {
-	float	scale;
-
-	scale = vct_dist(r.)
+	(void)r;
+	return (false);
 }
 
 bool	miss_enemy(t_ray *r)
 {
-	
+	(void)r;
+	return (false);
 }

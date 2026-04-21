@@ -1,17 +1,18 @@
-#include "ray.h"
+#include "hlp.h"
 
-static bool	check_grid(t_ray *ray, t_axis axis, t_rayhit *hit)
+static bool	check_grid(t_ray *r, t_axis axis, t_rayhit *hit)
 {
-	ray->cur_axis = axis;
-	ray->cur_grid = vct_add(ray->cur_grid, ray->axis_dir[axis]);
-	if (!vct_cmp(ray->cur_grid, ray->skip_grid))
+	r->cur_axis = axis;
+	r->cur_grid = vct_add(r->cur_grid, r->axis_dir[axis]);
+	calculate_ray_pos(r);
+	if (!vct_cmp(r->cur_grid, r->skip_grid))
 	{
-		if (ray->hit(ray))
-			return (*hit = ini_hit(ray), true);
-		if (ray->fail != NULL && ray->fail(ray))
+		if (r->hit(r))
+			return (*hit = ini_hit(r), true);
+		if (r->check_done || (r->fail != NULL && r->fail(r)))
 			return (true);
 	}
-	ray->tar = vct_add(ray->tar, vct_scale(ray->axis_dir[axis], GRIDSIZE));
+	r->tar = vct_add(r->tar, vct_scale(r->axis_dir[axis], GRIDSIZE));
 	return (false);
 }
 

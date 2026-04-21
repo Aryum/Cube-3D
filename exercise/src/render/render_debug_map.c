@@ -61,27 +61,29 @@ void draw_raycast_quads(t_rayhit hit)
 	draw_quad(ini_quad(hit.grid), color);
 }
 
-void	recursive_dbg(t_render *r, t_draw_ray *d)
+void	recursive_dbg(t_render *r, t_draw_ray d, int loop)
 {
 	t_rayhit	h_front;
 	t_rayhit	h_back;
-
 	t_ray		ray;
 
-	if (!d->first)
-		ray = ini_ray(d->pos_vct, d->dir_vct, &d->last_grid);
+	if (!d.first)
+		ray = ini_ray(d.pos_vct, d.dir_vct, &d.last_grid);
 	else
-		ray = ini_ray(d->pos_vct, d->dir_vct, NULL);
+		ray = ini_ray(d.pos_vct, d.dir_vct, NULL);
 	h_front = raycast(ray, hit_door_open, hit_wall);
-	if (h_front.sucess && !vct_cmp(h_front.grid, d->last_grid))
+	if (h_front.sucess)
 	{
-		d->last_grid = h_front.grid;
-		d->first = false;
-		d->pos_vct = h_front.pos;
-		recursive_dbg(r, d);
-		h_back = raycast(ray, hit_rnd_backdoor, miss_rnd_backdoor);
-		if(h_back.sucess)
-			draw_line(h_front.pos, h_back.pos, 0x0000FF);
+		ray.start_pos = h_front.pos;
+		recursive_dbg(r, update_draw_info(d, h_front), loop + 1);
+		h_back = raycast(ray, hit_rnd_backdoor, hit_wall);
+		if(h_back.sucess && loop == 1)
+			draw_line(h_back.pos, player()->pos , 0xff00ff);
+		t_vct tst = grid_to_pos(h_front.grid);
+		char *str = lib_itoa(loop);
+		mlx_string_put(render()->mlx, render()->window, tst.x, tst.y, 0xFFFFFF, str);
+		free(str);
+		set_pixel_pos(h_front.pos.x, h_front.pos.y, 0xFF0000);
 	}
 }
 
@@ -103,9 +105,9 @@ void	render_debug_map(t_player *p)
 	{
 		t = ini_draw_ray(i);
 		hit = raycast(ini_ray(p->pos, t.dir_vct, NULL), hit_wall, NULL);
-		if (hit.sucess && (i == 0 || i+ 1 == RAYCOUNT ))
-			draw_line(p->pos, hit.pos, 0xff0000);
-		recursive_dbg(render(), &t);
+		if (hit.sucess && (i == 0 || i+ 1 == RAYCOUNT || i == RAYCOUNT / 2 ))
+			draw_line(p->pos, hit.pos, 0x00ff00);
+		recursive_dbg(render(), t, 0);
 		i++;
 	}
 	draw_line(p->pos, vct_add(p->pos, vct_scale(p->rot_vct, MOV_SPEED) ), 0xfffb00);
