@@ -26,7 +26,7 @@ t_draw_info	ini_draw_info(t_rayhit *hit, t_draw_ray *d, t_frame *f)
 	r = render();
 	p = player();
 	ret.f = f;
-	ret.dist = dist_vct(p->pos, hit->pos) * d->cos_adjust;
+	ret.dist = vct_dist(p->pos, hit->pos) * d->cos_adjust;
 	ret.size_y = (r->fov_adj.y * (float)GRIDSIZE) / ret.dist;
 	ret.center = ini_vct_pos(r->ray_width / 2 + d->i * r->ray_width, WINDOW_Y / 2);
 	ret.center.y += sin(player()->tilt) * (float)(WINDOW_Y / 2);

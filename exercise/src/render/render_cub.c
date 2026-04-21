@@ -4,7 +4,7 @@ static void draw_door(t_render *r, t_rayhit *hit, t_draw_ray *d)
 {
 	t_draw_info	info;
 
-	if (get_map_char(add_vct(hit->grid, ini_vct_dir(hit->dir))) != '0')
+	if (get_map_char(vct_add(hit->grid, ini_vct_dir(hit->dir))) != '0')
 		return;
 	info = ini_draw_info(hit, d, &r->door_frame[true]);
 	draw_texture(&info);
@@ -45,7 +45,7 @@ static void	draw_wall_loop(t_render *r, t_draw_ray *d)
 		h_back = raycast(ray, hit_rnd_backdoor, miss_rnd_backdoor);
 		if(h_back.sucess)
 			draw_door(r, &h_back, d);
-		//draw_door(r, &h_front, d);
+		draw_door(r, &h_front, d);
 	}
 }
 void render_cub(t_player *p, t_render *r)

@@ -60,13 +60,13 @@ void	draw_map_tile(t_minimap m, int x, int y)
 	t_vct	draw_pos;
 	t_vct	adjust;
 
-	cur = add_vct(player()->grid, ini_vct_pos(x,y));
+	cur = vct_add(player()->grid, ini_vct_pos(x,y));
 	draw_pos = ini_vct_pos(m.grid_size.x * x, m.grid_size.y * y);
 	adjust = grid_distance(player()->pos);
 	adjust.x = m.grid_size.x * adjust.x / GRIDSIZE - m.grid_size.x / 2;
 	adjust.y = m.grid_size.y * adjust.y / GRIDSIZE - m.grid_size.y / 2;
-	draw_pos = add_vct(draw_pos, adjust);
-	m.center = add_vct(m.center, draw_pos);
+	draw_pos = vct_add(draw_pos, adjust);
+	m.center = vct_add(m.center, draw_pos);
 	resize_border(&m, X);
 	resize_border(&m, Y);
 	draw_square(m.center, m.grid_size , get_color(cur));

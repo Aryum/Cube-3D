@@ -35,24 +35,20 @@ bool hit_door_open(t_ray *r)
 
 bool hit_rnd_backdoor(t_ray *r)
 {
-	t_vct	pos;
+	t_vct	grid;
 
-	if (vct_cmp(player()->grid, r->cur_grid))
+	if (vct_cmp(r->cur_grid, player()->grid))
 		return (false);
 	if (get_map_char(r->cur_grid) != '0')
-		return (0);
-	pos = add_vct(r->cur_grid, scale_vct(r->axis_dir[r->cur_axis] , -1));
-	return (get_map_char(pos) == 'D');
+		return (false);
+	grid = vct_add(r->cur_grid, vct_scale(r->axis_dir[r->cur_axis] , -1));
+	return (get_map_char(grid) == 'D' && !vct_cmp(grid, player()->grid));
 }
 
 bool miss_rnd_backdoor(t_ray *r)
 {
-	t_vct	pos;
 	char	c;
 
-	pos = add_vct(r->cur_grid, scale_vct(r->axis_dir[r->cur_axis] , -1));
-	if (vct_cmp(pos, player()->grid))
-		return (true);
 	c = get_map_char(r->cur_grid);
 	if (c == 'D' && !door_get_state(r->cur_grid))
 		return (true);

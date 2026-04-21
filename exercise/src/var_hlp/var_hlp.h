@@ -23,11 +23,11 @@ t_vct	ini_vct_rad(float rad);
 t_vct	ini_vct_vct(t_vct a, t_vct b);
 t_vct	ini_vct_dir(t_dir dir);
 
-t_vct	scale_vct(t_vct a, float factor);
-t_vct	add_vct(t_vct a, t_vct b);
-float	dist_vct(t_vct a, t_vct b);
+t_vct	vct_scale(t_vct a, float factor);
+t_vct	vct_add(t_vct a, t_vct b);
+float	vct_dist(t_vct a, t_vct b);
 bool	vct_cmp(t_vct a, t_vct b);
-float	angle_vct(t_vct vct);
+float	vct_angle(t_vct vct);
 
 //	Time
 long	get_time(void);

@@ -3,7 +3,7 @@
 static bool	check_grid(t_ray *ray, t_axis axis, t_rayhit *hit)
 {
 	ray->cur_axis = axis;
-	ray->cur_grid = add_vct(ray->cur_grid, ray->axis_dir[axis]);
+	ray->cur_grid = vct_add(ray->cur_grid, ray->axis_dir[axis]);
 	if (!vct_cmp(ray->cur_grid, ray->skip_grid))
 	{
 		if (ray->hit(ray))
@@ -11,7 +11,7 @@ static bool	check_grid(t_ray *ray, t_axis axis, t_rayhit *hit)
 		if (ray->fail != NULL && ray->fail(ray))
 			return (true);
 	}
-	ray->tar = add_vct(ray->tar, scale_vct(ray->axis_dir[axis], GRIDSIZE));
+	ray->tar = vct_add(ray->tar, vct_scale(ray->axis_dir[axis], GRIDSIZE));
 	return (false);
 }
 
