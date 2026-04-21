@@ -69,7 +69,7 @@ t_rayhit	raycast(t_ray ray, bool (*hit)(t_ray *), bool (*fail)(t_ray *))
 		if (ray.fail != NULL && ray.fail(&ray))
 			return (ini_miss());
 	}
-	if (ray.rot.x != 0)
+	if (ray.dir.x != 0)
 		return (check_default(&ray));
 	else
 		return (check_v(&ray));

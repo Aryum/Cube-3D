@@ -28,6 +28,8 @@ t_vct	vct_add(t_vct a, t_vct b);
 float	vct_dist(t_vct a, t_vct b);
 bool	vct_cmp(t_vct a, t_vct b);
 float	vct_angle(t_vct vct);
+t_vct	vct_norm(t_vct vct);
+float	vct_size(t_vct vct);
 
 //	Time
 long	get_time(void);

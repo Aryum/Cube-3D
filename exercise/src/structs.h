@@ -46,6 +46,16 @@ typedef enum e_keys
 	key_down
 }	t_keys;
 
+
+typedef enum e_tile_char
+{
+	tile_wall  = '1',
+	tile_empty  = '0',
+	tile_enemy  = 'E',
+	tile_door = 'D',
+	tile_player = 'P',
+}	t_tile_char;
+
 typedef enum e_dir
 {
 	dir_north,
@@ -66,7 +76,7 @@ typedef struct s_vct
 	float y;
 }	t_vct;
 
-typedef struct s_recurse
+typedef struct s_draw_ray
 {
 	t_vct	last_grid;
 	t_vct	pos_vct;
@@ -79,7 +89,7 @@ typedef struct s_recurse
 typedef struct s_ray
 {
 	t_vct		start;
-	t_vct		rot;
+	t_vct		dir;
 	t_vct		axis_dir[2];
 	t_vct		cur_grid;
 	t_vct		tar;
@@ -167,9 +177,12 @@ typedef struct s_door
 
 typedef struct s_enemy
 {
+	t_vct	grid;
+	t_vct	pos;
 	int		health;
 	bool	alerted;
 }	t_enemy;
+
 
 typedef struct s_tile
 {

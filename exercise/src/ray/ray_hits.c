@@ -14,33 +14,24 @@ char get_map_char(t_vct grid_pos)
 	return (map()->layout[y][x].val);
 }
 
-bool hit_enemy(t_ray *r)
-{
-
-}
-
-bool hit_player(t_ray *r)
-{
-
-}
 
 bool hit_wall(t_ray *r)
 {
 	char	c;
 
 	c = get_map_char(r->cur_grid);
-	if (c == 'D' && !door_get_state(r->cur_grid))
+	if (c == tile_door && !door_get_state(r->cur_grid))
 		return (true);
-	return (c == '1');
+	return (c == tile_wall);
 }
 
 bool hit_door(t_ray *r)
 {
-	return (get_map_char(r->cur_grid) == 'D' );
+	return (get_map_char(r->cur_grid) == tile_door );
 }
 bool hit_door_open(t_ray *r)
 {
-	return (get_map_char(r->cur_grid) == 'D' && door_get_state(r->cur_grid));
+	return (get_map_char(r->cur_grid) == tile_door && door_get_state(r->cur_grid));
 }
 
 bool hit_rnd_backdoor(t_ray *r)
@@ -49,10 +40,10 @@ bool hit_rnd_backdoor(t_ray *r)
 
 	if (vct_cmp(r->cur_grid, player()->grid))
 		return (false);
-	if (get_map_char(r->cur_grid) != '0')
+	if (get_map_char(r->cur_grid) != tile_empty)
 		return (false);
 	grid = vct_add(r->cur_grid, vct_scale(r->axis_dir[r->cur_axis] , -1));
-	return (get_map_char(grid) == 'D' && !vct_cmp(grid, player()->grid));
+	return (get_map_char(grid) == tile_door && !vct_cmp(grid, player()->grid));
 }
 
 bool miss_rnd_backdoor(t_ray *r)
@@ -60,7 +51,7 @@ bool miss_rnd_backdoor(t_ray *r)
 	char	c;
 
 	c = get_map_char(r->cur_grid);
-	if (c == 'D' && !door_get_state(r->cur_grid))
+	if (c == tile_door && !door_get_state(r->cur_grid))
 		return (true);
-	return (c == '1');
+	return (c == tile_wall);
 }

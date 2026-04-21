@@ -18,6 +18,15 @@ t_vct	vct_scale(t_vct a, float factor)
 	return (ret);
 }
 
+float	vct_size(t_vct vct)
+{
+	return (sqrt(pow_2(vct.x) + pow_2(vct.y)));
+}
+t_vct	vct_norm(t_vct vct)
+{
+	return (vct_scale(vct, 1.0 / vct_size(vct)));
+}
+
 t_vct	vct_abs(t_vct vct)
 {
 	return ini_vct_pos(f_abs(vct.x), f_abs(vct.y));

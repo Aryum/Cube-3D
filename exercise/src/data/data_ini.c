@@ -40,11 +40,11 @@ void ini_player(int x, int y)
 bool create_tile(char c, t_tile *tile)
 {
 	lib_bzero(tile, sizeof(t_tile));
-	if (c == 'P' || c == 'E')
+	if (c == tile_player || c == tile_enemy)
 	{
 		tile->playable = c;
-		tile->val = '0';
-		if (c == 'E')
+		tile->val = tile_empty;
+		if (c == tile_enemy)
 			return (create_enemy(tile));
 		return (true);
 	}
@@ -52,7 +52,7 @@ bool create_tile(char c, t_tile *tile)
 	{
 		tile->playable = '\0';
 		tile->val = c;
-		if (c == 'D')
+		if (c == tile_door)
 			return (create_door(tile));
 		return (true);
 	}
@@ -90,7 +90,7 @@ bool	ini_data(t_data *d, t_map *m)
 		{
 			if (!create_tile(layout[y][x], &m->layout[y][x]))
 				return (lib_split_clean(layout), false);
-			if (layout[y][x] == 'P')
+			if (layout[y][x] == tile_player)
 				ini_player(x, y);
 			x++;
 		}
