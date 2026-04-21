@@ -42,10 +42,10 @@ static void	draw_wall_loop(t_render *r, t_draw_ray *d)
 		d->first = false;
 		d->pos_vct = h_front.pos;
 		draw_wall_loop(r, d);
-		h_back = raycast(ray, hit_door_back, hit_wall);
+		h_back = raycast(ray, hit_rnd_backdoor, miss_rnd_backdoor);
 		if(h_back.sucess)
 			draw_door(r, &h_back, d);
-		draw_door(r, &h_front, d);
+		//draw_door(r, &h_front, d);
 	}
 }
 void render_cub(t_player *p, t_render *r)

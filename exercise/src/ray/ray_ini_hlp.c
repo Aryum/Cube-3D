@@ -9,12 +9,8 @@ t_rayhit	ret_hit(t_ray *r, t_vct pos, t_dir dir)
 	ret.dir = dir;
 	ret.pos = pos;
 	ret.ray = r->rot;
-	ret.grid = pos_to_grid(pos);
-	if (dir == dir_west)
-		ret.grid = add_vct(ret.grid, ini_vct_pos(-1, 0));
-	else if (dir == dir_north)
-		ret.grid = add_vct(ret.grid, ini_vct_pos(0, -1));
-	ret.c = get_map_char(ret.grid);
+	ret.grid = r->cur_grid;
+	ret.c = get_map_char(r->cur_grid);
 	return (ret);
 }
 
@@ -28,7 +24,7 @@ t_rayhit	ret_hit_start(t_ray *r, t_vct pos, t_dir dir)
 	ret.dir = dir;
 	ret.pos = pos;
 	ret.ray = r->rot;
-	ret.grid = pos_to_grid(r->pos);
+	ret.grid = r->cur_grid;
 	ret.c = get_map_char(ret.grid);
 	return (ret);
 }

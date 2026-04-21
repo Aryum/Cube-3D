@@ -23,9 +23,9 @@ bool	check_next_x(t_ray r);
 
 //hits
 bool hit_wall(t_ray *r);
-bool hit_any(t_ray *r);
+bool miss_rnd_backdoor(t_ray *r);
 bool hit_door(t_ray *r);
-bool hit_door_back(t_ray *r);
+bool hit_rnd_backdoor(t_ray *r);
 bool hit_door_open(t_ray *r);
 
 char get_map_char(t_vct grid_pos);
