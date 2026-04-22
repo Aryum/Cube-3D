@@ -21,7 +21,7 @@ static void	draw_back(t_render *r, t_rayhit last_hit, t_ray ray, t_draw_ray d)
 	dir = ini_vct_dir(last_hit.dir);
 	if (get_map_char(vct_add(last_hit.grid, dir)) == tile_empty )
 	{
-		dir = vct_add(last_hit.pos, vct_scale(dir, GRIDSIZE));
+		dir = vct_add(last_hit.pos, vct_scale(dir, GRIDSIZE / 2));
 		pos = calculate_ray_pos(ray, last_hit.axis, dir);
 		hit = raycast(ini_ray(pos, vct_scale(ray.dir, -1), NULL), hit_player, hit_wall );
 		if (hit.sucess)
@@ -50,7 +50,7 @@ void	draw_wall_loop(t_render *r, t_draw_ray d)
 			draw_back(r, hit, ray, d);
 		if (get_map_char(vct_add(hit.grid, ini_vct_dir(hit.dir))) == tile_wall)
 			return ;
-		draw_texture(ini_draw_info(hit, d, &r->door_frame[true]));
+		//draw_texture(ini_draw_info(hit, d, &r->door_frame[true]));
 	}
 }
 
