@@ -32,14 +32,14 @@ static int	get_color(int x, t_vct i[2], t_vct adj, t_frame *f)
 }
 
 
-void	draw_texture(t_draw_info *d)
+void	draw_texture(t_draw_info d)
 {
 	t_vct	i[2];
 	t_vct	pivot;
 	t_vct	adj;
 	t_frame	*f;
 
-	adj = set_draw_limit(i, d->center, d->sq_size);
+	adj = set_draw_limit(i, d.center, d.sq_size);
 	f = &render()->frame_buff[render()->frame_cur];
 	pivot.x = i[0].x;
 	while (i[0].y > i[1].y)
@@ -48,7 +48,7 @@ void	draw_texture(t_draw_info *d)
 		pivot.y = (int)i[0].y * f->line_len;
 		while (i[0].x > i[1].x)
 		{
-			set_pixel_add(f, i[0].x, pivot.y, get_color(d->x, i, adj, d->f));
+			set_pixel_add(f, i[0].x, pivot.y, get_color(d.x, i, adj, d.f));
 			i[0].x--;
 		}
 		i[0].y--;
