@@ -18,8 +18,8 @@ void setup_settings(t_render *r)
 {
 	r->last_time = get_time();
 	r->start_time = r->last_time;
-	r->fov_adj.x = tan(FOV /2);
-	r->fov_adj.y = (float)(WINDOW_X / 2) / tan(FOV / 2);
+	r->fov_adj.x = tan(FOV /2) ;
+	r->fov_adj.y = (float)(WINDOW_X / 2) * (float)GRIDSIZE / tan(FOV / 2);
 	r->ray_delta_angle = FOV / (float)(RAYCOUNT - 1);
 	r->ray_width = (float)WINDOW_X / (float)RAYCOUNT;
 	r->minimap = ini_minimap();

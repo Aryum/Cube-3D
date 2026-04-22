@@ -73,5 +73,6 @@ t_rayhit	ini_miss()
 
 	lib_memset(&ret, 0, sizeof(ret));
 	ret.pos = ini_vct_pos(-1, -1);
+	ret.sucess = false;
 	return (ret);
 }
