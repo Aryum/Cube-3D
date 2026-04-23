@@ -25,6 +25,7 @@ bool hit_enemy(t_ray *r);
 bool hit_door(t_ray *r);
 bool hit_rnd_backdoor(t_ray *r);
 bool hit_door_open(t_ray *r);
+bool hit_empty(t_ray *r);
 
 char get_map_char(t_vct grid_pos);
 

@@ -13,8 +13,10 @@ char get_map_char(t_vct grid_pos)
 		return ('\0');
 	return (map()->layout[y][x].val);
 }
-
-
+bool hit_empty(t_ray *r)
+{
+	return (get_map_char(r->cur_grid) == tile_empty );
+}
 bool hit_wall(t_ray *r)
 {
 	char	c;

@@ -36,9 +36,7 @@ void	draw_back(t_render *r, t_rayhit last_hit, t_ray ray, t_draw_ray d)
 */
 void	draw_wall_loop(t_render *r, t_draw_ray d)
 {
-	t_rayhit	h_door;
-	t_rayhit	h_seen;
-
+	t_rayhit	h;
 	t_ray		ray;
 
 
@@ -46,15 +44,15 @@ void	draw_wall_loop(t_render *r, t_draw_ray d)
 		ray = ini_ray(d.pos_vct, d.dir_vct, &d.last_grid);
 	else
 		ray = ini_ray(d.pos_vct, d.dir_vct, NULL);
-	h_door = raycast(ray, hit_door_open, hit_wall);
-	if (h_door.sucess && !vct_cmp(d.last_grid, h_door.grid))
+	h = raycast(ray, hit_door_open, hit_wall);
+	if (h.sucess && !vct_cmp(d.last_grid, h.grid))
 	{
-		draw_wall_loop(r, update_draw_info(d, h_door));
-		if (vct_cmp(player()->grid, h_door.grid))
+		draw_wall_loop(r, update_draw_info(d, h));
+		if (vct_cmp(player()->grid, h.grid))
 			return ;
-		h_seen = raycast(ini_ray(h_door.pos, vct_scale(ray.dir, -1), NULL), hit_player, hit_wall);
-		if (h_seen.sucess)
-			draw_texture(ini_draw_info(h_door, d, &r->door_frame[true]));
+		ray = ini_ray(h.pos, vct_scale(ray.dir, -1), NULL);
+		if (!raycast(ray, hit_wall, hit_empty).sucess)
+			draw_texture(ini_draw_info(h, d, &r->door_frame[true]));
 	}
 }
 
