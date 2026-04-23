@@ -74,15 +74,14 @@ static void	draw_back(t_rayhit last_hit, t_ray ray)
 	if (!vct_cmp(pos_to_grid(dir), last_hit.grid))
 		return ;
 	pos = calculate_ray_pos(ray, last_hit.axis, dir);
-	hit = raycast(ini_ray(pos, vct_scale(ray.dir, -1), NULL), hit_player, hit_wall );
+	set_pixel_pos(pos.x, pos.y, 0x0000ff);
+	dir = ini_vct_vct(pos, player()->pos);
+	hit = raycast(ini_ray(pos, dir, NULL), hit_player, hit_wall );
 	if (hit.sucess)
 	{
 		hit.pos = pos;
 		hit.axis = last_hit.axis;
-		//if (hit.axis == X)
-		//	draw_line(hit.pos, player()->pos, 0x00FF00);
-		//else
-		//	draw_line(hit.pos, player()->pos, 0x0000FF);
+		//draw_line(hit.pos, player()->pos, 0xff00ff);
 	}
 }
 void	recursive_dbg(t_render *r, t_draw_ray d, int loop)
@@ -121,10 +120,17 @@ void	render_debug_map(t_player *p)
 	while (i < RAYCOUNT)
 	{
 		t = ini_draw_ray(i);
-		hit = raycast(ini_ray(p->pos, t.dir_vct, NULL), hit_wall, NULL);
-		if (hit.sucess && (i == 0 || i+ 1 == RAYCOUNT || i == RAYCOUNT / 2 ))
-			draw_line(p->pos, hit.pos, 0x00ff00);
 		recursive_dbg(render(), t, 0);
+		hit = raycast(ini_ray(p->pos, t.dir_vct, NULL), hit_wall, NULL);
+		if (hit.sucess )
+		{
+			if(i == 0)
+				draw_line(p->pos, hit.pos, 0xff0000);
+			else if(i == RAYCOUNT / 2)
+				draw_line(p->pos, hit.pos, 0x00ff00);
+			if(i+ 1 == RAYCOUNT)
+				draw_line(p->pos, hit.pos, 0x0000ff);
+		}
 		i++;
 	}
 	draw_line(p->pos, vct_add(p->pos, vct_scale(p->rot_vct, MOV_SPEED) ), 0xfffb00);

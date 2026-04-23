@@ -23,7 +23,8 @@ static void	draw_back(t_render *r, t_rayhit last_hit, t_ray ray, t_draw_ray d)
 	if (!vct_cmp(pos_to_grid(dir), last_hit.grid))
 		return ;
 	pos = calculate_ray_pos(ray, last_hit.axis, dir);
-	hit = raycast(ini_ray(pos, vct_scale(ray.dir, -1), NULL), hit_player, hit_wall );
+	dir = ini_vct_vct(pos, player()->pos);
+	hit = raycast(ini_ray(pos, dir, NULL), hit_player, hit_wall );
 	if (hit.sucess)
 	{
 		hit.pos = pos;
