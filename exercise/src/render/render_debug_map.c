@@ -70,21 +70,19 @@ static void	draw_back(t_rayhit last_hit, t_ray ray)
 	t_vct		pos;
 
 	dir = ini_vct_dir(last_hit.dir);
-	if (get_map_char(vct_add(last_hit.grid, dir)) == tile_empty )
+	dir = vct_add(last_hit.pos, vct_scale(dir, GRIDSIZE / 2));
+	if (!vct_cmp(pos_to_grid(dir), last_hit.grid))
+		return ;
+	pos = calculate_ray_pos(ray, last_hit.axis, dir);
+	hit = raycast(ini_ray(pos, vct_scale(ray.dir, -1), NULL), hit_player, hit_wall );
+	if (hit.sucess)
 	{
-		dir = vct_add(last_hit.pos, vct_scale(dir, GRIDSIZE));
-		pos = calculate_ray_pos(ray, last_hit.axis, dir);
-		hit = raycast(ini_ray(pos, vct_scale(ray.dir, -1), NULL), hit_player, hit_wall );
-		if (hit.sucess)
-		{
-			hit.pos = pos;
-			hit.axis = last_hit.axis;
-			if (hit.axis == X)
-				set_pixel_pos(hit.pos.x, hit.pos.y, 0x00FF00);
-			else
-				set_pixel_pos(hit.pos.x, hit.pos.y, 0x0000FF);
-
-		}
+		hit.pos = pos;
+		hit.axis = last_hit.axis;
+		//if (hit.axis == X)
+		//	draw_line(hit.pos, player()->pos, 0x00FF00);
+		//else
+			draw_line(hit.pos, player()->pos, 0x0000FF);
 	}
 }
 void	recursive_dbg(t_render *r, t_draw_ray d, int loop)
@@ -102,7 +100,7 @@ void	recursive_dbg(t_render *r, t_draw_ray d, int loop)
 		recursive_dbg(r, update_draw_info(d, hit), loop + 1);
 		if (!vct_cmp(hit.grid, player()->grid))
 			draw_back(hit, ray);
-		set_pixel_pos(hit.pos.x, hit.pos.y, 0xff0000);
+		//set_pixel_pos(hit.pos.x, hit.pos.y, 0xff0000);
 	}
 }
 

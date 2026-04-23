@@ -19,17 +19,16 @@ static void	draw_back(t_render *r, t_rayhit last_hit, t_ray ray, t_draw_ray d)
 	t_vct		pos;
 
 	dir = ini_vct_dir(last_hit.dir);
-	if (get_map_char(vct_add(last_hit.grid, dir)) == tile_empty )
+	dir = vct_add(last_hit.pos, vct_scale(dir, GRIDSIZE / 2));
+	if (!vct_cmp(pos_to_grid(dir), last_hit.grid))
+		return ;
+	pos = calculate_ray_pos(ray, last_hit.axis, dir);
+	hit = raycast(ini_ray(pos, vct_scale(ray.dir, -1), NULL), hit_player, hit_wall );
+	if (hit.sucess)
 	{
-		dir = vct_add(last_hit.pos, vct_scale(dir, GRIDSIZE / 2));
-		pos = calculate_ray_pos(ray, last_hit.axis, dir);
-		hit = raycast(ini_ray(pos, vct_scale(ray.dir, -1), NULL), hit_player, hit_wall );
-		if (hit.sucess)
-		{
-			hit.pos = pos;
-			hit.axis = last_hit.axis;
-			draw_texture(ini_draw_info(hit, d, &r->door_frame[true]));
-		}
+		hit.pos = pos;
+		hit.axis = last_hit.axis;
+		draw_texture(ini_draw_info(hit, d, &r->door_frame[true]));
 	}
 }
 

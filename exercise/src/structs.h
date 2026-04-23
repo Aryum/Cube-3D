@@ -15,7 +15,7 @@
 
 #define MOV_SPEED 75.0
 
-#define RAYCOUNT 1280
+#define RAYCOUNT 640
 
 #define WINDOW_X 1280
 #define WINDOW_Y 720
