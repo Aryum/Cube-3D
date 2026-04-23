@@ -30,6 +30,7 @@ bool	vct_cmp(t_vct a, t_vct b);
 float	vct_angle(t_vct vct);
 t_vct	vct_norm(t_vct vct);
 float	vct_size(t_vct vct);
+float	vct_get_val(t_vct vct, t_axis axis);
 
 //	Time
 long	get_time(void);

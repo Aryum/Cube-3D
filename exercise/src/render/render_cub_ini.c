@@ -7,7 +7,7 @@ t_draw_ray	ini_draw_ray(int i)
 	float		cast_pos;
 
 	ret.pos_vct = player()->pos;
-	cast_pos = 2.0 * i / RAYCOUNT - 1.0;
+	cast_pos = 2.0 * (float)i / (float)RAYCOUNT - 1.0;
 	ret.i = i;
 	angle = player()->rot_rad + atan(cast_pos * render()->fov_adj.x);
 	ret.cos_adjust = cos(add_rad(angle, -player()->rot_rad));

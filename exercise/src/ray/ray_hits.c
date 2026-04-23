@@ -31,7 +31,21 @@ bool hit_door(t_ray *r)
 }
 bool hit_door_open(t_ray *r)
 {
-	return (get_map_char(r->cur_grid) == tile_door && door_get_state(r->cur_grid));
+	t_vct	pos;
+	t_vct	grid;
+	t_axis	axis;
+
+	axis = r->cur_axis;
+
+	if(get_map_char(r->cur_grid) != tile_door)
+		return (false);
+	pos = vct_add(r->cur_pos, vct_scale(r->axis_dir[axis], GRIDSIZE / 2));
+	pos = calculate_ray_pos(*r, axis, pos);
+	grid = pos_to_grid(pos);
+	if (get_map_char(grid) != tile_door || !door_get_state(grid))
+		return (false);
+	r->cur_pos = pos;
+	return (true);
 }
 
 bool hit_rnd_backdoor(t_ray *r)

@@ -46,3 +46,10 @@ float	vct_angle(t_vct vct)
 {
 	return (atan(vct.y / vct.x));
 }
+
+float	vct_get_val(t_vct vct, t_axis axis)
+{
+	if (axis == X)
+		return (vct.x);
+	return (vct.y);
+}

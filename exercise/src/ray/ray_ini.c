@@ -18,7 +18,7 @@ t_ray	ini_ray(t_vct s, t_vct d, t_vct *skip_grid)
 	ret.tar.x = quad.pos[(d.x > 0) * 3].x;
 	ret.tar.y = quad.pos[(d.y > 0) * 3].y;
 	ret.start_pos = s;
-	ret.dir = d;
+	ret.dir = vct_norm(d);
 	ret.hit = NULL;
 	ret.fail = NULL;
 	ret.m = 0;

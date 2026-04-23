@@ -11,8 +11,8 @@ static void draw_wall(t_render *r, t_rayhit hit, t_draw_ray d)
 	draw_texture(ini_draw_info(hit, d, f));
 }
 
-
-static void	draw_back(t_render *r, t_rayhit last_hit, t_ray ray, t_draw_ray d)
+/*
+void	draw_back(t_render *r, t_rayhit last_hit, t_ray ray, t_draw_ray d)
 {
 	t_rayhit	hit;
 	t_vct		dir;
@@ -23,8 +23,9 @@ static void	draw_back(t_render *r, t_rayhit last_hit, t_ray ray, t_draw_ray d)
 	if (!vct_cmp(pos_to_grid(dir), last_hit.grid))
 		return ;
 	pos = calculate_ray_pos(ray, last_hit.axis, dir);
+	pos.x = floor(pos.x);
+	pos.y = floor(pos.y);
 	dir = ini_vct_vct(pos, player()->pos);
-	hit = raycast(ini_ray(pos, dir, NULL), hit_player, hit_wall );
 	if (hit.sucess)
 	{
 		hit.pos = pos;
@@ -32,25 +33,28 @@ static void	draw_back(t_render *r, t_rayhit last_hit, t_ray ray, t_draw_ray d)
 		draw_texture(ini_draw_info(hit, d, &r->door_frame[true]));
 	}
 }
-
+*/
 void	draw_wall_loop(t_render *r, t_draw_ray d)
 {
-	t_rayhit	hit;
+	t_rayhit	h_door;
+	t_rayhit	h_seen;
+
 	t_ray		ray;
+
 
 	if (!d.first)
 		ray = ini_ray(d.pos_vct, d.dir_vct, &d.last_grid);
 	else
 		ray = ini_ray(d.pos_vct, d.dir_vct, NULL);
-	hit = raycast(ray, hit_door_open, hit_wall);
-	if (hit.sucess && !vct_cmp(d.pos_vct, hit.pos))
+	h_door = raycast(ray, hit_door_open, hit_wall);
+	if (h_door.sucess && !vct_cmp(d.last_grid, h_door.grid))
 	{
-		draw_wall_loop(r, update_draw_info(d, hit));
-		if (!vct_cmp(hit.grid, player()->grid))
-			draw_back(r, hit, ray, d);
-		if (get_map_char(vct_add(hit.grid, ini_vct_dir(hit.dir))) == tile_wall)
+		draw_wall_loop(r, update_draw_info(d, h_door));
+		if (vct_cmp(player()->grid, h_door.grid))
 			return ;
-		//draw_texture(ini_draw_info(hit, d, &r->door_frame[true]));
+		h_seen = raycast(ini_ray(h_door.pos, vct_scale(ray.dir, -1), NULL), hit_player, hit_wall);
+		if (h_seen.sucess)
+			draw_texture(ini_draw_info(h_door, d, &r->door_frame[true]));
 	}
 }
 

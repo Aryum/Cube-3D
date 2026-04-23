@@ -61,45 +61,24 @@ void draw_raycast_quads(t_rayhit hit)
 	draw_quad(ini_quad(hit.grid), color);
 }
 
-
-
-static void	draw_back(t_rayhit last_hit, t_ray ray)
-{
-	t_rayhit	hit;
-	t_vct		dir;
-	t_vct		pos;
-
-	dir = ini_vct_dir(last_hit.dir);
-	dir = vct_add(last_hit.pos, vct_scale(dir, GRIDSIZE / 2));
-	if (!vct_cmp(pos_to_grid(dir), last_hit.grid))
-		return ;
-	pos = calculate_ray_pos(ray, last_hit.axis, dir);
-	set_pixel_pos(pos.x, pos.y, 0x0000ff);
-	dir = ini_vct_vct(pos, player()->pos);
-	hit = raycast(ini_ray(pos, dir, NULL), hit_player, hit_wall );
-	if (hit.sucess)
-	{
-		hit.pos = pos;
-		hit.axis = last_hit.axis;
-		//draw_line(hit.pos, player()->pos, 0xff00ff);
-	}
-}
 void	recursive_dbg(t_render *r, t_draw_ray d, int loop)
 {
 	t_rayhit	hit;
 	t_ray		ray;
+	t_vct		last;
 
 	if (!d.first)
 		ray = ini_ray(d.pos_vct, d.dir_vct, &d.last_grid);
 	else
 		ray = ini_ray(d.pos_vct, d.dir_vct, NULL);
 	hit = raycast(ray, hit_door_open, hit_wall);
-	if (hit.sucess && !vct_cmp(d.pos_vct, hit.pos))
+	if (hit.sucess && !vct_cmp(d.last_grid, hit.grid))
 	{
 		recursive_dbg(r, update_draw_info(d, hit), loop + 1);
-		if (!vct_cmp(hit.grid, player()->grid))
-			draw_back(hit, ray);
-		//set_pixel_pos(hit.pos.x, hit.pos.y, 0xff0000);
+		last = hit.pos;
+		hit = raycast(ini_ray(hit.pos, vct_scale(ray.dir, -1), NULL), hit_player, hit_wall);
+		if (hit.sucess)
+			set_pixel_pos(last.x, last.y, 0xFF0000);
 	}
 }
 
