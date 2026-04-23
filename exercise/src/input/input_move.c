@@ -1,16 +1,26 @@
 #include "hlp.h"
 
-static bool hit_move(t_vct vct)
+static bool fail_dir(t_player *p, t_vct vct[3])
 {
 	t_tile	*tile;
+	t_vct	grid;
+	int		i;
 
-	tile = tile_get(vct);
-	if (tile == NULL)
-		return (false);
-	if (tile->val == '1' || tile->val == 'E')
-		return (true);
-	if (tile->val == 'D')
-		return (!((t_door *)tile->content)->open);
+	i = 0;
+	while (i < 3)
+	{
+		vct[i] = vct_scale(vct[i], PLAYERSIZE);
+		grid = pos_to_grid(vct_add(p->pos, vct[i]));
+		tile = tile_get(grid);
+		if (tile != NULL)
+		{
+			if (tile->val == '1' || tile->val == 'E')
+				return (true);
+			if (tile->val == 'D' && !((t_door *)tile->content)->open)
+				return (true);
+		}
+		i++;
+	}
 	return (false);
 }
 
@@ -29,14 +39,18 @@ static bool	has_input(void)
 
 static void wall_adjust(t_player *p, t_vct *mov)
 {
-	t_vct	v;
-	t_vct	h;
+	t_vct	v[3];
+	t_vct	h[3];
 
-	v = ini_vct_pos(0, sign(mov->y) * PLAYERSIZE);
-	h = ini_vct_pos(sign(mov->x) * PLAYERSIZE, 0);
-	if (hit_move(pos_to_grid(vct_add(p->pos, v))))
+	v[0] = ini_vct_pos(0, sign(mov->y));
+	v[1] = vct_norm(ini_vct_pos(1, sign(mov->y)));
+	v[2] = vct_norm(ini_vct_pos(-1, sign(mov->y)));
+	h[0] = ini_vct_pos(sign(mov->x), 0);
+	h[1] = vct_norm(ini_vct_pos(sign(mov->x), 1));
+	h[2] = vct_norm(ini_vct_pos(sign(mov->x), -1));
+	if (fail_dir(p, v))
 		mov->y = 0;
-	if (hit_move(pos_to_grid(vct_add(p->pos, h))))
+	if (fail_dir(p, h))
 		mov->x = 0;
 }
 

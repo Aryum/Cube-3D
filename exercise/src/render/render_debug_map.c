@@ -82,7 +82,7 @@ static void	draw_back(t_rayhit last_hit, t_ray ray)
 		//if (hit.axis == X)
 		//	draw_line(hit.pos, player()->pos, 0x00FF00);
 		//else
-			draw_line(hit.pos, player()->pos, 0x0000FF);
+		//	draw_line(hit.pos, player()->pos, 0x0000FF);
 	}
 }
 void	recursive_dbg(t_render *r, t_draw_ray d, int loop)
@@ -108,7 +108,7 @@ void	render_debug_map(t_player *p)
 {
 
 	draw_dbg_map();
-	draw_circle(p->pos, 5, 0xff0000);
+	//draw_circle(p->pos, 5, 0xff0000);
 
 	t_draw_ray t;
 

@@ -7,7 +7,7 @@
 
 #define GRIDSIZE 64
 
-#define PLAYERSIZE 10
+#define PLAYERSIZE 5
 
 #define FRAMEBUFF 50
 
