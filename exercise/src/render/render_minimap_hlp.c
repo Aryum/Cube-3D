@@ -1,26 +1,19 @@
 #include "hlp.h"
 
-static int get_color(t_vct grid_pos)
+static int get_color(t_tile *tile)
 {
-	char	c;
-	int		x;
-	int		y;
 
-	x = (int)floor(grid_pos.x);
-	y = (int)floor(grid_pos.y);
-	if (grid_pos.x < 0 || grid_pos.x >= map()->len_x)
+	if (tile == NULL)
 		return 0x6C0D4C;
-	if (grid_pos.y < 0 || grid_pos.y >= map()->len_y)
+	if (tile->val == '\0')
 		return 0x6C0D4C;
-	c = map()->layout[y][x].val;
-	if (c == '1')
+	if (tile->val == '1')
 		return 0x0D4D6C;
-	if (c == '0')
+	if (tile->val == '0')
 		return 0x4C6C0D;
-	if (c == 'D')
+	if (tile->val == 'D')
 		return (0xffffff);
-	else
-		return 0x4C6C0D;
+	return 0x4C6C0D;
 }
 
 static float *val(t_vct *vct, t_axis axis)
@@ -59,6 +52,7 @@ void	draw_map_tile(t_minimap m, int x, int y)
 	t_vct	cur;
 	t_vct	draw_pos;
 	t_vct	adjust;
+	t_tile	*tile;
 
 	cur = vct_add(player()->grid, ini_vct_pos(x,y));
 	draw_pos = ini_vct_pos(m.grid_size.x * x, m.grid_size.y * y);
@@ -69,5 +63,9 @@ void	draw_map_tile(t_minimap m, int x, int y)
 	m.center = vct_add(m.center, draw_pos);
 	resize_border(&m, X);
 	resize_border(&m, Y);
-	draw_square(m.center, m.grid_size , get_color(cur));
+	tile = tile_get(cur);
+	
+	draw_square(m.center, m.grid_size , get_color(tile));
+	if (tile != NULL && tile->playable == tile_enemy)
+		draw_circle(m.center, 5, 0xFF);
 }

@@ -12,9 +12,10 @@ static bool fail_dir(t_player *p, t_vct vct[3])
 		vct[i] = vct_scale(vct[i], PLAYERSIZE);
 		grid = pos_to_grid(vct_add(p->pos, vct[i]));
 		tile = tile_get(grid);
+		draw_circle(vct_add(p->pos, vct[i]), 2, 0x00ff00);
 		if (tile != NULL)
 		{
-			if (tile->val == '1' || tile->val == 'E')
+			if (tile->val == tile_wall || tile->playable == tile_enemy)
 				return (true);
 			if (tile->val == 'D' && !((t_door *)tile->content)->open)
 				return (true);

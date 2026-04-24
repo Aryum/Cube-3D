@@ -29,7 +29,6 @@ static int	get_color(int x, t_vct i[2], t_vct adj, t_frame *f)
 	return (*(unsigned int *)dst);
 }
 
-
 void	draw_texture(t_draw_info d)
 {
 	t_vct	i[2];

@@ -31,6 +31,7 @@ static void	updatefps(t_render *rnd)
 
 void render_loop(t_player *p, t_render *r)
 {
+
 	if (data()->debug_2d)
 		render_debug_map(p);
 	else
