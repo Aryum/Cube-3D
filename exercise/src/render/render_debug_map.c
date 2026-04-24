@@ -70,12 +70,12 @@ void	recursive_dbg(t_render *r, t_draw_ray d, int loop)
 		ray = ini_ray(d.pos_vct, d.dir_vct, &d.last_grid);
 	else
 		ray = ini_ray(d.pos_vct, d.dir_vct, NULL);
-	hit = raycast(ray, hit_door_open, hit_wall);
+	hit = raycast(ray, hit_door, hit_wall_door);
 	if (hit.sucess && !vct_cmp(d.last_grid, hit.grid))
 	{
 		recursive_dbg(r, update_draw_info(d, hit), loop + 1);
 		ray = ini_ray(hit.pos, vct_scale(ray.dir, -1), NULL);
-		if (!raycast(ray, hit_wall, NULL).sucess)
+		if (!raycast(ray, hit_wall_door, NULL).sucess)
 			set_pixel_pos(hit.pos.x, hit.pos.y, 0x00ff00);
 		else
 			set_pixel_pos(hit.pos.x, hit.pos.y, 0x0000ff);
@@ -104,7 +104,7 @@ void	render_debug_map(t_player *p)
 		else if (i + 1 == RAYCOUNT)
 			p->ray_dir[1] = t.dir_vct;
 		recursive_dbg(render(), t, 0);
-		hit = raycast(ini_ray(p->pos, t.dir_vct, NULL), hit_wall, NULL);
+		hit = raycast(ini_ray(p->pos, t.dir_vct, NULL), hit_wall_door, NULL);
 		if (hit.sucess )
 		{
 			if(i == 0)

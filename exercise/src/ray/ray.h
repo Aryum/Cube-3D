@@ -19,12 +19,13 @@ t_vct calculate_ray_pos(t_ray r, t_axis axis, t_vct pos);
 
 
 //hits
+bool hit_wall_door(t_ray *r);
 bool hit_wall(t_ray *r);
 bool hit_player(t_ray *r);
 bool hit_enemy(t_ray *r);
 bool hit_door(t_ray *r);
 bool hit_rnd_backdoor(t_ray *r);
-bool hit_door_open(t_ray *r);
+bool hit_door(t_ray *r);
 bool hit_empty(t_ray *r);
 
 char get_map_char(t_vct grid_pos);

@@ -17,7 +17,12 @@ bool hit_empty(t_ray *r)
 {
 	return (get_map_char(r->cur_grid) == tile_empty );
 }
+
 bool hit_wall(t_ray *r)
+{
+	return (get_map_char(r->cur_grid) == tile_wall);
+}
+bool hit_wall_door(t_ray *r)
 {
 	char	c;
 
@@ -28,10 +33,6 @@ bool hit_wall(t_ray *r)
 }
 
 bool hit_door(t_ray *r)
-{
-	return (get_map_char(r->cur_grid) == tile_door );
-}
-bool hit_door_open(t_ray *r)
 {
 	t_vct	pos;
 	t_vct	grid;
@@ -44,7 +45,7 @@ bool hit_door_open(t_ray *r)
 	pos = vct_add(r->cur_pos, vct_scale(r->axis_dir[axis], GRIDSIZE / 2));
 	pos = calculate_ray_pos(*r, axis, pos);
 	grid = pos_to_grid(pos);
-	if (get_map_char(grid) != tile_door || !door_get_state(grid))
+	if (get_map_char(grid) != tile_door)
 		return (false);
 	r->cur_pos = pos;
 	return (true);
