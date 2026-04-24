@@ -122,6 +122,7 @@ typedef struct s_player
 	t_vct	grid_dist;
 	t_vct	rot_vct;
 	t_vct	mov_vct;
+	t_vct	ray_dir[2];
 	float	rot_rad;
 	float	tilt;
 	bool	is_moving;

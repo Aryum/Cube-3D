@@ -67,6 +67,10 @@ void render_cub(t_player *p, t_render *r)
 	while (i < RAYCOUNT)
 	{
 		t = ini_draw_ray(i);
+		if (i == 0)
+			p->ray_dir[0] = t.dir_vct;
+		else if (i + 1 == RAYCOUNT)
+			p->ray_dir[1] = t.dir_vct;
 		hit = raycast(ini_ray(p->pos, t.dir_vct, NULL), hit_wall, NULL);
 		if (hit.sucess)
 			draw_wall(r, hit, t);

@@ -64,8 +64,5 @@ void	draw_map_tile(t_minimap m, int x, int y)
 	resize_border(&m, X);
 	resize_border(&m, Y);
 	tile = tile_get(cur);
-	
 	draw_square(m.center, m.grid_size , get_color(tile));
-	if (tile != NULL && tile->playable == tile_enemy)
-		draw_circle(m.center, 5, 0xFF);
 }
